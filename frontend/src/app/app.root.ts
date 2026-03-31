@@ -13,7 +13,7 @@ import { CommonModule } from "@angular/common";
 })
 export class App {
   currentUrl = '';
-  constructor(
+   constructor(
     private readonly authService: AuthService,
     private readonly router: Router
   ) {
@@ -22,14 +22,22 @@ export class App {
       this.currentUrl = event.urlAfterRedirects;
     });
   }
+
   isLoggedIn(): boolean {
-    return false;
+    return true;
+    return this.authService.isAuthenticated();
   }
+
   showNavigation(): boolean {
-    return this.isLoggedIn() && !this.currentUrl.startsWith('/login');
+    if (!this.isLoggedIn()) {
+      return false;
+    }
+
+    return !this.currentUrl.startsWith('/share/');
   }
+
   logout(): void {
-    //this.authService.logout();
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
 }

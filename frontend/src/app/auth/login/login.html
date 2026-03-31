@@ -11,30 +11,29 @@
           <p>Please log in to manage your shared ledger.</p>
         </div>
 
-        <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+        <div *ngIf="error()" class="alert alert-error">{{ error() }}</div>
 
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
           <div class="form-group">
             <label class="form-label">Username</label>
             <input type="text" class="form-control" formControlName="username" placeholder="Enter your username" />
             <small class="field-error" *ngIf="isFieldInvalid('username')">
-              Bitte geben Sie einen gültigen Benutzernamen ein.
+              Please enter a valid username.
             </small>
           </div>
 
           <div class="form-group">
             <div class="label-row">
-              <label class="form-label">Passwort</label>
-              <small>Forgot?</small>
+              <label class="form-label">Password</label>
             </div>
             <input type="password" class="form-control" formControlName="password" placeholder="••••••••" />
             <small class="field-error" *ngIf="isFieldInvalid('password')">
-              Passwort muss mindestens 6 Zeichen haben.
+              Password must be at least 6 characters long.
             </small>
           </div>
 
-          <button type="submit" class="btn btn-primary submit" [disabled]="!loginForm.valid || loading">
-            {{ loading ? 'Logging in...' : 'Login' }}
+          <button type="submit" class="btn btn-primary submit" [disabled]="!loginForm.valid || loading()">
+            {{ loading() ? 'Logging in...' : 'Login' }}
           </button>
         </form>
 
@@ -43,6 +42,6 @@
           <a routerLink="/register">Create an account</a>
         </p>
 
-        <div class="security-note">End-to-end encrypted financial data</div>
+        <div class="security-note">End-to-end encrypted recipe tracking</div>
       </div>
     </section>
