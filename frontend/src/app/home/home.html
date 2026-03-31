@@ -1,11 +1,10 @@
-<section class="app-page dashboard">
-      <h1>Dashboard</h1>
+<section class="app-page home">
+      <h1>Homee</h1>
 
       <div class="hero panel">
         <div>
           <p class="eyebrow">Total amount of tracked expenses</p>
           <p class="hero-value">{{ receipts.length ? (receipts[0].totalAmount || 0) : 0 | currency:'EUR' }}</p>
-          <span class="chip">Live tracking active</span>
         </div>
         <span class="material-symbols-outlined wallet">account_balance_wallet</span>
       </div>
@@ -19,21 +18,16 @@
           <p class="label">Categories</p>
           <p class="stat">{{ categories.length }}</p>
         </article>
-        <article class="card">
-          <p class="label">Open Account</p>
-          <p class="stat">Profile</p>
-          <button class="btn btn-secondary btn-sm" routerLink="/account">View Account</button>
-        </article>
       </div>
 
       <div class="actions panel">
         <div>
           <h2>New Expense?</h2>
-          <p>Quickly scan or manually add a new receipt to your digital ledger.</p>
+          <p>Quickly scan or manually add a new receipt to your account.</p>
         </div>
         <div class="action-buttons">
-          <button class="btn btn-primary" routerLink="/receipts/capture">Scan Receipt</button>
-          <button class="btn btn-secondary" routerLink="/receipts/create">Manual Entry</button>
+          <button class="btn btn-primary" routerLink="/receipts">Scan Receipt</button>
+          <button class="btn btn-secondary" routerLink="/receipts">Manual Entry</button>
         </div>
       </div>
 
