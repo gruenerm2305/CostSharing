@@ -1,0 +1,54 @@
+<div class="app-shell" [class.public-shell]="!showNavigation()">
+      <aside class="side-nav" *ngIf="showNavigation()">
+        <div class="brand-box">
+          <h1>Cost Sharing</h1>
+          <p>Premium Tier</p>
+        </div>
+
+        <nav class="menu-list">
+          <a routerLink="/dashboard" routerLinkActive="active-link">
+            <span class="material-symbols-outlined">home</span>
+            <span>Home</span>
+          </a>
+          <a routerLink="/receipts" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+            <span class="material-symbols-outlined">receipt_long</span>
+            <span>Belege</span>
+          </a>
+          <a routerLink="/receipts/capture" routerLinkActive="active-link">
+            <span class="material-symbols-outlined">add_circle</span>
+            <span>Erfassen</span>
+          </a>
+          <a routerLink="/statistics" routerLinkActive="active-link">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span>Dashboard</span>
+          </a>
+          <a routerLink="/categories" routerLinkActive="active-link">
+            <span class="material-symbols-outlined">category</span>
+            <span>Kategorien</span>
+          </a>
+          <a routerLink="/account" routerLinkActive="active-link">
+            <span class="material-symbols-outlined">person</span>
+            <span>Account</span>
+          </a>
+        </nav>
+
+        <div class="side-footer">
+          <button class="link-btn" (click)="logout()">
+            <span class="material-symbols-outlined">logout</span>
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <main class="content" [class.with-nav]="showNavigation()">
+        <router-outlet></router-outlet>
+      </main>
+
+      <nav class="mobile-nav" *ngIf="showNavigation()">
+        <a routerLink="/dashboard" routerLinkActive="active-mobile"><span class="material-symbols-outlined">home</span></a>
+        <a routerLink="/receipts" routerLinkActive="active-mobile" [routerLinkActiveOptions]="{ exact: true }"><span class="material-symbols-outlined">receipt_long</span></a>
+        <a routerLink="/receipts/capture" routerLinkActive="active-mobile"><span class="material-symbols-outlined">add</span></a>
+        <a routerLink="/statistics" routerLinkActive="active-mobile"><span class="material-symbols-outlined">dashboard</span></a>
+        <a routerLink="/account" routerLinkActive="active-mobile"><span class="material-symbols-outlined">person</span></a>
+      </nav>
+    </div>

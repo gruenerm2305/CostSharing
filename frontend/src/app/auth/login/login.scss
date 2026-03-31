@@ -1,0 +1,126 @@
+.auth-wrap {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .atmo {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+
+    .atmo.one {
+      width: 480px;
+      height: 480px;
+      background: rgba(167, 139, 250, 0.22);
+      top: -140px;
+      left: -100px;
+    }
+
+    .atmo.two {
+      width: 460px;
+      height: 460px;
+      background: rgba(16, 184, 255, 0.18);
+      right: -120px;
+      bottom: -170px;
+    }
+
+    .auth-card {
+      width: min(460px, 100%);
+      padding: 34px;
+      backdrop-filter: blur(18px);
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      margin: 0 auto 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(140deg, rgba(167, 139, 250, 0.28), rgba(16, 184, 255, 0.2));
+    }
+
+    .logo span {
+      color: #bca9ff;
+      font-size: 30px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 34px;
+      letter-spacing: -0.03em;
+    }
+
+    .brand p {
+      margin: 6px 0 0;
+      color: #a8adc2;
+    }
+
+    .auth-form {
+      margin-top: 14px;
+    }
+
+    .label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .label-row small {
+      color: #7dd2ff;
+      font-weight: 600;
+      margin-top: -6px;
+    }
+
+    .submit {
+      width: 100%;
+      margin-top: 8px;
+      height: 52px;
+      border-radius: 999px;
+      font-size: 17px;
+      font-family: Manrope, Inter, sans-serif;
+    }
+
+    .register-link {
+      text-align: center;
+      margin: 20px 0 0;
+      color: #a8adc2;
+    }
+
+    .register-link a {
+      color: #bca9ff;
+      text-decoration: none;
+      font-weight: 700;
+      margin-left: 4px;
+    }
+
+    .security-note {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #7f859e;
+    }
+
+    .field-error {
+      display: block;
+      margin-top: 6px;
+      color: #ffadc1;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
