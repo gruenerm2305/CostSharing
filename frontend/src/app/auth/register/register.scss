@@ -1,0 +1,70 @@
+.auth-wrap {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .auth-card {
+      width: min(520px, 100%);
+      padding: 34px;
+    }
+
+    .brand {
+      margin-bottom: 18px;
+      text-align: center;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 36px;
+      letter-spacing: -0.03em;
+    }
+
+    .brand p {
+      margin: 6px 0 0;
+      color: #a8adc2;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .submit {
+      width: 100%;
+      margin-top: 8px;
+      height: 50px;
+      border-radius: 999px;
+      font-size: 16px;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 18px;
+      color: #a8adc2;
+    }
+
+    .login-link a {
+      color: #bca9ff;
+      text-decoration: none;
+      font-weight: 700;
+      margin-left: 4px;
+    }
+
+    .field-error {
+      display: block;
+      margin-top: 6px;
+      color: #ffadc1;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
+    @media (max-width: 620px) {
+      .split {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+    }

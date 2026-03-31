@@ -7,16 +7,16 @@
           <div class="logo">
             <span class="material-symbols-outlined">account_balance_wallet</span>
           </div>
-          <h1>CostSharing</h1>
-          <p>Please log in to manage your shared ledger.</p>
+          <h1>Cost Sharing</h1>
+          <p>Please log in to manage your receipts.</p>
         </div>
 
         <div *ngIf="error()" class="alert alert-error">{{ error() }}</div>
 
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
           <div class="form-group">
-            <label class="form-label">Username</label>
-            <input type="text" class="form-control" formControlName="username" placeholder="Enter your username" />
+            <label class="form-label" for="username">Username</label>
+            <input type="text" class="form-control" id="username" formControlName="username" placeholder="Enter your username" />
             <small class="field-error" *ngIf="isFieldInvalid('username')">
               Please enter a valid username.
             </small>
@@ -24,9 +24,9 @@
 
           <div class="form-group">
             <div class="label-row">
-              <label class="form-label">Password</label>
+              <label class="form-label" for="password">Password</label>
             </div>
-            <input type="password" class="form-control" formControlName="password" placeholder="••••••••" />
+            <input type="password" class="form-control" id="password" formControlName="password" placeholder="••••••••" />
             <small class="field-error" *ngIf="isFieldInvalid('password')">
               Password must be at least 6 characters long.
             </small>
@@ -42,6 +42,6 @@
           <a routerLink="/register">Create an account</a>
         </p>
 
-        <div class="security-note">End-to-end encrypted recipe tracking</div>
+        <div class="security-note">End-to-end encrypted receipt tracking</div>
       </div>
     </section>

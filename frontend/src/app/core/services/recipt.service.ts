@@ -1,6 +1,7 @@
 import { Observable } from "rxjs";
 import { environment } from '../../../environments/environment';
 import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
 
 export interface Receipt {
   id: string;
@@ -34,6 +35,9 @@ export interface ReceiptItem {
   needsReview?: boolean;
 }
 
+@Injectable({
+  providedIn: 'root'
+})
 export class ReceiptService {
   private readonly apiUrl = `${environment.apiUrl}/receipts`;
 

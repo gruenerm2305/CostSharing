@@ -1,12 +1,12 @@
 import { Component } from "@angular/core";
 import { AuthService } from './core/services/auth.service';
-import { NavigationEnd, Router, RouterModule} from "@angular/router";
+import { NavigationEnd, Router, RouterLink, RouterModule} from "@angular/router";
 import { filter } from "rxjs";
 import { CommonModule } from "@angular/common";
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, RouterLink],
   standalone: true,
   templateUrl: 'sidebar/sidebar.html',
   styleUrl: 'sidebar/sidebar.scss'

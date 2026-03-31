@@ -1,0 +1,55 @@
+<section class="auth-wrap">
+      <div class="auth-card panel">
+        <div class="brand">
+          <h1>Create Account</h1>
+          <p>Join CostSharing and track shared costs with your group.</p>
+        </div>
+
+        <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+        <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" *ngIf="!successMessage">
+          <div class="split">
+            <div class="form-group">
+              <label class="form-label" for="firstName">Firstname</label>
+              <input type="text" class="form-control" id="firstName" formControlName="firstName" />
+              <small class="field-error" *ngIf="isFieldInvalid('firstName')">
+                Please enter a first name.
+              </small>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="lastName">Lastname</label>
+              <input type="text" class="form-control" id="lastName" formControlName="lastName" />
+              <small class="field-error" *ngIf="isFieldInvalid('lastName')">
+                Please enter a last name.
+              </small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="username">Username</label>
+            <input type="text" class="form-control" id="username" formControlName="username" />
+            <small class="field-error" *ngIf="isFieldInvalid('username')">
+              Please enter a valid username.
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="password">Password</label>
+            <input type="password" class="form-control" id="password" formControlName="password" />
+            <small class="field-error" *ngIf="isFieldInvalid('password')">
+              Password must be at least 6 characters long.
+            </small>
+          </div>
+
+          <button type="submit" class="btn btn-primary submit" [disabled]="!registerForm.valid || loading">
+            {{ loading ? 'Registering...' : 'Register' }}
+          </button>
+        </form>
+
+        <p class="login-link">
+          Already registered?
+          <a routerLink="/login">Sign in</a>
+        </p>
+      </div>
+    </section>
