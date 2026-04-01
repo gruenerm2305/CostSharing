@@ -1,11 +1,11 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
 import { ReceiptService } from "../../core/services/recipt.service";
-import { Router } from "@angular/router";
+import { Router, RouterLink, RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
 
 @Component({
     selector: 'app-receipt-capture',
-    imports: [CommonModule],
+    imports: [CommonModule,RouterModule, RouterLink],
     templateUrl: './receipt-capture.html',
     styleUrl: './receipt-capture.scss',
 })
