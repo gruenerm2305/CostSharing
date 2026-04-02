@@ -1,0 +1,90 @@
+<section class="app-page categories-page">
+      <div class="grid-wrap">
+        <section class="left-col">
+          <header>
+            <h1>Manage Categories</h1>
+            <p>Create and organize your spending categories for better financial clarity.</p>
+          </header>
+
+          <div class="panel form-card">
+            <div class="form-group">
+              <label class="form-label">Category Name</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="newCategory.name"
+                placeholder="e.g. Travel"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Luminous Palette</label>
+              <div class="palette">
+                <button
+                  *ngFor="let color of colorPalette"
+                  type="button"
+                  class="swatch"
+                  [class.selected]="newCategory.color === color"
+                  [style.background]="color"
+                  (click)="newCategory.color = color"
+                ></button>
+              </div>
+            </div>
+
+            <button class="btn btn-primary create" (click)="createCategory()" [disabled]="!newCategory.name">
+              + Create Category
+            </button>
+          </div>
+        </section>
+
+        <section class="right-col">
+          <h2>Your Categories</h2>
+
+          <div *ngIf="categories.length === 0" class="empty-state panel">
+            Noch keine Kategorien erstellt.
+          </div>
+
+          <div class="category-row panel" *ngFor="let category of categories">
+            <div class="item-left">
+              <span class="dot" [style.background-color]="category.color || '#6d5dfc'"></span>
+              <strong>{{ category.name }}</strong>
+            </div>
+            <div class="item-actions">
+              <button class="icon-btn" (click)="editCategory(category)" title="Bearbeiten">
+                <span class="material-symbols-outlined">edit</span>
+              </button>
+              <button class="icon-btn danger" (click)="deleteCategory(category.id)" title="Löschen">
+                <span class="material-symbols-outlined">delete</span>
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div *ngIf="editingCategory as editingCategoryModel" class="modal">
+        <div class="modal-content">
+          <h3>Kategorie bearbeiten</h3>
+          <div class="form-group">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" [(ngModel)]="editingCategoryModel.name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Farbe</label>
+            <div class="palette">
+              <button
+                *ngFor="let color of colorPalette"
+                type="button"
+                class="swatch"
+                [class.selected]="editingCategoryModel.color === color"
+                [style.background]="color"
+                (click)="editingCategoryModel.color = color"
+              ></button>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-secondary" (click)="cancelEdit()">Abbrechen</button>
+            <button class="btn btn-primary" (click)="saveEdit()">Speichern</button>
+          </div>
+        </div>
+      </div>
+    </section>

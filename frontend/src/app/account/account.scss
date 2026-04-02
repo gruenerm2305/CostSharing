@@ -1,0 +1,72 @@
+.account-page {
+      max-width: 980px;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: 52px;
+      letter-spacing: -0.04em;
+    }
+
+    .profile-card {
+      padding: 26px;
+      max-width: 760px;
+    }
+
+    .profile-card h2 {
+      margin: 0 0 6px;
+      font-size: 42px;
+      letter-spacing: -0.03em;
+    }
+
+    .user-id-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      flex-wrap: wrap;
+    }
+
+    .user-id {
+      margin: 0;
+      color: #9ca4bc;
+      font-weight: 600;
+    }
+
+    .copy-inline {
+      line-height: 1;
+    }
+
+    .identity label {
+      display: block;
+      margin-bottom: 8px;
+      color: #9ca4bc;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .email-box {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      background: rgba(8, 11, 18, 0.6);
+      padding: 14px;
+      margin-bottom: 16px;
+      font-size: 30px;
+      letter-spacing: -0.03em;
+    }
+
+    @media (max-width: 900px) {
+      h1 {
+        font-size: 40px;
+      }
+
+      .profile-card h2 {
+        font-size: 34px;
+      }
+
+      .email-box {
+        font-size: 20px;
+      }
+    }

@@ -6,6 +6,8 @@ import { ReceiptCaptureComponent } from './receipt/capture/receipt-capture.compo
 import { ReceiptEditorComponent } from './receipt/editor/receipt-editor.component';
 import { ReceiptListComponent } from './receipt/list/receipt-list.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { CategoryComponent } from './cathegory/category.component';
+import { AccountComponent } from './account/account.component';
 
 export const appRoutes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -15,5 +17,7 @@ export const appRoutes: Routes = [
     { path: 'receipts/capture', component: ReceiptCaptureComponent },
     { path: 'receipts/editor', component: ReceiptEditorComponent },
     { path: 'receipts/list' , component: ReceiptListComponent },
-    { path: 'dashboard', component: DashboardComponent }
+    { path: 'dashboard', component: DashboardComponent },
+    { path: 'categories', component: CategoryComponent },
+    { path: 'account', component: AccountComponent },
 ];
