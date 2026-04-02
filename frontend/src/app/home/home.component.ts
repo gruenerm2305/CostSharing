@@ -1,12 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { Receipt, ReceiptService } from "../core/services/recipt.service";
 import { Category, CategoryService } from "../core/services/category.service";
-import { Router } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { CommonModule, CurrencyPipe, DatePipe } from "@angular/common";
 
 @Component({
   selector: 'app-home',
-  imports: [CurrencyPipe, DatePipe, CommonModule],
+  imports: [RouterLink,CurrencyPipe, DatePipe, CommonModule],
   templateUrl: 'home.html',
   styleUrl: 'home.scss',
 

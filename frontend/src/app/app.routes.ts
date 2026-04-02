@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './auth/register/component.register';
 import { ReceiptCaptureComponent } from './receipt/capture/receipt-capture.component';
 import { ReceiptEditorComponent } from './receipt/editor/receipt-editor.component';
+import { ReceiptListComponent } from './receipt/list/receipt-list.component';
 
 export const appRoutes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -11,5 +12,6 @@ export const appRoutes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'home', component: HomeComponent },
     { path: 'receipts/capture', component: ReceiptCaptureComponent },
-    { path: 'receipts/editor', component: ReceiptEditorComponent }
+    { path: 'receipts/editor', component: ReceiptEditorComponent },
+    { path: 'receipts/list' , component: ReceiptListComponent },
 ];

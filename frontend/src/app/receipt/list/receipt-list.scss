@@ -1,0 +1,187 @@
+.receipts-page {
+      max-width: 980px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 58px;
+      letter-spacing: -0.04em;
+    }
+
+    .search {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      border-radius: 14px;
+    }
+
+    .search input {
+      width: 100%;
+      background: transparent;
+      border: 0;
+      color: #f4f6ff;
+      font-size: 15px;
+    }
+
+    .search input:focus {
+      outline: none;
+    }
+
+    .receipts-list {
+      padding: 12px;
+    }
+
+    .receipt-row {
+      display: grid;
+      grid-template-columns: 1.5fr auto auto 1fr;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .receipt-row:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .left h3 {
+      margin: 0;
+      font-size: 26px;
+      letter-spacing: -0.03em;
+    }
+
+    .left p {
+      margin: 4px 0 0;
+      color: #9098b1;
+      font-size: 13px;
+    }
+
+    .middle {
+      font-size: 28px;
+      font-weight: 800;
+      text-align: right;
+    }
+
+    .middle small {
+      display: block;
+      color: #9ca3ba;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .badges {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .badge {
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .badge.share {
+      color: #80d9ff;
+      background: rgba(16, 184, 255, 0.12);
+    }
+
+    .badge.participant {
+      color: #94f3c7;
+      background: rgba(70, 210, 141, 0.14);
+    }
+
+    .badge.owner {
+      color: #ccb9ff;
+      background: rgba(167, 139, 250, 0.16);
+    }
+
+    .receipt-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .receipt-actions .btn {
+      white-space: nowrap;
+    }
+
+    .action-wrapper {
+      display: flex;
+    }
+
+    .action-wrapper .btn {
+      width: auto;
+    }
+
+    .error-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #ffadc1;
+      background: rgba(255, 107, 142, 0.14);
+      border: 1px solid rgba(255, 107, 142, 0.4);
+      border-radius: 14px;
+    }
+
+    .error-message {
+      font-weight: 700;
+      font-size: 1.1em;
+      margin-bottom: 10px;
+    }
+
+    .info-text {
+      margin-top: 6px;
+      color: #8f95ae;
+      font-size: 0.82em;
+      grid-column: 1 / -1;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .empty-state p {
+      font-size: 18px;
+      color: #9ca4bc;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 1060px) {
+      h1 {
+        font-size: 46px;
+      }
+
+      .receipt-row {
+        grid-template-columns: 1fr;
+      }
+
+      .middle,
+      .receipt-actions {
+        text-align: left;
+        justify-content: flex-start;
+      }
+
+      .badges {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+    }
