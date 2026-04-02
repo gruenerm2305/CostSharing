@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
-import { Receipt, ReceiptItem, ReceiptService } from "../../core/services/recipt.service";
+import { Receipt, ReceiptItem, ReceiptService } from "../../core/services/receipt.service";
 import { Category, CategoryService } from "../../core/services/category.service";
 import { CommonModule } from "@angular/common";
 import { MatFormFieldModule } from '@angular/material/form-field';

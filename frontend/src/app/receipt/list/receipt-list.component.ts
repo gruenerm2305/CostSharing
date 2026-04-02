@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Receipt, ReceiptService } from "../../core/services/recipt.service";
+import { Receipt, ReceiptService } from "../../core/services/receipt.service";
 import { Router } from "@angular/router";
 import { SplittingService } from "../../core/services/splitting.service";
 import { CommonModule, CurrencyPipe, DatePipe } from "@angular/common";

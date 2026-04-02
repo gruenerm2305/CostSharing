@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
-import { ReceiptService } from "../../core/services/recipt.service";
+import { ReceiptService } from "../../core/services/receipt.service";
 import { Router, RouterLink, RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
 

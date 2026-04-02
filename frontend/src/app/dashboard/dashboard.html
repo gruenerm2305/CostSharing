@@ -1,0 +1,37 @@
+<section class="app-page stats-page">
+  <h1>Dashboard Overview</h1>
+
+  <div class="filters panel">
+    <button class="btn" [ngClass]="activeFilter === 'month' ? 'btn-primary' : 'btn-secondary'" (click)="onFilterChange('month')">Dieser Monat</button>
+    <button class="btn" [ngClass]="activeFilter === 'year' ? 'btn-primary' : 'btn-secondary'" (click)="onFilterChange('year')">Dieses Jahr</button>
+    <button class="btn" [ngClass]="activeFilter === 'all' ? 'btn-primary' : 'btn-secondary'" (click)="onFilterChange('all')">Alles</button>
+  </div>
+
+  <div class="summary-cards">
+    <article class="card summary-card">
+      <p>Gesamtausgaben</p>
+      <h3 class="amount">{{ totalAmount | currency:'EUR' }}</h3>
+    </article>
+
+    <article class="card summary-card">
+      <p>Anzahl Belege</p>
+      <h3 class="count">{{ receiptCount }}</h3>
+    </article>
+  </div>
+
+  <div class="charts-grid">
+    <article class="card chart-card">
+      <h3>Ausgaben nach Kategorie</h3>
+      <div class="chart-wrapper">
+        <canvas baseChart [data]="pieChartData" [type]="pieChartType" [options]="pieChartOptions"> </canvas>
+      </div>
+    </article>
+
+    <article class="card chart-card">
+      <h3>Ausgabenverlauf</h3>
+      <div class="chart-wrapper">
+        <canvas baseChart [data]="barChartData" [type]="barChartType" [options]="barChartOptions"> </canvas>
+      </div>
+    </article>
+  </div>
+</section>
