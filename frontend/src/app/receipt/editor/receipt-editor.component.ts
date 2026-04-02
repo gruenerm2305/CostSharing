@@ -253,11 +253,7 @@ export class ReceiptEditorComponent implements OnInit {
         return !name || String(name).trim().length === 0;
       });
 
-      if (missingItemNameIndex >= 0) {
-        this.formError = `Artikelname fehlt bei Position ${missingItemNameIndex + 1}.`;
-      } else {
-        this.formError = 'Bitte alle Pflichtfelder ausfullen.';
-      }
+      this.formError = 'Bitte alle Pflichtfelder ausfullen.';
       return;
     }
 

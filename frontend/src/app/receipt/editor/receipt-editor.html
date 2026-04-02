@@ -41,7 +41,13 @@
 
       <div class="form-group">
         <label class="form-label">Händler</label>
-        <input type="text" class="form-control" formControlName="merchant" [class.needs-review]="(receipt?.confidence || 0) < 0.7" />
+        <input 
+          type="text" 
+          class="form-control" 
+          formControlName="merchant" 
+          [class.validation-error]="isFieldInvalid('merchant')"
+          [class.needs-review]="(receipt?.confidence || 0) < 0.7" 
+        />
         <small class="field-error" *ngIf="isFieldInvalid('merchant')">Bitte den Händlernamen eintragen.</small>
       </div>
 
@@ -64,7 +70,12 @@
         
         <div class="grid-cell name">
           <label class="form-label">Name</label>
-          <input class="form-control" formControlName="name" placeholder="Artikelname" />
+          <input 
+            class="form-control" 
+            formControlName="name" 
+            placeholder="Artikelname" 
+            [class.validation-error]="isItemFieldInvalid(i, 'name')"
+          />
           <div class="error-wrapper">
             <small class="field-error" *ngIf="isItemFieldInvalid(i, 'name')">Artikelname ist erforderlich.</small>
           </div>
