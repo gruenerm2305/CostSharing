@@ -42,6 +42,15 @@ export class ReceiptEditorComponent implements OnInit {
     private readonly categoryService: CategoryService
   ) {}
 
+  roundValue(index: number) {
+  const control = this.items.at(index).get('quantity');
+  if (control?.value) {
+    // Math.round for nearest, Math.floor to always go down
+    const rounded = Math.round(control.value);
+    control.setValue(rounded, { emitEvent: false });
+  }
+}
+
   ngOnInit(): void {
     this.loadCategories();
     this.loadReceipt();

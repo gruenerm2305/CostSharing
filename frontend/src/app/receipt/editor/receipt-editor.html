@@ -83,7 +83,12 @@
 
         <div class="grid-cell">
           <label class="form-label">Quantity</label>
-          <input class="form-control" type="number" formControlName="quantity" step="0.001" />
+          <input 
+            class="form-control" 
+            type="number" 
+            formControlName="quantity" 
+            step="1"
+            (input)="roundValue(i)" />
           <div class="error-wrapper">
             <small class="field-error" *ngIf="isItemFieldInvalid(i, 'quantity')">Menge > 0.</small>
           </div>
