@@ -8,6 +8,12 @@ import {
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 
+export enum UserRole {
+  Owner = 'Owner',
+  Admin = 'Admin',
+  User = 'User',
+}
+
 @Entity('users') // Table name: users in database
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -25,6 +31,9 @@ export class User {
 
   @Column({ nullable: true })
   lastName: string;
+
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.User })
+  role: UserRole;
 
   @OneToMany('Receipt', 'user')
   receipts: any[];
