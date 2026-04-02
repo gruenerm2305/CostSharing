@@ -5,7 +5,7 @@ import { CommonModule } from "@angular/common";
 
 @Component({
     selector: 'app-receipt-capture',
-    imports: [CommonModule,RouterModule, RouterLink],
+    imports: [CommonModule, RouterLink],
     templateUrl: './receipt-capture.html',
     styleUrl: './receipt-capture.scss',
 })

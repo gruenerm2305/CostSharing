@@ -282,43 +282,6 @@ textarea.form-control {
   color: var(--text) !important;
 }
 
-.ledger-datepicker .mat-datepicker-content {
-  background: linear-gradient(145deg, rgba(29, 32, 43, 0.98), rgba(18, 20, 29, 0.98));
-  color: var(--text);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.45);
-}
-
-.ledger-datepicker .mat-calendar {
-  background: transparent;
-  color: var(--text);
-}
-
-.ledger-datepicker .mat-calendar-body-cell-content,
-.ledger-datepicker .mat-calendar-table-header,
-.ledger-datepicker .mat-calendar-body-label,
-.ledger-datepicker .mat-calendar-body-cell,
-.ledger-datepicker .mat-calendar-arrow,
-.ledger-datepicker .mat-calendar-previous-button,
-.ledger-datepicker .mat-calendar-next-button {
-  color: var(--text);
-}
-
-.ledger-datepicker .mat-calendar-body-selected {
-  background: var(--primary);
-  color: #090b12;
-}
-
-.ledger-datepicker .mat-calendar-body-today:not(.mat-calendar-body-selected) {
-  border-color: rgba(167, 139, 250, 0.8);
-}
-
-.ledger-datepicker .mat-calendar-body-in-range::before,
-.ledger-datepicker .mat-calendar-body-in-comparison-range::before {
-  background: rgba(167, 139, 250, 0.18);
-}
-
 @media (max-width: 900px) {
   .app-page {
     padding: 16px;

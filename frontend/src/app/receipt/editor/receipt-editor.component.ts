@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { Receipt, ReceiptItem, ReceiptService } from "../../core/services/recipt.service";
 import { Category, CategoryService } from "../../core/services/category.service";
 import { CommonModule } from "@angular/common";
@@ -335,6 +335,6 @@ export class ReceiptEditorComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/receipts']);
+    this.router.navigate(['/receipts/capture']);
   }
 }
