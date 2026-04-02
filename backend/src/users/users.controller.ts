@@ -9,20 +9,18 @@ import { UserRole } from './entities/user.entity';
 
 @ApiTags('users')
 @Controller('users')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth('JWT-auth')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get('me')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Get current user profile' })
   async getProfile(@Request() req) {
     return this.usersService.findById(req.user.userId);
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'List users with id and username' })
   async listUsers(@Request() req) {
     if (req.user.role !== UserRole.Owner && req.user.role !== UserRole.Admin) {
@@ -32,8 +30,6 @@ export class UsersController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Delete user by id' })
   @ApiParam({ name: 'id', type: String })
   async deleteUser(@Param('id') id: string) {
@@ -42,8 +38,6 @@ export class UsersController {
   }
 
   @Patch(':id/username') 
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Update username by id' })
   @ApiParam({ name: 'id', type: String })
   async updateUsername(@Param('id') id: string, @Body() body: UpdateUsernameDto) {
@@ -52,8 +46,6 @@ export class UsersController {
   }
 
   @Patch(':id/password') 
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Update password by id' })
   @ApiParam({ name: 'id', type: String })
   async updatePassword(@Param('id') id: string, @Body() body: UpdatePasswordDto) {
@@ -62,8 +54,6 @@ export class UsersController {
   }
 
   @Patch(':id/role')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Update user role by id (Owner only)' })
   @ApiParam({ name: 'id', type: String })
   async updateRole(@Request() req, @Param('id') id: string, @Body() body: UpdateRoleDto) {
