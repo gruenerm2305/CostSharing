@@ -41,7 +41,9 @@ export class UsersController {
     return { success: true };
   }
 
-  @Patch(':id/username') //Kann jeder machen, keine Berechtigungsprüfung
+  @Patch(':id/username') 
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Update username by id' })
   @ApiParam({ name: 'id', type: String })
   async updateUsername(@Param('id') id: string, @Body() body: UpdateUsernameDto) {
@@ -49,7 +51,9 @@ export class UsersController {
     return { success: true };
   }
 
-  @Patch(':id/password') //Kann jeder machen, keine Berechtigungsprüfung
+  @Patch(':id/password') 
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Update password by id' })
   @ApiParam({ name: 'id', type: String })
   async updatePassword(@Param('id') id: string, @Body() body: UpdatePasswordDto) {
