@@ -45,6 +45,13 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
+  async findAllUserSummaries(): Promise<Array<Pick<User, 'id' | 'username'>>> {
+    return this.usersRepository.find({
+      select: ['id', 'username'],
+      order: { username: 'ASC' },
+    });
+  }
+
   async removeById(id: string): Promise<void> {
     const user = await this.findById(id);
     await this.usersRepository.remove(user);

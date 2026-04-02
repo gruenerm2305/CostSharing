@@ -20,6 +20,17 @@ export class UsersController {
     return this.usersService.findById(req.user.userId);
   }
 
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'List users with id and username' })
+  async listUsers(@Request() req) {
+    if (req.user.role !== UserRole.Owner && req.user.role !== UserRole.Admin) {
+      throw new ForbiddenException('Only owners and admins can list users');
+    }
+    return this.usersService.findAllUserSummaries();
+  }
+
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('JWT-auth')
