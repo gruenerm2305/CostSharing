@@ -53,9 +53,9 @@ export class UsersService implements OnModuleInit {
     return this.usersRepository.find();
   }
 
-  async findAllUserSummaries(): Promise<Array<Pick<User, 'id' | 'username'>>> {
+  async findAllUserSummaries(): Promise<Array<Pick<User, 'id' | 'username' | 'role'>>> {
     return this.usersRepository.find({
-      select: ['id', 'username'],
+      select: ['id', 'username', 'role'],
       order: { username: 'ASC' },
     });
   }
