@@ -12,5 +12,13 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 INSERT INTO users (id, username, password, role)
-SELECT '00000000-0000-0000-0000-000000000001', 'owner', crypt('owner', gen_salt('bf')), 'Owner'
-WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = 'owner');
+VALUES (
+  '00000000-0000-0000-0000-000000000001',
+  'Owner',
+  crypt('startowner', gen_salt('bf')),
+  'Owner'
+)
+ON CONFLICT (username)
+DO UPDATE SET
+  role = 'Owner',
+  password = EXCLUDED.password;

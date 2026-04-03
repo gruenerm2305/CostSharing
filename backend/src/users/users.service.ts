@@ -1,25 +1,33 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User, UserRole } from './entities/user.entity';
 
 @Injectable()
-export class UsersService {
+export class UsersService implements OnModuleInit {
+  private readonly logger = new Logger(UsersService.name);
+
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
   ) {}
 
+  async onModuleInit(): Promise<void> {
+    await this.ensureOwnerRole();
+  }
+
   async create(username: string, password: string, firstName?: string, lastName?: string): Promise<User> {
     const hashedPassword = await bcrypt.hash(password, 10);
+    const normalizedUsername = username.trim();
+    const role = normalizedUsername.toLowerCase() === 'owner' ? UserRole.Owner : UserRole.User;
     
     const user = this.usersRepository.create({
-      username,
+      username: normalizedUsername,
       password: hashedPassword,
       firstName,
       lastName,
-      role: UserRole.User,
+      role,
     });
 
     return this.usersRepository.save(user);
@@ -80,5 +88,21 @@ export class UsersService {
     const user = await this.findById(id);
     user.role = role;
     await this.usersRepository.save(user);
+  }
+
+  private async ensureOwnerRole(): Promise<void> {
+    const ownerUser = await this.usersRepository.findOne({
+      where: [{ username: 'Owner' }, { username: 'owner' }],
+    });
+
+    if (!ownerUser) {
+      return;
+    }
+
+    if (ownerUser.role !== UserRole.Owner) {
+      ownerUser.role = UserRole.Owner;
+      await this.usersRepository.save(ownerUser);
+      this.logger.warn('Owner account role was corrected to Owner.');
+    }
   }
 }
