@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { Receipt, ReceiptService } from "../../core/services/receipt.service";
 import { Router } from "@angular/router";
 import { SplittingService } from "../../core/services/splitting.service";
@@ -21,7 +21,8 @@ export class ReceiptListComponent implements OnInit {
   constructor(
     private readonly receiptService: ReceiptService,
     private readonly splittingService: SplittingService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -36,6 +37,7 @@ export class ReceiptListComponent implements OnInit {
         this.receipts = receipts;
         this.applyFilters();
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.loading = false;
@@ -44,6 +46,7 @@ export class ReceiptListComponent implements OnInit {
         if (err.status === 0 || err.status >= 500) {
            this.backendUnreachable = true;
         }
+        this.cdr.detectChanges();
       }
     });
   }

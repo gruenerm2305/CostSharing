@@ -15,9 +15,9 @@ export interface Category {
   providedIn: 'root'
 })
 export class CategoryService {
-  private apiUrl = `${environment.apiUrl}/categories`;
+  private readonly apiUrl = `${environment.apiUrl}/categories`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getAll(): Observable<Category[]> {
     return this.http.get<Category[]>(this.apiUrl);
