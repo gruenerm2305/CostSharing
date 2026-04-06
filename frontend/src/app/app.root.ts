@@ -24,7 +24,6 @@ export class App {
   }
 
   isLoggedIn(): boolean {
-    return true;
     return this.authService.isAuthenticated();
   }
 
