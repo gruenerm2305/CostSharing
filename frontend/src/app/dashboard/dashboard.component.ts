@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { ReceiptService } from '../core/services/receipt.service';
-import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
-import { BaseChartDirective } from 'ng2-charts'; 
+import { Chart, registerables, ChartConfiguration, ChartData, ChartType } from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
+
+Chart.register(...registerables); 
 
 @Component({
   selector: 'app-dashboard',
@@ -57,12 +59,15 @@ export class DashboardComponent implements OnInit {
 
   public totalAmount: number = 0;
   public receiptCount: number = 0;
+  public test: any;
   
   public startDate: string | null = null;
   public endDate: string | null = null;
   public activeFilter: 'month' | 'year' | 'all' = 'all';
 
-  constructor(private readonly receiptService: ReceiptService) {}
+  constructor(private readonly receiptService: ReceiptService,
+    private readonly cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.loadStatistics();
@@ -104,6 +109,7 @@ export class DashboardComponent implements OnInit {
             }
           ]
         };
+        this.cdr.detectChanges();
       },
       error: (err) => console.error('Error loading statistics', err)
     });
