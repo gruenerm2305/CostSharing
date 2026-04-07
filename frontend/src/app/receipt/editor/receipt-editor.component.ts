@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Receipt, ReceiptItem, ReceiptService } from "../../core/services/receipt.service";
 import { Category, CategoryService } from "../../core/services/category.service";
-import { CommonModule } from "@angular/common";
+import { CommonModule, Location } from "@angular/common";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -35,6 +35,7 @@ export class ReceiptEditorComponent implements OnInit {
   displayedColumns: string[] = ['name', 'quantity', 'unitPrice', 'totalPrice', 'actions'];
 
   constructor(
+    private readonly location: Location,
     private readonly fb: FormBuilder,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
@@ -259,11 +260,6 @@ export class ReceiptEditorComponent implements OnInit {
       this.submitAttempted = true;
       this.receiptForm.markAllAsTouched();
 
-      const missingItemNameIndex = this.items.controls.findIndex((item) => {
-        const name = item.get('name')?.value;
-        return !name || String(name).trim().length === 0;
-      });
-
       this.formError = 'Bitte alle Pflichtfelder ausfullen.';
       return;
     }
@@ -301,7 +297,7 @@ export class ReceiptEditorComponent implements OnInit {
       this.receiptService.update(this.receipt.id, baseData).subscribe({
         next: (updated) => {
           console.log('Receipt updated successfully:', updated);
-          this.router.navigate(['/receipts']);
+          this.router.navigate(['/receipts/list']);
         },
         error: (err) => {
           console.error('Error saving receipt:', err);
@@ -315,8 +311,7 @@ export class ReceiptEditorComponent implements OnInit {
       this.receiptService.createManual(baseData).subscribe({
         next: (created) => {
           console.log('Receipt created successfully:', created);
-          alert('Beleg erfolgreich erstellt!');
-          this.router.navigate(['/receipts']);
+          this.router.navigate(['/receipts/list']);
         },
         error: (err) => {
           console.error('Error creating receipt:', err);
@@ -331,17 +326,17 @@ export class ReceiptEditorComponent implements OnInit {
     if (this.receipt && confirm('Beleg wirklich löschen?')) {
       this.receiptService.delete(this.receipt.id).subscribe({
         next: () => {
-          alert('Beleg gelöscht');
-          this.router.navigate(['/receipts']);
+          this.router.navigate(['/receipts/list']);
         },
         error: () => {
           alert('Fehler beim Löschen');
+          this.router.navigate(['/receipts/list']);
         }
       });
     }
   }
 
   cancel(): void {
-    this.router.navigate(['/receipts/capture']);
+    this.location.back();
   }
 }

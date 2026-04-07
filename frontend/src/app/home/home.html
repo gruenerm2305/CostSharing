@@ -4,7 +4,7 @@
       <div class="hero panel">
         <div>
           <p class="eyebrow">Total amount of tracked expenses</p>
-          <p class="hero-value">{{ receipts.length ? (receipts[0].totalAmount || 0) : 0 | currency:'EUR' }}</p>
+          <p class="hero-value">{{ totalAmount | currency:'EUR' }}</p>
         </div>
         <span class="material-symbols-outlined wallet">account_balance_wallet</span>
       </div>
@@ -33,7 +33,7 @@
       <section *ngIf="recentReceipts.length > 0" class="recent panel">
         <div class="recent-head">
           <h3>Kurzliche Ausgaben</h3>
-          <button class="btn btn-secondary btn-sm" routerLink="/receipts">Alle anzeigen</button>
+          <button class="btn btn-secondary btn-sm" routerLink="/receipts/list">Alle anzeigen</button>
         </div>
 
         <div class="receipt-row" *ngFor="let receipt of recentReceipts" (click)="viewReceipt(receipt)">

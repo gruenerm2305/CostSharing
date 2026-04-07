@@ -32,6 +32,10 @@ body {
     radial-gradient(1200px 600px at 20% -10%, rgba(167, 139, 250, 0.18), transparent 60%),
     radial-gradient(900px 600px at 95% 80%, rgba(16, 184, 255, 0.14), transparent 55%),
     var(--bg);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 h1,

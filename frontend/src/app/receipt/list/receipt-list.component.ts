@@ -1,13 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { Receipt, ReceiptService } from "../../core/services/receipt.service";
-import { Router } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { SplittingService } from "../../core/services/splitting.service";
 import { CommonModule, CurrencyPipe, DatePipe } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 
 @Component({
     selector: 'app-receipt-list',
-    imports: [CommonModule, CurrencyPipe, DatePipe, FormsModule],
+    imports: [RouterLink, CommonModule, CurrencyPipe, DatePipe, FormsModule],
     templateUrl: './receipt-list.html',
     styleUrl: './receipt-list.scss'
 })
