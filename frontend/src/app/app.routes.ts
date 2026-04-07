@@ -10,19 +10,20 @@ import { CategoryComponent } from './cathegory/category.component';
 import { AccountComponent } from './account/account.component';
 import { CostSplittingComponent } from './receipt/splitting/split/spliting.component';
 import { SharedReceiptComponent } from './receipt/splitting/shared/shared.component';
+import { AuthGuard } from './core/guards/auth.guard';
 
 export const appRoutes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
-    { path: 'home', component: HomeComponent },
-    { path: 'receipts/capture', component: ReceiptCaptureComponent },
-    { path: 'receipts/editor', component: ReceiptEditorComponent },
-    { path: 'receipts/:id/editor', component: ReceiptEditorComponent },
-    { path: 'receipts/list' , component: ReceiptListComponent },
-    { path: 'receipts/:id/split', component: CostSplittingComponent },
-    { path: 'share/:shareToken', component: SharedReceiptComponent },
-    { path: 'dashboard', component: DashboardComponent },
-    { path: 'categories', component: CategoryComponent },
-    { path: 'account', component: AccountComponent },
+    { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: 'receipts/capture', component: ReceiptCaptureComponent, canActivate: [AuthGuard] },
+    { path: 'receipts/editor', component: ReceiptEditorComponent, canActivate: [AuthGuard] },
+    { path: 'receipts/:id/editor', component: ReceiptEditorComponent, canActivate: [AuthGuard] },
+    { path: 'receipts/list' , component: ReceiptListComponent, canActivate: [AuthGuard] },
+    { path: 'receipts/:id/split', component: CostSplittingComponent, canActivate: [AuthGuard] },
+    { path: 'share/:shareToken', component: SharedReceiptComponent, canActivate: [AuthGuard] },
+    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+    { path: 'categories', component: CategoryComponent, canActivate: [AuthGuard] },
+    { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
 ];
