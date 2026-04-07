@@ -222,7 +222,6 @@
   color-scheme: dark;
 }
 
-/* --- FIXED ERROR ALIGNMENT --- */
 .field-error {
   position: absolute; /* Fix: Pull out of flow so it doesn't push row height */
   top: 100%;          /* Align right below the input */
@@ -298,7 +297,7 @@
   }
 
   .field-error {
-    position: static; /* Revert to static for mobile to ensure readability */
+    position: static; 
   }
 
   .remove {

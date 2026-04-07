@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { Category, CategoryService } from "../core/services/category.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
@@ -18,8 +18,11 @@ export class CategoryComponent implements OnInit {
     color: this.colorPalette[0]
   };
   editingCategory: Category | null = null;
+  errorInCategoryNameDetected = false;
+  categoryNameErrorMessage = '';
 
-  constructor(private readonly categoryService: CategoryService) {}
+  constructor(private readonly categoryService: CategoryService,
+              private readonly cdr: ChangeDetectorRef ) {}
 
   ngOnInit(): void {
     this.loadCategories();
@@ -28,24 +31,42 @@ export class CategoryComponent implements OnInit {
   loadCategories(): void {
     this.categoryService.getAll().subscribe(categories => {
       this.categories = categories;
+      this.cdr.detectChanges();
     });
   }
 
   createCategory(): void {
-    if (!this.newCategory.name) return;
+    const categoryName = this.newCategory.name.trim();
 
-    this.categoryService.create(this.newCategory).subscribe({
+    if (categoryName.length === 0) {
+      this.setCategoryNameError('Name is required.');
+      return;
+    }
+
+    this.clearCategoryNameError();
+    this.categoryService.create({
+      ...this.newCategory,
+      name: categoryName
+    }).subscribe({
       next: () => {
-        this.loadCategories();
         this.newCategory = {
           name: '',
           color: this.colorPalette[0]
         };
+        this.loadCategories();
+        this.clearCategoryNameError();
+        this.cdr.detectChanges();
       },
       error: (error: HttpErrorResponse) => {
-        alert(this.extractErrorMessage(error, 'Fehler beim Erstellen der Kategorie'));
+        this.setCategoryNameError(this.extractErrorMessage(error, 'Fehler beim Erstellen der Kategorie'));
       }
     });
+  }
+
+  onCategoryNameChange(): void {
+    if (this.errorInCategoryNameDetected) {
+      this.clearCategoryNameError();
+    }
   }
 
   editCategory(category: Category): void {
@@ -77,16 +98,14 @@ export class CategoryComponent implements OnInit {
   }
 
   deleteCategory(id: string): void {
-    if (confirm('Kategorie wirklich löschen?')) {
-      this.categoryService.delete(id).subscribe({
+    this.categoryService.delete(id).subscribe({
         next: () => {
           this.loadCategories();
         },
         error: (error: HttpErrorResponse) => {
           alert(this.extractErrorMessage(error, 'Fehler beim Löschen'));
         }
-      });
-    }
+    });
   }
 
   private extractErrorMessage(error: HttpErrorResponse, fallback: string): string {
@@ -104,5 +123,16 @@ export class CategoryComponent implements OnInit {
     }
 
     return fallback;
+  }
+
+  private setCategoryNameError(message: string): void {
+    this.errorInCategoryNameDetected = true;
+    this.categoryNameErrorMessage = message;
+    this.cdr.detectChanges();
+  }
+
+  private clearCategoryNameError(): void {
+    this.errorInCategoryNameDetected = false;
+    this.categoryNameErrorMessage = '';
   }
 }
