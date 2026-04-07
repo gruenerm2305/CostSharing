@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { Receipt, ReceiptItem, ReceiptService } from "../../core/services/receipt.service";
@@ -39,7 +39,8 @@ export class ReceiptEditorComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly receiptService: ReceiptService,
-    private readonly categoryService: CategoryService
+    private readonly categoryService: CategoryService,
+    private readonly cdr: ChangeDetectorRef  
   ) {}
 
   roundValue(index: number) {
@@ -93,6 +94,7 @@ export class ReceiptEditorComponent implements OnInit {
           }
           
           this.loading = false;
+          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('Error loading receipt:', err);

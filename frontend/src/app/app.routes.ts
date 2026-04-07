@@ -16,6 +16,7 @@ export const appRoutes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'receipts/capture', component: ReceiptCaptureComponent },
     { path: 'receipts/editor', component: ReceiptEditorComponent },
+    { path: 'receipts/:id/editor', component: ReceiptEditorComponent },
     { path: 'receipts/list' , component: ReceiptListComponent },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'categories', component: CategoryComponent },

@@ -79,7 +79,7 @@ export class ReceiptListComponent implements OnInit {
     if (this.isEditDisabled(receipt)) {
         return;
     }
-    this.router.navigate(['/receipts', receipt.id, 'edit']);
+    this.router.navigate(['/receipts', receipt.id, 'editor']);
   }
 
   openCostSplitting(id: string): void {
