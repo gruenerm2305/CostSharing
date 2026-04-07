@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
+import { Location, CommonModule } from "@angular/common";
 import { Receipt, ReceiptService } from "../../../core/services/receipt.service";
-import { CommonModule } from "@angular/common";
 import { Subscription } from "rxjs/internal/Subscription";
 import { ActivatedRoute, Router } from "@angular/router";
 import { SplittingService } from "../../../core/services/splitting.service";
@@ -41,6 +41,7 @@ export class SharedReceiptComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly route: ActivatedRoute,
+    private readonly location: Location,
     private readonly router: Router,
     private readonly receiptService: ReceiptService,
     private readonly splittingService: SplittingService,
@@ -237,7 +238,6 @@ export class SharedReceiptComponent implements OnInit, OnDestroy {
     // Remove My Claim if I click "Zurücknehmen" (which calls this method in template)
     if (this.isItemClaimedByMe(item.id)) {
       this.removeClaim(item.id);
-      return;
     }
 
     // Checking if fully claimed
@@ -248,6 +248,7 @@ export class SharedReceiptComponent implements OnInit, OnDestroy {
 
     // Item claimen (100% der Remaining Quantity)
     this.claimRemainder(item);
+    this.cdr.detectChanges();
   }
 
   claimRemainder(item: any): void {
@@ -486,6 +487,6 @@ export class SharedReceiptComponent implements OnInit, OnDestroy {
   }
 
   goBack(): void {
-    this.router.navigate(['/receipts']);
+    this.location.back();
   }
 }
