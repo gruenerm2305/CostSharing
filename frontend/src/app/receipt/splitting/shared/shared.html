@@ -1,0 +1,229 @@
+<div class="container">
+      <div class="header">
+        <h1>Geteilter Bon</h1>
+        <button class="btn btn-secondary" (click)="goBack()">← Zurück</button>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-banner">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="receipt as receiptModel" class="receipt-container">
+        <!-- Receipt Header -->
+        <div class="receipt-header card">
+          <div class="header-content">
+            <h2>{{ receiptModel.merchant }}</h2>
+            <p class="date">{{ receiptModel.date | date:'dd.MM.yyyy' }}</p>
+            <p class="total-reference">
+              Gesamtbetrag: <span>{{ receiptModel.totalAmount | currency:'EUR' }}</span>
+            </p>
+          </div>
+          <div class="header-actions" *ngIf="isOwner">
+            <button class="btn btn-warning" (click)="revokeShare()">
+              🔒 Privat machen
+            </button>
+          </div>
+        </div>
+
+        <!-- Items List -->
+        <div class="items-section card">
+          <h3>Artikel</h3>
+          <div class="items-list">
+              <div *ngFor="let item of receiptModel.items" 
+                 class="item-row" 
+                 [ngClass]="{ 
+                   claimed: isItemClaimedByMe(item.id),
+                   'claimed-other': isItemClaimed(item.id) && !isItemClaimedByMe(item.id)
+                 }">
+              <div class="item-info">
+                <div class="item-main">
+                  <strong class="item-name">{{ item.name }}</strong>
+                </div>
+                <p class="item-details">
+                  {{ item.quantity }} × {{ item.unitPrice | currency:'EUR' }}
+                </p>
+              </div>
+
+              <div class="item-cost">
+                <span class="cost-label">Gesamt:</span>
+                <span class="item-price">{{ item.totalPrice | currency:'EUR' }}</span>
+              </div>
+
+              <div class="item-avatars">
+                <div *ngFor="let avatar of getItemAvatars(item.id)" class="avatar" [style.background-color]="avatar.color" title="{{ avatar.name }}">
+                  {{ avatar.initials }}
+                </div>
+              </div>
+
+              <div class="item-action">
+                <!-- Progress Circle -->
+                 <div class="claim-progress" *ngIf="getClaimedPercentage(item) > 0">
+                    <svg viewBox="0 0 36 36" class="circular-chart">
+                      <path class="circle-bg"
+                        d="M18 2.0845
+                          a 15.9155 15.9155 0 0 1 0 31.831
+                          a 15.9155 15.9155 0 0 1 0 -31.831"
+                      />
+                      <path class="circle"
+                        [attr.stroke-dasharray]="getClaimedPercentage(item) + ', 100'"
+                        d="M18 2.0845
+                          a 15.9155 15.9155 0 0 1 0 31.831
+                          a 15.9155 15.9155 0 0 1 0 -31.831"
+                      />
+                    </svg>
+                    <span class="percentage-text">{{ getClaimedPercentage(item) | number:'1.0-0'}}%</span>
+                 </div>
+
+                <button 
+                  *ngIf="isAuthenticated && !isItemFullyClaimedByOthers(item) && !isItemClaimedByMe(item.id) && getClaimedPercentage(item) === 0"
+                  class="btn btn-claim" 
+                  (click)="claimItem(item)"
+                >
+                  Alles übernehmen
+                </button>
+                
+                <button 
+                  *ngIf="isAuthenticated && !isItemFullyClaimedByOthers(item) && (isItemClaimedByMe(item.id) || getClaimedPercentage(item) > 0)"
+                  class="btn btn-claim" 
+                  [disabled]="isItemFullyClaimed(item)"
+                  [class.btn-disabled]="isItemFullyClaimed(item)"
+                  (click)="claimItem(item)"
+                >
+                  Rest übernehmen
+                </button>
+
+                <!-- Custom -->
+                <button 
+                  *ngIf="isAuthenticated && !isItemFullyClaimedByOthers(item)"
+                  class="btn btn-secondary btn-sm" 
+                  [class.btn-disabled]="isItemFullyClaimedByOthers(item)"
+                  (click)="showCustomClaim(item)"
+                >
+                  Benutzerdefiniert
+                </button>
+
+                <button 
+                  *ngIf="isAuthenticated && isItemClaimedByMe(item.id)"
+                  class="btn btn-unclaim" 
+                  (click)="claimItem(item)"
+                >
+                  ⟲ Rückgängig
+                </button>
+                <button 
+                  *ngIf="!isAuthenticated"
+                  class="btn btn-login" 
+                  (click)="promptLogin()"
+                >
+                  Anmelden ...
+                </button>
+                <span *ngIf="isItemFullyClaimed(item) && !isItemClaimedByMe(item.id)" class="claimed-other-badge">
+                  Vollständig vergeben
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Custom Claim Modal -->
+        <div *ngIf="customClaimItem" class="modal">
+          <div class="modal-content card">
+            <h3>Benutzerdefinierte Aufteilung</h3>
+            
+            <p><strong>{{ customClaimItem.name }}</strong></p>
+            <p>Gesamtpreis: {{ customClaimItem.totalPrice | currency:'EUR' }}</p>
+            <p class="text-info" *ngIf="customMaxPercentage < 100">
+              Noch verfügbar: {{ customMaxPercentage }}% ({{ customMaxQuantity | number:'1.0-2' }} Stück)
+            </p>
+            
+            <div class="claim-options">
+               <!-- Auto Split Buttons inside Dialog -->
+               <div class="auto-splits" *ngIf="customClaimItem.quantity >= 1">
+                  <span class="label">Schnellwahl:</span>
+                  <div class="split-buttons">
+                    <button class="btn btn-outline btn-sm" (click)="setCustomSplit(2)">1/2</button>
+                    <button class="btn btn-outline btn-sm" (click)="setCustomSplit(3)">1/3</button>
+                    <button class="btn btn-outline btn-sm" (click)="setCustomSplit(4)">1/4</button>
+                  </div>
+               </div>
+
+              <div class="form-group">
+                <label class="form-label">Prozentsatz (0-100%)</label>
+                <input 
+                  type="number" 
+                  class="form-control" 
+                  [(ngModel)]="customPercentage"
+                  (ngModelChange)="updateCustomQuantityFromPercentage()"
+                  min="0"
+                  [max]="customMaxPercentage"
+                />
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Oder Menge</label>
+                <input 
+                  type="number" 
+                  class="form-control" 
+                  [(ngModel)]="customQuantity"
+                  (ngModelChange)="updateCustomPercentageFromQuantity()"
+                  min="0"
+                  [max]="customMaxQuantity"
+                  step="0.01"
+                />
+                <small>von {{ customClaimItem.quantity }}</small>
+              </div>
+
+              <div *ngIf="customError" class="alert alert-error">
+                {{ customError }}
+              </div>
+            </div>
+            
+            <div class="modal-actions">
+              <button class="btn btn-primary" (click)="submitCustomClaim()" [disabled]="!!customError">
+                Übernehmen
+              </button>
+              <button class="btn btn-secondary" (click)="cancelCustomClaim()">
+                Abbrechen
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sticky Footer -->
+        <div class="sticky-footer">
+          <div class="footer-content">
+            <div class="total-section">
+              <div class="your-total">
+                <span class="label">DEIN ANTEIL</span>
+                <span class="amount">{{ myTotal | currency:'EUR' }}</span>
+              </div>
+              <div class="receipt-total">
+                <span class="label">BON GESAMT</span>
+                <span class="amount">{{ receiptModel.totalAmount | currency:'EUR' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!receipt && !loading" class="error-state">
+        <p class="error-message">{{ errorMessage || 'Bon konnte nicht geladen werden.' }}</p>
+        <button class="btn btn-primary" (click)="goBack()">Zurück</button>
+      </div>
+
+      <div *ngIf="loading" class="loading-state">
+        <p>Lädt...</p>
+      </div>
+
+      <!-- Login Prompt Modal -->
+      <div *ngIf="showLoginPrompt" class="modal-overlay" (click)="closeLoginPrompt()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+          <h3>Anmelden erforderlich</h3>
+          <p>Um Artikel zu übernehmen, musst du dich anmelden oder registrieren.</p>
+          <div class="modal-actions">
+            <button class="btn btn-primary" (click)="navigateToLogin()">Anmelden</button>
+            <button class="btn btn-secondary" (click)="navigateToRegister()">Registrieren</button>
+            <button class="btn btn-outline" (click)="closeLoginPrompt()">Abbrechen</button>
+          </div>
+        </div>
+      </div>
+    </div>

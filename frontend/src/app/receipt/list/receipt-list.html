@@ -1,12 +1,12 @@
 <section class="app-page receipts-page">
       <div class="header">
-        <h1>Belege</h1>
-        <button class="btn btn-primary" routerLink="/receipts/capture">+ Neuer Beleg</button>
+        <h1>Receipts</h1>
+        <button class="btn btn-primary" routerLink="/receipts/capture">+ New Receipt</button>
       </div>
 
       <div class="search panel">
         <span class="material-symbols-outlined">search</span>
-        <input type="text" placeholder="Belege suchen..." [(ngModel)]="searchTerm" (input)="applyFilters()" />
+        <input type="text" placeholder="Search receipts..." [(ngModel)]="searchTerm" (input)="applyFilters()" />
       </div>
 
       <div *ngIf="loading" class="spinner"></div>
@@ -44,12 +44,12 @@
 
           <div class="receipt-actions" (click)="$event.stopPropagation()">
             <div class="action-wrapper" *ngIf="!receipt.isParticipant">
-              <button *ngIf="!receipt.isShared" class="btn btn-sm btn-secondary" (click)="editReceipt(receipt)">Bearbeiten</button>
+              <button *ngIf="!receipt.isShared" class="btn btn-sm btn-secondary" (click)="editReceipt(receipt)">Edit</button>
               <button *ngIf="receipt.isShared" class="btn btn-sm btn-warning" (click)="revokeShare(receipt)">Privat</button>
             </div>
 
             <div class="action-wrapper" *ngIf="!receipt.isParticipant" [title]="getShareTooltip(receipt)">
-              <button class="btn btn-sm btn-primary" (click)="openCostSplitting(receipt.id)">Kosten teilen</button>
+              <button class="btn btn-sm btn-primary" (click)="openCostSplitting(receipt.id)">Split cost</button>
             </div>
 
             <button *ngIf="receipt.isParticipant" class="btn btn-sm btn-danger" title="Aus meiner Liste entfernen und Kosten freigeben" (click)="leaveReceipt(receipt)">

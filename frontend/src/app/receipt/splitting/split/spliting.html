@@ -1,0 +1,106 @@
+<section class="app-page splitting-page">
+      <div class="top-actions">
+        <button class="btn btn-secondary" routerLink="/receipts/list">Zurück zu Belege</button>
+      </div>
+
+      <h1>Kosten aufteilen</h1>
+
+      <div *ngIf="receipt as receiptModel" class="receipt-info panel">
+        <div class="receipt-header">
+          <div>
+            <h3>{{ receiptModel.merchant }}</h3>
+            <p>{{ receiptModel.date | date:'dd.MM.yyyy' }} - {{ receiptModel.totalAmount | currency:'EUR' }}</p>
+          </div>
+          <div class="header-actions">
+            <button *ngIf="isOwner && (receiptModel.isShared || (receiptModel.sharedWith && receiptModel.sharedWith.length > 0))" class="btn btn-warning" (click)="revokeShare()" title="Beleg wieder privat machen">
+              Privat machen
+            </button>
+
+            <button *ngIf="shareUrl" class="btn btn-secondary" (click)="copyShareLink()" title="Link kopieren">
+              Link kopieren
+            </button>
+
+            <button *ngIf="!shareUrl" class="btn btn-secondary" (click)="getShareLink()" title="Link teilen">
+              Copy share link
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card invite-box" *ngIf="receipt as receiptModel">
+        <h3>Benutzer einladen</h3>
+
+        <div class="info-box">
+          <p><strong>Tipp:</strong> Ihre Freunde finden ihre User-ID im Dashboard.</p>
+          <p>Sie können den geteilten Link auch direkt verschicken - dann wird der Nutzer automatisch hinzugefügt, sobald er einen Artikel übernimmt.</p>
+        </div>
+
+        <div class="invite-form">
+          <label class="form-label">User-ID des einzuladenden Nutzers</label>
+
+          <div class="invite-controls">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="inviteUserId"
+              placeholder="z.B. 550e8400-e29b-41d4-a716-446655440000"
+            />
+
+            <button
+              class="btn btn-primary"
+              (click)="inviteUser()"
+              [disabled]="!inviteUserId || inviting"
+            >
+              {{ inviting ? 'Lädt ein...' : 'Einladen' }}
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="receiptModel.sharedWith && receiptModel.sharedWith.length > 0" class="shared-users">
+          <p><strong>Geteilt mit:</strong></p>
+          <ul>
+            <li *ngFor="let userId of receiptModel.sharedWith">User ID: {{ userId }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div *ngIf="customClaimItem" class="modal">
+        <div class="modal-content">
+          <h3>Benutzerdefinierte Aufteilung</h3>
+
+          <p><strong>{{ customClaimItem.name }}</strong></p>
+          <p>Gesamtpreis: {{ customClaimItem.totalPrice | currency:'EUR' }}</p>
+
+          <div class="claim-options">
+            <div class="form-group">
+              <label class="form-label">Prozentsatz (0-100%)</label>
+              <input 
+                type="number" 
+                class="form-control" 
+                [(ngModel)]="customPercentage"
+                min="0"
+                max="100"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Oder Menge</label>
+              <input 
+                type="number" 
+                class="form-control" 
+                [(ngModel)]="customQuantity"
+                min="0"
+                [max]="customClaimItem.quantity"
+                step="0.01"
+              />
+              <small>von {{ customClaimItem.quantity }}</small>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn btn-secondary" (click)="cancelCustomClaim()">Abbrechen</button>
+            <button class="btn btn-primary" (click)="submitCustomClaim()">Übernehmen</button>
+          </div>
+        </div>
+      </div>
+    </section>

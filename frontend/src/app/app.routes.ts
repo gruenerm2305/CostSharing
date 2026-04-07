@@ -8,6 +8,8 @@ import { ReceiptListComponent } from './receipt/list/receipt-list.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CategoryComponent } from './cathegory/category.component';
 import { AccountComponent } from './account/account.component';
+import { CostSplittingComponent } from './receipt/splitting/split/spliting.component';
+import { SharedReceiptComponent } from './receipt/splitting/shared/shared.component';
 
 export const appRoutes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -18,6 +20,8 @@ export const appRoutes: Routes = [
     { path: 'receipts/editor', component: ReceiptEditorComponent },
     { path: 'receipts/:id/editor', component: ReceiptEditorComponent },
     { path: 'receipts/list' , component: ReceiptListComponent },
+    { path: 'receipts/:id/split', component: CostSplittingComponent },
+    { path: 'share/:shareToken', component: SharedReceiptComponent },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'categories', component: CategoryComponent },
     { path: 'account', component: AccountComponent },
