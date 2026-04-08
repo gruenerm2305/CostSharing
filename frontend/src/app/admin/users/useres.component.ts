@@ -15,6 +15,8 @@ export class UserManagementComponent implements OnInit {
   isLoading = false;
   openRoleMenuUserId: string | null = null;
   readonly userRole = UserRole;
+  readonly ownerRoleOptions: UserRole[] = [UserRole.USER, UserRole.ADMIN, UserRole.OWNER];
+  readonly adminRoleOptions: UserRole[] = [UserRole.ADMIN];
 
   constructor(
     private readonly userAdminService: UserAdminService,
@@ -44,7 +46,37 @@ export class UserManagementComponent implements OnInit {
   }
 
   canManageRoles(): boolean {
-    return this.authService.hasRole(UserRole.OWNER);
+    return this.authService.hasAnyRole([UserRole.OWNER, UserRole.ADMIN]);
+  }
+
+  canEditRole(user: User): boolean {
+    const currentUser = this.authService.getCurrentUser();
+    if (!currentUser || !this.canManageRoles()) {
+      return false;
+    }
+
+    if (currentUser.role === UserRole.OWNER) {
+      return true;
+    }
+
+    return user.role === UserRole.USER;
+  }
+
+  roleOptionsFor(user: User): UserRole[] {
+    const currentUser = this.authService.getCurrentUser();
+    if (!currentUser) {
+      return [];
+    }
+
+    if (currentUser.role === UserRole.OWNER) {
+      return this.ownerRoleOptions;
+    }
+
+    if (currentUser.role === UserRole.ADMIN && user.role === UserRole.USER) {
+      return this.adminRoleOptions;
+    }
+
+    return [];
   }
 
   isRoleMenuOpen(userId: string): boolean {
@@ -61,6 +93,10 @@ export class UserManagementComponent implements OnInit {
 
   selectRole(user: User, role: UserRole): void {
     this.closeRoleMenu();
+
+    if (!this.canEditRole(user)) {
+      return;
+    }
 
     if (user.role === role) {
       return;

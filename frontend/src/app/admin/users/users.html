@@ -31,7 +31,7 @@
                 <button
                   type="button"
                   class="role-trigger"
-                  [disabled]="user.role === userRole.OWNER"
+                  [disabled]="!canEditRole(user)"
                   [attr.aria-expanded]="isRoleMenuOpen(user.id)"
                   [attr.aria-label]="'Change role for ' + displayName(user)"
                   (click)="toggleRoleMenu(user.id)"
@@ -42,30 +42,13 @@
 
                 <div class="role-menu" *ngIf="isRoleMenuOpen(user.id)">
                   <button
+                    *ngFor="let role of roleOptionsFor(user)"
                     type="button"
                     class="role-option"
-                    [class.selected]="user.role === userRole.USER"
-                    (click)="selectRole(user, userRole.USER)"
+                    [class.selected]="user.role === role"
+                    (click)="selectRole(user, role)"
                   >
-                    <span>User</span>
-                    <span class="option-dot"></span>
-                  </button>
-                  <button
-                    type="button"
-                    class="role-option"
-                    [class.selected]="user.role === userRole.ADMIN"
-                    (click)="selectRole(user, userRole.ADMIN)"
-                  >
-                    <span>Admin</span>
-                    <span class="option-dot"></span>
-                  </button>
-                  <button
-                    type="button"
-                    class="role-option"
-                    [class.selected]="user.role === userRole.OWNER"
-                    (click)="selectRole(user, userRole.OWNER)"
-                  >
-                    <span>Owner</span>
+                    <span>{{ roleLabel(role) }}</span>
                     <span class="option-dot"></span>
                   </button>
                 </div>
