@@ -28,11 +28,20 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-    getUserDisplayName(user: User): string {
-        throw new Error("Method not implemented.");
-    }
     private readonly currentUserSubject = new BehaviorSubject<User | null>(null);
     private readonly currentUser$ = this.currentUserSubject.asObservable();
+
+    getUserDisplayName(user: User): string {
+        const parts = [user.firstName, user.lastName].filter(
+            (part): part is string => !!part && part.trim().length > 0,
+        );
+
+        if (parts.length > 0) {
+            return parts.join(' ');
+        }
+
+        return user.username;
+    }
 
     constructor(private readonly http: HttpClient) {
         const storedUser = localStorage.getItem('currentUser');

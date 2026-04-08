@@ -1,4 +1,5 @@
 <section class="admin-page">
+  <div class="admin-content">
       <header class="admin-header">
         <div>
           <p class="eyebrow">Admin Panel</p>
@@ -24,27 +25,62 @@
             </div>
           </div>
 
-          <div>
+          <div class="role-col">
             <ng-container *ngIf="canManageRoles(); else staticRole">
-              <select
-                [value]="user.role"
-                (change)="onRoleChange(user, $event)"
-                [disabled]="user.role === userRole.OWNER"
-                class="role-select"
-              >
-                <option [value]="userRole.USER">User</option>
-                <option [value]="userRole.ADMIN">Admin</option>
-                <option [value]="userRole.OWNER">Owner</option>
-              </select>
+              <div class="role-select-shell" [class.open]="isRoleMenuOpen(user.id)">
+                <button
+                  type="button"
+                  class="role-trigger"
+                  [disabled]="user.role === userRole.OWNER"
+                  [attr.aria-expanded]="isRoleMenuOpen(user.id)"
+                  [attr.aria-label]="'Change role for ' + displayName(user)"
+                  (click)="toggleRoleMenu(user.id)"
+                >
+                  <span class="role-chip" [attr.data-tone]="roleTone(user.role)">{{ roleLabel(user.role) }}</span>
+                  <span class="role-caret"></span>
+                </button>
+
+                <div class="role-menu" *ngIf="isRoleMenuOpen(user.id)">
+                  <button
+                    type="button"
+                    class="role-option"
+                    [class.selected]="user.role === userRole.USER"
+                    (click)="selectRole(user, userRole.USER)"
+                  >
+                    <span>User</span>
+                    <span class="option-dot"></span>
+                  </button>
+                  <button
+                    type="button"
+                    class="role-option"
+                    [class.selected]="user.role === userRole.ADMIN"
+                    (click)="selectRole(user, userRole.ADMIN)"
+                  >
+                    <span>Admin</span>
+                    <span class="option-dot"></span>
+                  </button>
+                  <button
+                    type="button"
+                    class="role-option"
+                    [class.selected]="user.role === userRole.OWNER"
+                    (click)="selectRole(user, userRole.OWNER)"
+                  >
+                    <span>Owner</span>
+                    <span class="option-dot"></span>
+                  </button>
+                </div>
+              </div>
             </ng-container>
             <ng-template #staticRole>
               <span class="role-pill">{{ user.role }}</span>
             </ng-template>
           </div>
 
-          <span class="meta-cell">{{ relativeTime(user.updatedAt) }}</span>
+          <div class="meta-cell">
+            {{ relativeTime(user.updatedAt ?? user.createdAt) }}
+          </div>
 
-          <div>
+          <div class="actions-col">
             <button
               type="button"
               class="delete-btn"
@@ -56,9 +92,14 @@
             </button>
           </div>
         </article>
+
+        <div class="empty-state" *ngIf="users.length === 0">
+          No users found.
+        </div>
       </div>
 
       <ng-template #loadingTemplate>
         <div class="loading">Loading users...</div>
       </ng-template>
+      </div>
     </section>

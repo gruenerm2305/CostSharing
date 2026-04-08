@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit } from "@angular/core";
 import { AuthService, User, UserRole } from "../../core/services/auth.service";
 import { UserAdminService } from "../../core/services/user-admin.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -13,13 +13,15 @@ import { CommonModule } from "@angular/common";
 export class UserManagementComponent implements OnInit {
   users: User[] = [];
   isLoading = false;
+  openRoleMenuUserId: string | null = null;
   readonly userRole = UserRole;
 
   constructor(
     private readonly userAdminService: UserAdminService,
     private readonly authService: AuthService,
     private readonly snackBar: MatSnackBar,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    private readonly elementRef: ElementRef<HTMLElement>
   ) {}
 
   ngOnInit(): void {
@@ -45,6 +47,55 @@ export class UserManagementComponent implements OnInit {
     return this.authService.hasRole(UserRole.OWNER);
   }
 
+  isRoleMenuOpen(userId: string): boolean {
+    return this.openRoleMenuUserId === userId;
+  }
+
+  toggleRoleMenu(userId: string): void {
+    this.openRoleMenuUserId = this.openRoleMenuUserId === userId ? null : userId;
+  }
+
+  closeRoleMenu(): void {
+    this.openRoleMenuUserId = null;
+  }
+
+  selectRole(user: User, role: UserRole): void {
+    this.closeRoleMenu();
+
+    if (user.role === role) {
+      return;
+    }
+
+    this.userAdminService.updateUserRole(user.id, role).subscribe({
+      next: (updatedUser: User) => {
+        this.users = this.users.map((candidate) =>
+          candidate.id === updatedUser.id ? updatedUser : candidate,
+        );
+        this.loadUsers();
+        this.snackBar.open('Role updated', 'Close', { duration: 1800 });
+      },
+      error: () => {
+        this.snackBar.open('Could not update role', 'Close', { duration: 2500 });
+        this.loadUsers();
+      },
+    });
+  }
+
+  roleLabel(role: UserRole): string {
+    return role;
+  }
+
+  roleTone(role: UserRole): string {
+    switch (role) {
+      case UserRole.OWNER:
+        return 'owner';
+      case UserRole.ADMIN:
+        return 'admin';
+      default:
+        return 'user';
+    }
+  }
+
   canDelete(user: User): boolean {
     const currentUser = this.authService.getCurrentUser();
     if (!currentUser) {
@@ -58,31 +109,11 @@ export class UserManagementComponent implements OnInit {
     return currentUser.role === UserRole.ADMIN || currentUser.role === UserRole.OWNER;
   }
 
-  onRoleChange(user: User, event: Event): void {
-    const selectedRole = (event.target as HTMLSelectElement).value as UserRole;
-
-    if (user.role === selectedRole) {
-      return;
-    }
-
-    this.userAdminService.updateUserRole(user.id, selectedRole).subscribe({
-      next: (updatedUser: User) => {
-        this.users = this.users.map((candidate) =>
-          candidate.id === updatedUser.id ? updatedUser : candidate,
-        );
-        this.snackBar.open('Role updated', 'Close', { duration: 1800 });
-      },
-      error: () => {
-        this.snackBar.open('Could not update role', 'Close', { duration: 2500 });
-        this.loadUsers();
-      },
-    });
-  }
-
   deleteUser(user: User): void {
     this.userAdminService.deleteUser(user.id).subscribe({
       next: () => {
         this.users = this.users.filter((candidate) => candidate.id !== user.id);
+        this.cdr.detectChanges();
         this.snackBar.open('User deleted', 'Close', { duration: 1800 });
       },
       error: () => {
@@ -128,5 +159,16 @@ export class UserManagementComponent implements OnInit {
 
     const days = Math.floor(diffMs / day);
     return `${days} days ago`;
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleDocumentClick(event: MouseEvent): void {
+    const target = event.target as Node | null;
+
+    if (!target || this.elementRef.nativeElement.contains(target)) {
+      return;
+    }
+
+    this.closeRoleMenu();
   }
 }
