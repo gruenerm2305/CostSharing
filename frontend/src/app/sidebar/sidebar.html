@@ -30,6 +30,10 @@
             <span class="material-symbols-outlined">person</span>
             <span>Account</span>
           </a>
+           <a *ngIf="canAccessAdminPanel()" routerLink="/admin" routerLinkActive="active-link">
+            <span class="material-symbols-outlined">admin_panel_settings</span>
+            <span>Admin Panel</span>
+          </a>
         </nav>
 
         <div class="side-footer">

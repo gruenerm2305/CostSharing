@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { AuthService } from './core/services/auth.service';
+import { AuthService, UserRole } from './core/services/auth.service';
 import { NavigationEnd, Router, RouterLink, RouterModule} from "@angular/router";
 import { filter } from "rxjs";
 import { CommonModule } from "@angular/common";
@@ -38,5 +38,8 @@ export class App {
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+  canAccessAdminPanel(): boolean {
+    return this.authService.hasAnyRole([UserRole.ADMIN, UserRole.OWNER]);
   }
 }

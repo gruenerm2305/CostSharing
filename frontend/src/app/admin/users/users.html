@@ -1,0 +1,64 @@
+<section class="admin-page">
+      <header class="admin-header">
+        <div>
+          <p class="eyebrow">Admin Panel</p>
+          <h2>User Management</h2>
+        </div>
+        <p class="count">Showing {{ users.length }} users</p>
+      </header>
+
+      <div class="user-list-shell" *ngIf="!isLoading; else loadingTemplate">
+        <div class="list-head list-row">
+          <span>User Identity</span>
+          <span>System Role</span>
+          <span>Last Active</span>
+          <span>Actions</span>
+        </div>
+
+        <article class="list-row" *ngFor="let user of users">
+          <div class="identity-col">
+            <div class="avatar">{{ initials(user) }}</div>
+            <div>
+              <h4>{{ displayName(user) }}</h4>
+              <p>{{ user.username }}</p>
+            </div>
+          </div>
+
+          <div>
+            <ng-container *ngIf="canManageRoles(); else staticRole">
+              <select
+                [value]="user.role"
+                (change)="onRoleChange(user, $event)"
+                [disabled]="user.role === userRole.OWNER"
+                class="role-select"
+              >
+                <option [value]="userRole.USER">User</option>
+                <option [value]="userRole.ADMIN">Admin</option>
+                <option [value]="userRole.OWNER">Owner</option>
+              </select>
+            </ng-container>
+            <ng-template #staticRole>
+              <span class="role-pill">{{ user.role }}</span>
+            </ng-template>
+          </div>
+
+          <span class="meta-cell">{{ relativeTime(user.updatedAt) }}</span>
+
+          <div>
+            <button
+              type="button"
+              class="delete-btn"
+              [disabled]="!canDelete(user)"
+              (click)="deleteUser(user)"
+              title="Delete user"
+            >
+              <span class="material-symbols-outlined">delete</span>
+            </button>
+          </div>
+        </article>
+      </div>
+
+      <ng-template #loadingTemplate>
+        <div class="loading">Loading users...</div>
+      </ng-template>
+    </section>

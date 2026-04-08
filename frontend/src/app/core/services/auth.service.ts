@@ -3,11 +3,20 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
+export enum UserRole {
+  USER = 'User',
+  ADMIN = 'Admin',
+  OWNER = 'Owner',
+}
+
 export interface User {
   id: string;
   username: string;
   firstName?: string;
   lastName?: string;
+  role: UserRole;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface AuthResponse {
@@ -19,13 +28,20 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
+    getUserDisplayName(user: User): string {
+        throw new Error("Method not implemented.");
+    }
     private readonly currentUserSubject = new BehaviorSubject<User | null>(null);
     private readonly currentUser$ = this.currentUserSubject.asObservable();
 
     constructor(private readonly http: HttpClient) {
         const storedUser = localStorage.getItem('currentUser');
         if (storedUser) {
-            this.currentUserSubject.next(JSON.parse(storedUser));
+            const parsedUser = JSON.parse(storedUser) as User;
+            if (!parsedUser.role) {
+                parsedUser.role = UserRole.USER;
+            }
+            this.currentUserSubject.next(parsedUser);
         }
     }
 
@@ -57,6 +73,18 @@ export class AuthService {
         localStorage.removeItem('token');
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
+    }
+    hasRole(role: UserRole): boolean {
+        const user = this.getCurrentUser();
+        return user?.role === role;
+    }
+
+    hasAnyRole(roles: UserRole[]): boolean {
+        const user = this.getCurrentUser();
+        if (!user) {
+        return false;
+        }
+        return roles.includes(user.role);
     }
     getToken(): string | null {
         return localStorage.getItem('token');

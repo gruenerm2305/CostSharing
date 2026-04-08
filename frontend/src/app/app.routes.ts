@@ -11,11 +11,20 @@ import { AccountComponent } from './account/account.component';
 import { CostSplittingComponent } from './receipt/splitting/split/spliting.component';
 import { SharedReceiptComponent } from './receipt/splitting/shared/shared.component';
 import { AuthGuard } from './core/guards/auth.guard';
+import { UserRole } from './core/services/auth.service';
+import { roleGuard } from './core/guards/role.guard';
+import { UserManagementComponent } from './admin/users/useres.component';
 
 export const appRoutes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
+    {
+        path: 'admin',
+        component: UserManagementComponent,
+        canActivate: [AuthGuard, roleGuard],
+        data: { roles: [UserRole.ADMIN, UserRole.OWNER] },
+    },
     { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
     { path: 'receipts/capture', component: ReceiptCaptureComponent, canActivate: [AuthGuard] },
     { path: 'receipts/editor', component: ReceiptEditorComponent, canActivate: [AuthGuard] },
