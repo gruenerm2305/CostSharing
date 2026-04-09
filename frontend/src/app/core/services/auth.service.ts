@@ -73,8 +73,8 @@ export class AuthService {
         lastName
         }).pipe(
         tap(response => {
-            localStorage.setItem('token', response.access_token);
-            localStorage.setItem('currentUser', JSON.stringify(response.user));
+            //localStorage.setItem('token', response.access_token);
+            //localStorage.setItem('currentUser', JSON.stringify(response.user));
             this.currentUserSubject.next(response.user);
         })
     );}
