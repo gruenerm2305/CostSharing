@@ -1,0 +1,309 @@
+.admin-page {
+        min-height: 100vh;
+        padding: 30px;
+        background: radial-gradient(circle at top right, rgba(74, 108, 247, 0.2), transparent 36%),
+          linear-gradient(180deg, #0f111a, #0a0c13);
+        color: #e7ebff;
+      }
+
+      .admin-content {
+        width: 100%;
+        max-width: 1080px;
+        margin: 0 auto;
+      }
+
+      .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 18px;
+      }
+
+      .admin-header h2 {
+        margin: 0;
+        letter-spacing: 0.02em;
+        font-size: 30px;
+      }
+
+      .eyebrow {
+        margin: 0 0 4px;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #7b84aa;
+      }
+
+      .count {
+        color: #8f96b7;
+        font-size: 13px;
+      }
+
+      .user-list-shell {
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        overflow: visible;
+        background: rgba(12, 14, 21, 0.82);
+      }
+
+      .list-row {
+        display: grid;
+        grid-template-columns: 2.2fr 1fr 1fr 90px;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        overflow: visible;
+      }
+
+      .role-col,
+      .actions-col,
+      .meta-cell {
+        min-width: 0;
+      }
+
+      .actions-col {
+        display: flex;
+        justify-content: center;
+      }
+
+      .list-row:last-child {
+        border-bottom: 0;
+      }
+
+      .list-head {
+        font-size: 11px;
+        color: #7d84a5;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        background: #151a2a;
+      }
+
+      .identity-col {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .identity-col h4 {
+        margin: 0;
+        font-size: 15px;
+        color: #f5f7ff;
+      }
+
+      .identity-col p {
+        margin: 2px 0 0;
+        font-size: 12px;
+        color: #a7afcf;
+      }
+
+      .avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 12px;
+        font-weight: 600;
+        background: linear-gradient(135deg, #4c3fd6, #6c63ff);
+        color: #ffffff;
+      }
+
+      .role-select-shell {
+        position: relative;
+        width: 150px;
+        z-index: 1;
+      }
+
+      .role-select-shell.open {
+        z-index: 9999;
+      }
+
+      .role-trigger {
+        width: 100%;
+        min-height: 40px;
+        padding: 0 38px 0 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border-radius: 999px;
+        border: 1px solid #798aff;
+        background: #1c2138;
+        color: #f7f8ff;
+        cursor: pointer;
+      }
+
+      .role-trigger:disabled {
+        opacity: 0.72;
+        cursor: not-allowed;
+      }
+
+      .role-trigger:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px #6c63ff;
+      }
+
+      .role-chip {
+        min-width: 0;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        background: transparent;
+        padding: 0;
+      }
+
+      .role-chip[data-tone='user'] {
+        color: #d8ddff;
+      }
+
+      .role-chip[data-tone='admin'] {
+        color: #adc1ff;
+      }
+
+      .role-chip[data-tone='owner'] {
+        color: #ffccdb;
+      }
+
+      .role-caret {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        width: 8px;
+        height: 8px;
+        border-right: 2px solid #eef1ff;
+        border-bottom: 2px solid #eef1ff;
+        transform: translateY(-62%) rotate(45deg);
+        pointer-events: none;
+        opacity: 0.9;
+      }
+
+      .role-select-shell.open .role-trigger {
+        border-color: rgba(121, 160, 255, 0.7);
+        background: linear-gradient(135deg, rgba(98, 91, 255, 0.32), rgba(22, 27, 44, 0.98));
+      }
+
+      .role-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        z-index: 9999;
+        width: 100%;
+        padding: 8px;
+        border-radius: 20px;
+        border: 1px solid #5f6bd6;
+        background: #111625;
+        box-shadow: 0 16px 36px #00000066;
+      }
+
+      .role-option {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 12px;
+        border: 0;
+        border-radius: 14px;
+        background: transparent;
+        color: #edf1ff;
+        cursor: pointer;
+        font-size: 13px;
+        text-align: left;
+      }
+
+      .role-option:hover {
+        background: #262d4a;
+      }
+
+      .role-option.selected {
+        background: transparent;
+        font-weight: 700;
+      }
+
+      .option-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #4a4f66;
+        box-shadow: inset 0 0 0 2px #5f667f;
+        flex: none;
+      }
+
+      .role-option.selected .option-dot {
+        background: #7f8cff;
+        box-shadow: 0 0 0 3px #4855c2;
+      }
+
+      .role-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: 0 14px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+        border: 1px solid #798aff;
+        background: #1c2138;
+        color: #f7f8ff;
+      }
+
+      .meta-cell {
+        font-size: 13px;
+        color: #b0b7d8;
+      }
+
+      .empty-state {
+        padding: 20px;
+        color: #a7afcf;
+      }
+
+      .delete-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 1px solid #ff4f7d;
+        background: #ff4f7d;
+        color: #111111;
+        display: grid;
+        place-items: center;
+        justify-self: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .delete-btn .material-symbols-outlined {
+        display: block;
+        font-size: 18px;
+        line-height: 1;
+      }
+
+      .delete-btn:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+      }
+
+      .delete-btn:not(:disabled):hover {
+        transform: translateY(-1px);
+        background: #ff628b;
+      }
+
+      .loading {
+        padding: 28px;
+        color: #9ca3c6;
+      }
+
+      @media (max-width: 960px) {
+        .admin-page {
+          padding: 20px 14px;
+        }
+
+        .list-row {
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+
+        .list-head {
+          display: none;
+        }
+      }

@@ -1,0 +1,455 @@
+{
+  "common": {
+    "appName": "Cost Sharing",
+    "premiumTier": "Premium Tier",
+    "roleUser": "Mitglied",
+    "roleAdmin": "Admin",
+    "roleOwner": "Besitzer",
+    "language": "Sprache",
+    "languageEnglish": "Englisch",
+    "languageGerman": "Deutsch",
+    "loading": "Lädt...",
+    "buttons": {
+      "cancel": "Abbrechen",
+      "save": "Speichern",
+      "retry": "Erneut versuchen",
+      "edit": "Bearbeiten",
+      "back": "Zurück",
+      "delete": "Löschen",
+      "backToReceipts": "Zurück zu Belegen",
+      "ok": "OK",
+      "close": "Schließen",
+      "apply": "Übernehmen",
+      "backArrow": "<- Zurück"
+    }
+  },
+  "sidebar": {
+    "home": "Startseite",
+    "receipts": "Belege",
+    "capture": "Erfassen",
+    "dashboard": "Dashboard",
+    "categories": "Kategorien",
+    "account": "Konto",
+    "adminPanel": "Admin-Bereich",
+    "logout": "Abmelden"
+  },
+  "auth": {
+    "loginTitle": "Cost Sharing",
+    "loginSubtitle": "Bitte melden Sie sich an, um Ihre Belege zu verwalten.",
+    "username": "Benutzername",
+    "usernamePlaceholder": "Benutzernamen eingeben",
+    "password": "Passwort",
+    "loginButton": "Anmelden",
+    "loggingIn": "Anmeldung läuft...",
+    "newToPlatform": "Neu auf der Plattform?",
+    "createAccount": "Konto erstellen",
+    "securityNote": "Ende-zu-Ende-verschlüsselte Belegverwaltung",
+    "registerTitle": "Konto erstellen",
+    "registerSubtitle": "Treten Sie CostSharing bei und verwalten Sie gemeinsame Ausgaben mit Ihrer Gruppe.",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "registerButton": "Registrieren",
+    "registering": "Registrierung läuft...",
+    "alreadyRegistered": "Bereits registriert?",
+    "signIn": "Anmelden",
+    "errors": {
+      "usernameInvalid": "Bitte geben Sie einen gültigen Benutzernamen ein.",
+      "passwordInvalid": "Das Passwort muss mindestens 6 Zeichen lang sein.",
+      "firstNameInvalid": "Bitte geben Sie einen Vornamen ein.",
+      "lastNameInvalid": "Bitte geben Sie einen Nachnamen ein.",
+      "loginUnauthorized": "Ungültiger Benutzername oder Passwort.",
+      "loginFailed": "Anmeldung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+      "registerConflict": "Ein Benutzer mit dieser E-Mail-Adresse existiert bereits.",
+      "registerFailed": "Registrierung fehlgeschlagen. Bitte versuchen Sie es erneut."
+    },
+    "registerSuccess": "Registrierung erfolgreich. Weiterleitung zur Anmeldung..."
+  },
+  "categories": {
+    "title": "Kategorien verwalten",
+    "subtitle": "Erstellen und ordnen Sie Ihre Ausgabenkategorien für mehr finanzielle Transparenz.",
+    "labels": {
+      "categoryName": "Kategoriename",
+      "paletteTitle": "Farbpalette",
+      "yourCategories": "Ihre Kategorien",
+      "name": "Name",
+      "color": "Farbe"
+    },
+    "placeholders": {
+      "categoryName": "z.B. Reisen"
+    },
+    "buttons": {
+      "createCategory": "+ Kategorie erstellen",
+      "edit": "Bearbeiten",
+      "delete": "Löschen"
+    },
+    "modal": {
+      "editTitle": "Kategorie bearbeiten"
+    },
+    "emptyState": "Noch keine Kategorien erstellt.",
+    "validation": {
+      "nameRequired": "Name ist erforderlich."
+    },
+    "errors": {
+      "createFailed": "Fehler beim Erstellen der Kategorie.",
+      "updateFailed": "Fehler beim Aktualisieren der Kategorie.",
+      "deleteFailed": "Fehler beim Löschen der Kategorie."
+    }
+  },
+  "receipts": {
+    "title": "Belege",
+    "search": {
+      "placeholder": "Belege durchsuchen..."
+    },
+    "labels": {
+      "items": "Artikel",
+      "myShare": "mein Anteil"
+    },
+    "badges": {
+      "sharedWith": "Geteilt mit",
+      "participant": "Teilnehmer",
+      "owner": "Ersteller"
+    },
+    "buttons": {
+      "newReceipt": "+ Neuer Beleg",
+      "captureNow": "Jetzt erfassen",
+      "makePrivate": "Privat",
+      "splitCost": "Kosten teilen",
+      "remove": "Entfernen"
+    },
+    "emptyState": {
+      "noReceipts": "Noch keine Belege erfasst."
+    },
+    "info": {
+      "makePrivateToEdit": "Um den Beleg zu bearbeiten, muss er privat werden.",
+      "sharedByOther": "Beleg wurde von einem anderen Nutzer geteilt."
+    },
+    "tooltips": {
+      "sharedByOther": "Der Beleg wurde von einem anderen Nutzer geteilt.",
+      "makePrivateToEdit": "Um den Beleg zu bearbeiten, muss er privat werden.",
+      "editReceipt": "Beleg bearbeiten",
+      "participantCantShare": "Teilnehmer können den Beleg nicht weiter teilen.",
+      "shareCosts": "Kosten teilen",
+      "removeAndRelease": "Aus meiner Liste entfernen und Kosten freigeben"
+    },
+    "confirmations": {
+      "makePrivatePrefix": "Möchten Sie den Beleg",
+      "makePrivateSuffix": "wirklich wieder privat machen? Alle geteilten Kosten und Teilnehmer werden entfernt.",
+      "removeReceiptPrefix": "Möchten Sie den geteilten Beleg",
+      "removeReceiptSuffix": "wirklich entfernen? Ihre übernommenen Kosten werden freigegeben."
+    },
+    "errors": {
+      "connectionFailed": "Verbindung zum Server nicht möglich.",
+      "revokeShareFailed": "Fehler beim Zurücksetzen des Belegs.",
+      "removeFailed": "Fehler beim Entfernen des Belegs."
+    },
+    "capture": {
+      "title": "Erfassen",
+      "subtitle": "Laden Sie ein Belegfoto hoch oder tragen Sie Ihre Ausgaben manuell ein.",
+      "uploadCard": {
+        "title": "Bild wählen",
+        "description": "Aus Galerie oder Dateien hochladen"
+      },
+      "manualCard": {
+        "title": "Manuell erfassen",
+        "description": "Ausgabendetails manuell eingeben"
+      },
+      "dropZone": {
+        "text": "Oder ziehen Sie einen Beleg hier hinein",
+        "fileTypes": "JPG, PNG oder PDF (max. 10MB)"
+      },
+      "preview": {
+        "title": "Vorschau",
+        "alt": "Belegvorschau"
+      },
+      "buttons": {
+        "upload": "Beleg hochladen und verarbeiten",
+        "uploading": "Verarbeite..."
+      },
+      "errors": {
+        "invalidFileType": "Nur JPG-, PNG- und PDF-Dateien sind erlaubt.",
+        "fileTooLarge": "Datei ist zu groß. Maximum 10MB.",
+        "invalidResponse": "Ungültige Antwort vom Server. Bitte erneut versuchen.",
+        "navigationFailed": "Navigation fehlgeschlagen. Bitte Editor manuell öffnen.",
+        "uploadFailed": "Upload fehlgeschlagen. Bitte erneut versuchen."
+      }
+    },
+    "editor": {
+      "readOnlyWarning": "Dieser Beleg wurde geteilt und kann nicht mehr bearbeitet werden.",
+      "title": "Beleg bearbeiten",
+      "subtitle": "Passen Sie den Eintrag für präzises Tracking an",
+      "labels": {
+        "date": "Datum",
+        "merchant": "Händler",
+        "category": "Kategorie",
+        "items": "Belegartikel",
+        "itemName": "Name",
+        "quantity": "Menge",
+        "unitPrice": "Preis pro Einheit",
+        "total": "Gesamt",
+        "totalAmount": "Gesamtbetrag"
+      },
+      "placeholders": {
+        "itemName": "Artikelname"
+      },
+      "options": {
+        "none": "Keine"
+      },
+      "buttons": {
+        "addItem": "+ Artikel hinzufügen",
+        "deleteItem": "Löschen",
+        "save": "Bestätigen",
+        "saving": "Speichere..."
+      },
+      "validation": {
+        "dateRequired": "Bitte ein Datum auswählen.",
+        "merchantRequired": "Bitte den Händlernamen eintragen.",
+        "itemNameRequired": "Artikelname ist erforderlich.",
+        "quantityRequired": "Menge muss größer als 0 sein.",
+        "unitPriceInvalid": "Ungültiger Wert."
+      },
+      "emptyItems": "Keine Artikel vorhanden. Klicken Sie auf Artikel hinzufügen.",
+      "confirmations": {
+        "deleteItem": "Artikel wirklich löschen?",
+        "deleteReceipt": "Beleg wirklich löschen?"
+      },
+      "errors": {
+        "notFound": "Beleg nicht gefunden.",
+        "loadFailed": "Beleg konnte nicht geladen werden:",
+        "cannotEditShared": "Dieser Beleg kann nicht bearbeitet werden, da er bereits geteilt wurde.",
+        "fillRequiredFields": "Bitte alle Pflichtfelder ausfüllen.",
+        "saveFailed": "Fehler beim Speichern:",
+        "createFailed": "Fehler beim Erstellen:",
+        "deleteFailed": "Fehler beim Löschen des Belegs."
+      }
+    }
+  },
+  "splitting": {
+    "title": "Kosten aufteilen",
+    "buttons": {
+      "makePrivate": "Privat machen",
+      "copyLink": "Link kopieren",
+      "getShareLink": "Freigabelink kopieren"
+    },
+    "invite": {
+      "title": "Benutzer einladen",
+      "tipLabel": "Tipp:",
+      "tip1": "Ihre Freunde finden ihre User-ID im Dashboard.",
+      "tip2": "Sie können den geteilten Link auch direkt verschicken. Der Nutzer wird automatisch hinzugefügt, sobald er einen Artikel übernimmt.",
+      "label": "User-ID des einzuladenden Nutzers",
+      "placeholder": "z.B. 550e8400-e29b-41d4-a716-446655440000",
+      "button": "Einladen",
+      "buttonInviting": "Lädt ein..."
+    },
+    "labels": {
+      "sharedWith": "Geteilt mit:",
+      "userId": "User ID",
+      "totalPrice": "Gesamtpreis"
+    },
+    "customClaim": {
+      "title": "Benutzerdefinierte Aufteilung",
+      "labels": {
+        "percentage": "Prozentsatz (0-100%)",
+        "quantity": "Oder Menge",
+        "of": "von"
+      }
+    },
+    "confirmations": {
+      "makePrivate": "Möchten Sie diesen Beleg wirklich wieder privat machen? Alle Teilnehmer und Aufteilungen werden entfernt."
+    },
+    "messages": {
+      "success": {
+        "madePrivate": "Beleg ist nun wieder privat.",
+        "linkCopied": "Link in die Zwischenablage kopiert!",
+        "itemClaimed": "Artikel erfolgreich zugeordnet!",
+        "itemClaimedSuffix": "des Artikels übernommen!"
+      }
+    },
+    "errors": {
+      "loadReceiptFailed": "Beleg konnte nicht geladen werden.",
+      "revokeShareFailed": "Fehler beim Zurücksetzen des Belegs.",
+      "shareLinkFailed": "Fehler beim Generieren des Share-Links.",
+      "claimItemFailed": "Fehler beim Zuordnen des Artikels.",
+      "inviteFailed": "Fehler beim Einladen.",
+      "claimFailed": "Fehler beim Zuordnen."
+    }
+  },
+  "shared": {
+    "receipt": {
+      "title": "Geteilter Beleg",
+      "labels": {
+        "totalAmount": "Gesamtbetrag",
+        "items": "Artikel",
+        "total": "Gesamt",
+        "totalPrice": "Gesamtpreis"
+      },
+      "buttons": {
+        "makePrivate": "Privat machen",
+        "claimAll": "Alles übernehmen",
+        "claimRest": "Rest übernehmen",
+        "customClaim": "Benutzerdefiniert",
+        "unclaim": "Rückgängig",
+        "login": "Anmelden ..."
+      },
+      "badges": {
+        "fullyAllocated": "Vollständig vergeben"
+      },
+      "customClaim": {
+        "title": "Benutzerdefinierte Aufteilung",
+        "availableLabel": "Noch verfügbar",
+        "quickSelect": "Schnellwahl:",
+        "units": "Stück",
+        "labels": {
+          "percentage": "Prozentsatz (0-100%)",
+          "quantity": "Oder Menge",
+          "of": "von"
+        },
+        "errors": {
+          "maxAvailablePrefix": "Maximal",
+          "maxAvailableSuffix": "verfügbar",
+          "maxQuantityPrefix": "Maximal",
+          "maxQuantitySuffix": "Stück verfügbar"
+        }
+      },
+      "footer": {
+        "yourShare": "DEIN ANTEIL",
+        "receiptTotal": "BELEG GESAMT"
+      },
+      "loginPrompt": {
+        "title": "Anmeldung erforderlich",
+        "text": "Um Artikel zu übernehmen, musst du dich anmelden oder registrieren."
+      },
+      "confirmations": {
+        "makePrivate": "Möchten Sie diesen Beleg wirklich wieder privat machen? Der Link wird ungültig und alle Aufteilungen werden entfernt."
+      },
+      "messages": {
+        "madePrivate": "Beleg ist nun wieder privat.",
+        "itemClaimedSuffix": "des Artikels übernommen!"
+      },
+      "errors": {
+        "expiredLink": "Dieser geteilte Link ist abgelaufen oder ungültig. Der Beleg ist möglicherweise wieder privat.",
+        "loadFailed": "Beleg konnte nicht geladen werden.",
+        "itemFullyClaimed": "Dieser Artikel wurde bereits vollständig übernommen.",
+        "itemFullyClaimedByOthers": "Dieser Artikel wurde bereits vollständig von anderen übernommen.",
+        "claimFailed": "Fehler beim Übernehmen des Artikels.",
+        "claimForbidden": "Sie haben keine Berechtigung, diesen Artikel zu übernehmen.",
+        "claimConflict": "Dieser Anteil übersteigt den verfügbaren Betrag.",
+        "assignFailed": "Fehler beim Zuordnen des Artikels.",
+        "revokeFailed": "Fehler beim Zurücksetzen des Belegs."
+      }
+    }
+  },
+  "admin": {
+    "label": "Admin Panel",
+    "roles": {
+      "owner": "OWNER",
+      "admin": "ADMIN",
+      "user": "USER"
+    },
+    "users": {
+      "title": "Benutzerverwaltung",
+      "showingPrefix": "Zeige",
+      "showingSuffix": "Benutzer",
+      "headers": {
+        "identity": "Benutzer",
+        "role": "Systemrolle",
+        "lastActive": "Zuletzt aktiv",
+        "actions": "Aktionen"
+      },
+      "buttons": {
+        "deleteTooltip": "Benutzer löschen"
+      },
+      "aria": {
+        "changeRoleFor": "Rolle ändern für"
+      },
+      "emptyState": "Keine Benutzer gefunden.",
+      "loading": "Benutzer werden geladen...",
+      "time": {
+        "unknown": "Unbekannt",
+        "minAgo": "Min. zuvor",
+        "hoursAgo": "Std. zuvor",
+        "daysAgo": "Tage zuvor"
+      },
+      "messages": {
+        "roleUpdated": "Rolle aktualisiert",
+        "userDeleted": "Benutzer gelöscht"
+      },
+      "errors": {
+        "loadFailed": "Benutzer konnten nicht geladen werden",
+        "updateRoleFailed": "Rolle konnte nicht aktualisiert werden",
+        "deleteFailed": "Benutzer konnte nicht gelöscht werden"
+      }
+    }
+  },
+  "home": {
+    "title": "Startseite",
+    "labels": {
+      "totalExpenses": "Gesamtsumme der erfassten Ausgaben",
+      "trackedReceipts": "Erfasste Belege",
+      "categories": "Kategorien",
+      "recentExpenses": "Kürzliche Ausgaben"
+    },
+    "actionsCard": {
+      "title": "Neue Ausgabe?",
+      "subtitle": "Scannen Sie schnell einen neuen Beleg oder erfassen Sie ihn manuell."
+    },
+    "buttons": {
+      "trackNewReceipt": "Neuen Beleg erfassen",
+      "viewAll": "Alle anzeigen"
+    },
+    "badges": {
+      "sharedReceipt": "Geteilter Beleg"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "filters": {
+      "currentMonth": "Aktueller Monat",
+      "thisYear": "Dieses Jahr",
+      "allTime": "Gesamt"
+    },
+    "cards": {
+      "totalExpenses": "Gesamtausgaben",
+      "numberOfReceipts": "Anzahl Belege"
+    },
+    "charts": {
+      "distributionTitle": "Verteilung der Ausgaben",
+      "historyTitle": "Ausgabenverlauf",
+      "expensesLabel": "Ausgaben"
+    }
+  },
+  "account": {
+    "title": "Konto",
+    "defaultUserName": "Benutzer",
+    "labels": {
+      "userId": "User ID",
+      "username": "Benutzername",
+      "newPassword": "Neues Passwort",
+      "confirmPassword": "Passwort bestätigen"
+    },
+    "placeholders": {
+      "username": "Benutzernamen eingeben",
+      "password": "Neues Passwort eingeben",
+      "confirmPassword": "Neues Passwort wiederholen"
+    },
+    "buttons": {
+      "copyUserId": "User ID kopieren",
+      "saveUsername": "Benutzernamen speichern",
+      "savingUsername": "Benutzername wird gespeichert...",
+      "savePassword": "Passwort speichern",
+      "savingPassword": "Passwort wird gespeichert..."
+    },
+    "messages": {
+      "usernameSaved": "Benutzername erfolgreich aktualisiert.",
+      "usernameUnchanged": "Benutzername ist unverändert.",
+      "passwordSaved": "Passwort erfolgreich aktualisiert."
+    },
+    "errors": {
+      "usernameRequired": "Bitte einen Benutzernamen eingeben.",
+      "usernameSaveFailed": "Benutzername konnte nicht aktualisiert werden.",
+      "passwordRequired": "Bitte beide Passwortfelder ausfüllen.",
+      "passwordTooShort": "Passwort muss länger als 6 Zeichen sein.",
+      "passwordMismatch": "Beide Passwortfelder müssen übereinstimmen.",
+      "passwordSaveFailed": "Passwort konnte nicht aktualisiert werden."
+    }
+  }
+}

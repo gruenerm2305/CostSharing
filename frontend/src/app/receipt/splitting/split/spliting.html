@@ -1,0 +1,106 @@
+<section class="app-page splitting-page">
+      <div class="top-actions">
+        <button class="btn btn-secondary" routerLink="/receipts/list">{{ 'common.buttons.backToReceipts' | t }}</button>
+      </div>
+
+      <h1>{{ 'splitting.title' | t }}</h1>
+
+      <div *ngIf="receipt as receiptModel" class="receipt-info panel">
+        <div class="receipt-header">
+          <div>
+            <h3>{{ receiptModel.merchant }}</h3>
+            <p>{{ receiptModel.date | date:'dd.MM.yyyy' }} - {{ receiptModel.totalAmount | currency:'EUR' }}</p>
+          </div>
+          <div class="header-actions">
+            <button *ngIf="isOwner && (receiptModel.isShared || (receiptModel.sharedWith && receiptModel.sharedWith.length > 0))" class="btn btn-warning" (click)="revokeShare()" [title]="'splitting.buttons.makePrivate' | t">
+              {{ 'splitting.buttons.makePrivate' | t }}
+            </button>
+
+            <button *ngIf="shareUrl" class="btn btn-secondary" (click)="copyShareLink()" [title]="'splitting.buttons.copyLink' | t">
+              {{ 'splitting.buttons.copyLink' | t }}
+            </button>
+
+            <button *ngIf="!shareUrl" class="btn btn-secondary" (click)="getShareLink()" [title]="'splitting.buttons.getShareLink' | t">
+              {{ 'splitting.buttons.getShareLink' | t }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card invite-box" *ngIf="receipt as receiptModel">
+        <h3>{{ 'splitting.invite.title' | t }}</h3>
+
+        <div class="info-box">
+          <p><strong>{{ 'splitting.invite.tipLabel' | t }}</strong> {{ 'splitting.invite.tip1' | t }}</p>
+          <p>{{ 'splitting.invite.tip2' | t }}</p>
+        </div>
+
+        <div class="invite-form">
+          <label class="form-label">{{ 'splitting.invite.label' | t }}</label>
+
+          <div class="invite-controls">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="inviteUserId"
+              [placeholder]="'splitting.invite.placeholder' | t"
+            />
+
+            <button
+              class="btn btn-primary"
+              (click)="inviteUser()"
+              [disabled]="!inviteUserId || inviting"
+            >
+              {{ inviting ? ('splitting.invite.buttonInviting' | t) : ('splitting.invite.button' | t) }}
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="receiptModel.sharedWith && receiptModel.sharedWith.length > 0" class="shared-users">
+          <p><strong>{{ 'splitting.labels.sharedWith' | t }}</strong></p>
+          <ul>
+            <li *ngFor="let userId of receiptModel.sharedWith">{{ 'splitting.labels.userId' | t }}: {{ userId }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div *ngIf="customClaimItem" class="modal">
+        <div class="modal-content">
+          <h3>{{ 'splitting.customClaim.title' | t }}</h3>
+
+          <p><strong>{{ customClaimItem.name }}</strong></p>
+          <p>{{ 'splitting.labels.totalPrice' | t }}: {{ customClaimItem.totalPrice | currency:'EUR' }}</p>
+
+          <div class="claim-options">
+            <div class="form-group">
+              <label class="form-label">{{ 'splitting.customClaim.labels.percentage' | t }}</label>
+              <input 
+                type="number" 
+                class="form-control" 
+                [(ngModel)]="customPercentage"
+                min="0"
+                max="100"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">{{ 'splitting.customClaim.labels.quantity' | t }}</label>
+              <input 
+                type="number" 
+                class="form-control" 
+                [(ngModel)]="customQuantity"
+                min="0"
+                [max]="customClaimItem.quantity"
+                step="0.01"
+              />
+              <small>{{ 'splitting.customClaim.labels.of' | t }} {{ customClaimItem.quantity }}</small>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn btn-secondary" (click)="cancelCustomClaim()">{{ 'common.buttons.cancel' | t }}</button>
+            <button class="btn btn-primary" (click)="submitCustomClaim()">{{ 'common.buttons.apply' | t }}</button>
+          </div>
+        </div>
+      </div>
+    </section>

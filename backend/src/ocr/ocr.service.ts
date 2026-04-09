@@ -29,55 +29,48 @@ export class OcrService {
   private readonly baseUrl: string;
 
   constructor(private readonly configService: ConfigService) {
-    this.apiKey = this.configService.get<string>('OPENROUTER_API_KEY');
-    this.model = this.configService.get<string>('OPENROUTER_MODEL') || 'anthropic/claude-3-5-sonnet-20241022';
-    this.baseUrl = this.configService.get<string>('OPENROUTER_BASE_URL') || 'https://openrouter.ai/api/v1';
+    this.apiKey = this.configService.get<string>('GOOGLE_API_KEY') || 'AIzaSyAQZCjxyuetfmdfPkFNhyftzLzWBak_DaY';
+    this.model = this.configService.get<string>('GOOGLE_MODEL') || 'gemma-4-31b-it';
+    this.baseUrl = this.configService.get<string>('GOOGLE_BASE_URL') || 'https://generativelanguage.googleapis.com/v1beta/models';
   }
 
   async processReceipt(imageBuffer: Buffer, mimeType: string): Promise<OcrResult> {
     try {
-      this.logger.log('Starting receipt OCR processing');
+      this.logger.log('Starting receipt OCR processing with Google Gemini');
 
       const base64Image = imageBuffer.toString('base64');
-      const dataUrl = `data:${mimeType};base64,${base64Image}`;
 
       const prompt = this.getOcrPrompt();
 
       const response = await axios.post(
-        `${this.baseUrl}/chat/completions`,
+        `${this.baseUrl}/${this.model}:generateContent?key=${this.apiKey}`,
         {
-          model: this.model,
-          messages: [
+          contents: [
             {
               role: 'user',
-              content: [
+              parts: [
                 {
-                  type: 'text',
                   text: prompt,
                 },
                 {
-                  type: 'image_url',
-                  image_url: {
-                    url: dataUrl,
+                  inlineData: {
+                    mimeType: mimeType,
+                    data: base64Image,
                   },
                 },
               ],
             },
           ],
-          max_tokens: 4000,
         },
         {
           headers: {
-            'Authorization': `Bearer ${this.apiKey}`,
             'Content-Type': 'application/json',
-            'HTTP-Referer': 'http://localhost:3000',
-            'X-Title': 'Cost-Tracking App',
           },
         },
       );
 
-      const xmlContent = response.data.choices[0].message.content;
-      this.logger.log('Received response from OpenRouter');
+      const xmlContent = response.data.candidates[0].content.parts[0].text;
+      this.logger.log('Received response from Google Gemini');
 
       const ocrResult = await this.parseXmlResponse(xmlContent);
 
@@ -92,6 +85,10 @@ export class OcrService {
       };
     } catch (error) {
       this.logger.error('Error processing receipt:', this.getErrorMessage(error));
+      if (axios.isAxiosError(error)) {
+        this.logger.error('API response:', error.response?.data);
+        this.logger.error('API status:', error.response?.status);
+      }
       throw new BadRequestException('Failed to process receipt image');
     }
   }

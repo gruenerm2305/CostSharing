@@ -1,0 +1,144 @@
+.categories-page {
+  max-width: 1080px;
+    }
+
+.grid-wrap {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 24px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 44px;
+      letter-spacing: -0.04em;
+    }
+
+    header p {
+      margin: 8px 0 0;
+      color: #9aa2bc;
+    }
+
+    .form-group {
+      position: relative;
+    }
+
+    .category-name-group {
+      padding-bottom: 3px;
+    }
+
+    .field-error {
+      position: absolute;
+      top: calc(100% + 2px);
+      left: 0;
+      display: block;
+      color: #ffadc1;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+
+    .form-control.validation-error {
+      border-color: rgba(255, 173, 193, 0.92) !important;
+      background-color: rgba(255, 173, 193, 0.06);
+    }
+
+    .form-card {
+      padding: 24px;
+      margin-top: 18px;
+    }
+
+    .palette {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .swatch {
+      aspect-ratio: 1;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.12);
+      cursor: pointer;
+    }
+
+    .swatch.selected {
+      border-color: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.16);
+    }
+
+    .create {
+      width: 100%;
+      border-radius: 999px;
+      height: 50px;
+    }
+
+    .right-col h2 {
+      margin: 4px 0 16px;
+      font-size: 30px;
+      letter-spacing: -0.03em;
+    }
+
+    .category-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      margin-bottom: 10px;
+    }
+
+    .item-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      box-shadow: 0 0 16px rgba(255, 255, 255, 0.2);
+    }
+
+    .item-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(17, 19, 27, 0.96);
+      color: #f5f7ff;
+      cursor: pointer;
+    }
+
+    .icon-btn.danger {
+      color: #ff9cb3;
+      border-color: rgba(255, 107, 142, 0.35);
+    }
+
+    .empty-state {
+      padding: 30px;
+      color: #a8adc2;
+      text-align: center;
+    }
+
+    h3 {
+      margin-top: 0;
+    }
+
+    @media (max-width: 1060px) {
+      .grid-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+    }

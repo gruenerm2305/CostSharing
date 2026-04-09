@@ -1,0 +1,88 @@
+<section class="admin-page">
+  <div class="admin-content">
+      <header class="admin-header">
+        <div>
+          <p class="eyebrow">{{ 'admin.label' | t }}</p>
+          <h2>{{ 'admin.users.title' | t }}</h2>
+        </div>
+        <p class="count">{{ 'admin.users.showingPrefix' | t }} {{ users.length }} {{ 'admin.users.showingSuffix' | t }}</p>
+      </header>
+
+      <div class="user-list-shell" *ngIf="!isLoading; else loadingTemplate">
+        <div class="list-head list-row">
+          <span>{{ 'admin.users.headers.identity' | t }}</span>
+          <span>{{ 'admin.users.headers.role' | t }}</span>
+          <span>{{ 'admin.users.headers.lastActive' | t }}</span>
+          <span>{{ 'admin.users.headers.actions' | t }}</span>
+        </div>
+
+        <article class="list-row" *ngFor="let user of users">
+          <div class="identity-col">
+            <div class="avatar">{{ initials(user) }}</div>
+            <div>
+              <h4>{{ displayName(user) }}</h4>
+              <p>{{ user.username }}</p>
+            </div>
+          </div>
+
+          <div class="role-col">
+            <ng-container *ngIf="canManageRoles(); else staticRole">
+              <div class="role-select-shell" [class.open]="isRoleMenuOpen(user.id)">
+                <button
+                  type="button"
+                  class="role-trigger"
+                  [disabled]="!canEditRole(user)"
+                  [attr.aria-expanded]="isRoleMenuOpen(user.id)"
+                  [attr.aria-label]="roleTriggerAriaLabel(displayName(user))"
+                  (click)="toggleRoleMenu(user.id)"
+                >
+                  <span class="role-chip" [attr.data-tone]="roleTone(user.role)">{{ roleLabel(user.role) }}</span>
+                  <span class="role-caret"></span>
+                </button>
+
+                <div class="role-menu" *ngIf="isRoleMenuOpen(user.id)">
+                  <button
+                    *ngFor="let role of roleOptionsFor(user)"
+                    type="button"
+                    class="role-option"
+                    [class.selected]="user.role === role"
+                    (click)="selectRole(user, role)"
+                  >
+                    <span>{{ roleLabel(role) }}</span>
+                    <span class="option-dot"></span>
+                  </button>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #staticRole>
+              <span class="role-pill">{{ roleLabel(user.role) }}</span>
+            </ng-template>
+          </div>
+
+          <div class="meta-cell">
+            {{ relativeTime(user.updatedAt ?? user.createdAt) }}
+          </div>
+
+          <div class="actions-col">
+            <button
+              type="button"
+              class="delete-btn"
+              [disabled]="!canDelete(user)"
+              (click)="deleteUser(user)"
+              [title]="'admin.users.buttons.deleteTooltip' | t"
+            >
+              <span class="material-symbols-outlined">delete</span>
+            </button>
+          </div>
+        </article>
+
+        <div class="empty-state" *ngIf="users.length === 0">
+          {{ 'admin.users.emptyState' | t }}
+        </div>
+      </div>
+
+      <ng-template #loadingTemplate>
+        <div class="loading">{{ 'admin.users.loading' | t }}</div>
+      </ng-template>
+      </div>
+    </section>

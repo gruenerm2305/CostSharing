@@ -1,0 +1,310 @@
+.editor-page {
+  max-width: 980px;
+}
+
+.editor-shell {
+  padding: 24px;
+}
+
+.top-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.top-head h1 {
+  margin: 0;
+  font-size: 50px;
+  letter-spacing: -0.04em;
+}
+
+.top-head p {
+  margin: 6px 0 0;
+  color: #9aa2bc;
+}
+
+.head-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: rgba(167, 139, 250, 0.2);
+  color: #c8b7ff;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.date-field {
+  display: block;
+}
+
+.material-date .date-picker-field {
+  width: 100%;
+  --mdc-outlined-text-field-outline-color: rgba(255, 255, 255, 0.1);
+  --mdc-outlined-text-field-hover-outline-color: rgba(255, 255, 255, 0.2);
+  --mdc-outlined-text-field-focus-outline-color: rgba(167, 139, 250, 0.65);
+  --mdc-outlined-text-field-input-text-color: #f5f7ff;
+  --mat-form-field-container-text-font: Inter;
+  --mat-form-field-container-height: 46px;
+  --mat-form-field-container-vertical-padding: 0px;
+  --mdc-outlined-text-field-container-shape: 12px;
+}
+
+.material-date .date-picker-field ::ng-deep .mat-mdc-text-field-wrapper {
+  background: rgba(9, 11, 18, 0.75);
+  border-radius: 12px;
+}
+
+.material-date .date-picker-field ::ng-deep .mat-mdc-form-field-flex {
+  align-items: center;
+}
+
+.material-date .date-picker-field ::ng-deep .mat-mdc-form-field-icon-suffix {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  margin-right: 6px;
+  padding: 0;
+}
+
+.material-date .date-picker-field ::ng-deep .mat-mdc-form-field-infix {
+  min-height: 46px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+}
+
+.material-date .date-picker-field ::ng-deep input.mat-mdc-input-element {
+  line-height: 46px;
+  padding: 0;
+}
+
+.material-date .date-picker-field ::ng-deep .mdc-icon-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(167, 139, 250, 0.2);
+  color: #c8b7ff;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  align-self: center;
+  padding: 0;
+}
+
+.material-date .date-picker-field ::ng-deep .mat-datepicker-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+
+.material-date .date-picker-field ::ng-deep .mat-datepicker-toggle .mat-mdc-button-touch-target {
+  width: 36px;
+  height: 36px;
+}
+
+.material-date .date-picker-field ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+/* --- Fixed Fix for Datepicker Overlay Styles --- */
+::ng-deep .mat-datepicker-content {
+  background-color: #1a1d26 !important;
+  color: #f5f7ff !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px !important;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5) !important;
+
+  .mat-calendar-header {
+    color: #f5f7ff;
+    .mat-calendar-next-button, .mat-calendar-previous-button {
+      color: #c8b7ff;
+    }
+  }
+
+  .mat-calendar-table-header {
+    color: #9aa2bc !important;
+  }
+
+  .mat-calendar-body-cell-content {
+    color: #f5f7ff !important;
+    border-radius: 8px;
+  }
+
+  .mat-calendar-body-selected {
+    background-color: #a78bfa !important;
+    color: #161922 !important;
+  }
+
+  .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+    border-color: #21bcff !important;
+  }
+
+  .mat-calendar-body-cell:hover .mat-calendar-body-cell-content {
+    background-color: rgba(167, 139, 250, 0.15) !important;
+  }
+}
+
+.items-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 14px 0 10px;
+}
+
+.items-head h2 {
+  margin: 0;
+  font-size: 26px;
+  letter-spacing: -0.02em;
+}
+
+.items-wrap {
+  display: grid;
+  gap: 10px;
+}
+
+/* --- FIXED ITEM ROW ALIGNMENT --- */
+.item-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  gap: 8px;
+  align-items: flex-start; /* Fix: Pin everything to top */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 12px;
+  padding-bottom: 28px; /* Fix: Create buffer for absolute errors */
+  position: relative;   /* Fix: Parent for absolute errors */
+}
+
+.item-row.needs-review {
+  border-left: 3px solid rgba(255, 208, 92, 0.85);
+}
+
+.name {
+  min-width: 180px;
+}
+
+.grid-cell {
+  min-width: 0;
+  position: relative; /* Context for children errors */
+}
+
+/* Fix: Hidden label for the delete button to match grid height */
+.spacer-label {
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}
+
+.grid-cell select.form-control,
+.form-row select.form-control {
+  appearance: none;
+  padding-right: 34px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, #b8bfd8 50%),
+    linear-gradient(135deg, #b8bfd8 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) calc(50% - 3px),
+    calc(100% - 12px) calc(50% - 3px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+.grid-cell input[type='number'] {
+  color-scheme: dark;
+}
+
+.field-error {
+  position: absolute; /* Fix: Pull out of flow so it doesn't push row height */
+  top: 100%;          /* Align right below the input */
+  left: 0;
+  display: block;
+  margin-top: 4px;
+  color: #ffadc1;
+  font-size: 11px;    /* Slightly smaller to prevent overlap */
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap; /* Prevent wrapping from pushing row down */
+}
+
+.remove {
+  height: 46px;
+  align-self: flex-start;
+}
+
+.empty-items {
+  text-align: center;
+  padding: 18px;
+  color: #9da4bc;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 14px;
+}
+
+.total-row span {
+  color: #9da4bc;
+  font-size: 18px;
+}
+
+.total-row strong {
+  font-size: 44px;
+  color: #21bcff;
+  letter-spacing: -0.03em;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.form-control.validation-error {
+  border-color: #ffadc1 !important;
+  background-color: rgba(255, 173, 193, 0.05);
+}
+
+.form-group {
+  position: relative; /* Essential for the absolute-positioned .field-error to align */
+}
+
+@media (max-width: 768px) {
+  .top-head h1 {
+    font-size: 38px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .item-row {
+    grid-template-columns: 1fr;
+    padding-bottom: 12px;
+  }
+
+  .field-error {
+    position: static; 
+  }
+
+  .remove {
+    width: 100%;
+  }
+
+  .total-row strong {
+    font-size: 34px;
+  }
+}
