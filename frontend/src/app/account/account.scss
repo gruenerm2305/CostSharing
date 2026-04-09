@@ -40,6 +40,7 @@
     .identity label {
       display: block;
       margin-bottom: 8px;
+      margin-top: 12px;
       color: #9ca4bc;
       text-transform: uppercase;
       letter-spacing: 0.1em;
@@ -47,14 +48,49 @@
       font-weight: 700;
     }
 
-    .email-box {
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      background: rgba(8, 11, 18, 0.6);
-      padding: 14px;
-      margin-bottom: 16px;
-      font-size: 30px;
-      letter-spacing: -0.03em;
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .field-row .form-control {
+      margin-bottom: 0;
+    }
+
+    .field-row .btn {
+      white-space: nowrap;
+      height: 46px;
+      min-width: 170px;
+      padding-top: 0;
+      padding-bottom: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .field-row .btn:disabled {
+      background: rgba(67, 72, 90, 0.75);
+      border-color: rgba(246, 247, 255, 0.16);
+      color: rgba(245, 247, 255, 0.62);
+      cursor: not-allowed;
+      filter: none;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .identity > .form-control {
+      margin-bottom: 10px;
+    }
+
+    .password-group {
+      margin-top: 6px;
+    }
+
+    .inline-alert {
+      margin-top: 10px;
+      margin-bottom: 8px;
     }
 
     @media (max-width: 900px) {
@@ -66,7 +102,11 @@
         font-size: 34px;
       }
 
-      .email-box {
-        font-size: 20px;
+      .field-row {
+        grid-template-columns: 1fr;
+      }
+
+      .field-row .btn {
+        width: 100%;
       }
     }

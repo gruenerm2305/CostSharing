@@ -73,8 +73,6 @@ export class AuthService {
         lastName
         }).pipe(
         tap(response => {
-            //localStorage.setItem('token', response.access_token);
-            //localStorage.setItem('currentUser', JSON.stringify(response.user));
             this.currentUserSubject.next(response.user);
         })
     );}
@@ -107,5 +105,14 @@ export class AuthService {
     getCurrentUserId(): string | null {
         const user = this.getCurrentUser();
         return user ? user.id : null;
+    }
+
+    setCurrentUser(user: User | null): void {
+        if (user) {
+            localStorage.setItem('currentUser', JSON.stringify(user));
+        } else {
+            localStorage.removeItem('currentUser');
+        }
+        this.currentUserSubject.next(user);
     }
 }

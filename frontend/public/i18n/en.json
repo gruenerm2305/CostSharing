@@ -419,10 +419,34 @@
     "defaultUserName": "User",
     "labels": {
       "userId": "User ID",
-      "username": "Username"
+      "username": "Username",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password"
+    },
+    "placeholders": {
+      "username": "Enter username",
+      "password": "Enter new password",
+      "confirmPassword": "Repeat new password"
     },
     "buttons": {
-      "copyUserId": "Copy User ID"
+      "copyUserId": "Copy User ID",
+      "saveUsername": "Save Username",
+      "savingUsername": "Saving username...",
+      "savePassword": "Save Password",
+      "savingPassword": "Saving password..."
+    },
+    "messages": {
+      "usernameSaved": "Username updated successfully.",
+      "usernameUnchanged": "Username is unchanged.",
+      "passwordSaved": "Password updated successfully."
+    },
+    "errors": {
+      "usernameRequired": "Please enter a username.",
+      "usernameSaveFailed": "Could not update username.",
+      "passwordRequired": "Please fill in both password fields.",
+      "passwordTooShort": "Password must be longer than or equal to 6 characters.",
+      "passwordMismatch": "Both password fields must match.",
+      "passwordSaveFailed": "Could not update password."
     }
   }
 }

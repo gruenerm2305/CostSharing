@@ -1,7 +1,7 @@
-import { Component } from "@angular/core";
+import { Component, ChangeDetectorRef } from "@angular/core";
 import { AuthService, User } from "../core/services/auth.service";
 import { TranslatePipe } from "../core/i18n/translate.pipe";
-import { TranslationService } from "../core/i18n/translation.service";
+import { UserAdminService } from "../core/services/user-admin.service";
 
 
 @Component({
@@ -12,21 +12,131 @@ import { TranslationService } from "../core/i18n/translation.service";
 })
 export class AccountComponent {
   currentUser: User | null;
+  usernameDraft = '';
+  newPassword = '';
+  confirmPassword = '';
+
+  usernameSaving = false;
+  passwordSaving = false;
+
+  usernameErrorKey: string | null = null;
+  passwordErrorKey: string | null = null;
+  usernameSuccessKey: string | null = null;
+  passwordSuccessKey: string | null = null;
 
   constructor(
     private readonly authService: AuthService,
-    private readonly translationService: TranslationService
+    private readonly userAdminService: UserAdminService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     this.currentUser = this.authService.getCurrentUser();
+    this.usernameDraft = this.currentUser?.username ?? '';
   }
 
-  defaultUserLabel(): string {
-    return this.translationService.translate('account.defaultUserName');
+  getDisplayName(user: User): string {
+    const parts = [user.firstName, user.lastName].filter(
+      (part): part is string => !!part && part.trim().length > 0,
+    );
+
+    return parts.length > 0 ? parts.join(' ') : '';
   }
 
   copyUserId(): void {
     if (this.currentUser?.id) {
       navigator.clipboard.writeText(this.currentUser.id);
     }
+  }
+
+  canSaveUsername(): boolean {
+    const trimmed = this.usernameDraft.trim();
+    return !!this.currentUser && trimmed.length > 0 && trimmed !== this.currentUser.username && !this.usernameSaving;
+  }
+
+  canSavePassword(): boolean {
+    return (
+      !!this.currentUser
+      && this.newPassword.length > 0
+      && this.confirmPassword.length > 0
+      && !this.passwordSaving
+    );
+  }
+
+  saveUsername(): void {
+    if (!this.currentUser) {
+      return;
+    }
+
+    const trimmedUsername = this.usernameDraft.trim();
+    this.usernameErrorKey = null;
+    this.usernameSuccessKey = null;
+
+    if (!trimmedUsername) {
+      this.usernameErrorKey = 'account.errors.usernameRequired';
+      return;
+    }
+
+    if (trimmedUsername === this.currentUser.username) {
+      this.usernameSuccessKey = 'account.messages.usernameUnchanged';
+      return;
+    }
+
+    this.usernameSaving = true;
+    this.userAdminService.updateUsername(this.currentUser.id, trimmedUsername).subscribe({
+      next: () => {
+        if (!this.currentUser) {
+          return;
+        }
+        const updatedUser: User = { ...this.currentUser, username: trimmedUsername };
+        this.currentUser = updatedUser;
+        this.authService.setCurrentUser(updatedUser);
+        this.usernameDraft = trimmedUsername;
+        this.usernameSuccessKey = 'account.messages.usernameSaved';
+        this.usernameSaving = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.usernameErrorKey = 'account.errors.usernameSaveFailed';
+        this.usernameSaving = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  savePassword(): void {
+    if (!this.currentUser) {
+      return;
+    }
+
+    this.passwordErrorKey = null;
+    this.passwordSuccessKey = null;
+
+    if (!this.newPassword || !this.confirmPassword) {
+      this.passwordErrorKey = 'account.errors.passwordRequired';
+      return;
+    }
+
+    if (this.newPassword.length < 6 || this.confirmPassword.length < 6) {
+      this.passwordErrorKey = 'account.errors.passwordTooShort';
+      return;
+    }
+
+    if (this.newPassword !== this.confirmPassword) {
+      this.passwordErrorKey = 'account.errors.passwordMismatch';
+      return;
+    }
+
+    this.passwordSaving = true;
+    this.userAdminService.updatePassword(this.currentUser.id, this.newPassword).subscribe({
+      next: () => {
+        this.newPassword = '';
+        this.confirmPassword = '';
+        this.passwordSuccessKey = 'account.messages.passwordSaved';
+        this.passwordSaving = false;
+      },
+      error: () => {
+        this.passwordErrorKey = 'account.errors.passwordSaveFailed';
+        this.passwordSaving = false;
+      }
+    });
   }
 }

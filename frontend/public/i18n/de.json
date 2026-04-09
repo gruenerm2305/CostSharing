@@ -419,10 +419,34 @@
     "defaultUserName": "Benutzer",
     "labels": {
       "userId": "User ID",
-      "username": "Benutzername"
+      "username": "Benutzername",
+      "newPassword": "Neues Passwort",
+      "confirmPassword": "Passwort bestätigen"
+    },
+    "placeholders": {
+      "username": "Benutzernamen eingeben",
+      "password": "Neues Passwort eingeben",
+      "confirmPassword": "Neues Passwort wiederholen"
     },
     "buttons": {
-      "copyUserId": "User ID kopieren"
+      "copyUserId": "User ID kopieren",
+      "saveUsername": "Benutzernamen speichern",
+      "savingUsername": "Benutzername wird gespeichert...",
+      "savePassword": "Passwort speichern",
+      "savingPassword": "Passwort wird gespeichert..."
+    },
+    "messages": {
+      "usernameSaved": "Benutzername erfolgreich aktualisiert.",
+      "usernameUnchanged": "Benutzername ist unverändert.",
+      "passwordSaved": "Passwort erfolgreich aktualisiert."
+    },
+    "errors": {
+      "usernameRequired": "Bitte einen Benutzernamen eingeben.",
+      "usernameSaveFailed": "Benutzername konnte nicht aktualisiert werden.",
+      "passwordRequired": "Bitte beide Passwortfelder ausfüllen.",
+      "passwordTooShort": "Passwort muss länger als 6 Zeichen sein.",
+      "passwordMismatch": "Beide Passwortfelder müssen übereinstimmen.",
+      "passwordSaveFailed": "Passwort konnte nicht aktualisiert werden."
     }
   }
 }

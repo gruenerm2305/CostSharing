@@ -18,6 +18,14 @@ export class UserAdminService {
     return this.http.patch<User>(`${environment.apiUrl}/users/${userId}/role`, { role });
   }
 
+  updateUsername(userId: string, username: string): Observable<void> {
+    return this.http.patch<void>(`${environment.apiUrl}/users/${userId}/username`, { username });
+  }
+
+  updatePassword(userId: string, password: string): Observable<void> {
+    return this.http.patch<void>(`${environment.apiUrl}/users/${userId}/password`, { password });
+  }
+
   deleteUser(userId: string): Observable<void> {
     return this.http.delete<void>(`${environment.apiUrl}/users/${userId}`);
   }

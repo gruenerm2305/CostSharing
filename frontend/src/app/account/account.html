@@ -3,15 +3,76 @@
       <h1>{{ 'account.title' | t }}</h1>
 
       <div class="panel profile-card">
-        <h2>{{ user.firstName || user.lastName ? (user.firstName + ' ' + user.lastName) : defaultUserLabel() }}</h2>
+        <h2>{{ getDisplayName(user) || ('account.defaultUserName' | t) }}</h2>
         <div class="user-id-row">
           <p class="user-id">{{ 'account.labels.userId' | t }}: {{ user.id }}</p>
           <button class="btn btn-secondary btn-sm copy-inline" (click)="copyUserId()">{{ 'account.buttons.copyUserId' | t }}</button>
         </div>
 
         <div class="identity">
-          <label>{{ 'account.labels.username' | t }}</label>
-          <div class="email-box">{{ user.username }}</div>
+          <label for="username-input">{{ 'account.labels.username' | t }}</label>
+          <div class="field-row">
+            <input
+              id="username-input"
+              type="text"
+              class="form-control"
+              [value]="usernameDraft"
+              (input)="usernameDraft = $any($event.target).value"
+              [placeholder]="'account.placeholders.username' | t"
+            />
+            <button
+              class="btn btn-secondary"
+              type="button"
+              (click)="saveUsername()"
+              [disabled]="!canSaveUsername()"
+            >
+              {{ usernameSaving ? ('account.buttons.savingUsername' | t) : ('account.buttons.saveUsername' | t) }}
+            </button>
+          </div>
+          @if (usernameErrorKey) {
+            <div class="alert alert-error inline-alert">{{ usernameErrorKey | t }}</div>
+          }
+          @if (usernameSuccessKey) {
+            <div class="alert alert-success inline-alert">{{ usernameSuccessKey | t }}</div>
+          }
+        </div>
+
+        <div class="identity password-group">
+          <label for="password-input">{{ 'account.labels.newPassword' | t }}</label>
+          <input
+            id="password-input"
+            type="password"
+            class="form-control"
+            [value]="newPassword"
+            (input)="newPassword = $any($event.target).value"
+            [placeholder]="'account.placeholders.password' | t"
+          />
+
+          <label for="password-confirm-input">{{ 'account.labels.confirmPassword' | t }}</label>
+          <div class="field-row">
+            <input
+              id="password-confirm-input"
+              type="password"
+              class="form-control"
+              [value]="confirmPassword"
+              (input)="confirmPassword = $any($event.target).value"
+              [placeholder]="'account.placeholders.confirmPassword' | t"
+            />
+            <button
+              class="btn btn-secondary"
+              type="button"
+              (click)="savePassword()"
+              [disabled]="!canSavePassword()"
+            >
+              {{ passwordSaving ? ('account.buttons.savingPassword' | t) : ('account.buttons.savePassword' | t) }}
+            </button>
+          </div>
+          @if (passwordErrorKey) {
+            <div class="alert alert-error inline-alert">{{ passwordErrorKey | t }}</div>
+          }
+          @if (passwordSuccessKey) {
+            <div class="alert alert-success inline-alert">{{ passwordSuccessKey | t }}</div>
+          }
         </div>
       </div>
 </section>
