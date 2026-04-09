@@ -3,10 +3,11 @@ import { Receipt, ReceiptService } from "../core/services/receipt.service";
 import { Category, CategoryService } from "../core/services/category.service";
 import { Router, RouterLink } from "@angular/router";
 import { CommonModule, CurrencyPipe, DatePipe } from "@angular/common";
+import { TranslatePipe } from "../core/i18n/translate.pipe";
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink,CurrencyPipe, DatePipe, CommonModule],
+  imports: [RouterLink,CurrencyPipe, DatePipe, CommonModule, TranslatePipe],
   templateUrl: 'home.html',
   styleUrl: 'home.scss',
 

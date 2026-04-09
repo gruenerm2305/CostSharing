@@ -1,16 +1,16 @@
 @if (currentUser; as user) {
 <section class="app-page account-page">
-      <h1>Account</h1>
+      <h1>{{ 'account.title' | t }}</h1>
 
       <div class="panel profile-card">
-        <h2>{{ user.firstName || user.lastName ? (user.firstName + ' ' + user.lastName) : 'User' }}</h2>
+        <h2>{{ user.firstName || user.lastName ? (user.firstName + ' ' + user.lastName) : defaultUserLabel() }}</h2>
         <div class="user-id-row">
-          <p class="user-id">User ID: {{ user.id }}</p>
-          <button class="btn btn-secondary btn-sm copy-inline" (click)="copyUserId()">Copy User ID</button>
+          <p class="user-id">{{ 'account.labels.userId' | t }}: {{ user.id }}</p>
+          <button class="btn btn-secondary btn-sm copy-inline" (click)="copyUserId()">{{ 'account.buttons.copyUserId' | t }}</button>
         </div>
 
         <div class="identity">
-          <label>Username</label>
+          <label>{{ 'account.labels.username' | t }}</label>
           <div class="email-box">{{ user.username }}</div>
         </div>
       </div>

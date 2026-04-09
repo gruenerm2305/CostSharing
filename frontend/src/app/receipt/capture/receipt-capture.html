@@ -1,7 +1,7 @@
 <section class="app-page capture-page">
       <header>
-        <h1>Erfassen</h1>
-        <p>Start by uploading a receipt photo or manually entering your expense details.</p>
+        <h1>{{ 'receipts.capture.title' | t }}</h1>
+        <p>{{ 'receipts.capture.subtitle' | t }}</p>
       </header>
 
       <input
@@ -17,16 +17,16 @@
           <div class="icon-box upload">
             <span class="material-symbols-outlined">upload</span>
           </div>
-          <h3>Choose Picture</h3>
-          <p>Upload from Gallery or Files</p>
+          <h3>{{ 'receipts.capture.uploadCard.title' | t }}</h3>
+          <p>{{ 'receipts.capture.uploadCard.description' | t }}</p>
         </button>
 
         <button class="capture-card panel" routerLink="/receipts/editor" type="button">
           <div class="icon-box manual">
             <span class="material-symbols-outlined">edit_square</span>
           </div>
-          <h3>Manually track</h3>
-          <p>Enter expense details manually</p>
+          <h3>{{ 'receipts.capture.manualCard.title' | t }}</h3>
+          <p>{{ 'receipts.capture.manualCard.description' | t }}</p>
         </button>
       </div>
 
@@ -37,12 +37,12 @@
         (dragleave)="onDragLeave($event)"
         (drop)="onDrop($event)"
       >
-        <p>Or drag and drop a receipt here</p>
-        <small>JPG, PNG oder PDF (max. 10MB)</small>
+        <p>{{ 'receipts.capture.dropZone.text' | t }}</p>
+        <small>{{ 'receipts.capture.dropZone.fileTypes' | t }}</small>
       </div>
 
       <div *ngIf="selectedFile as selected" class="preview-section panel">
-        <h3>Vorschau</h3>
+        <h3>{{ 'receipts.capture.preview.title' | t }}</h3>
 
         <div class="file-info">
           <strong>{{ selected.name }}</strong>
@@ -50,15 +50,15 @@
         </div>
 
         <div *ngIf="previewUrl && selected.type.startsWith('image/')" class="image-preview">
-          <img [src]="previewUrl" alt="Receipt preview" />
+          <img [src]="previewUrl" [alt]="'receipts.capture.preview.alt' | t" />
         </div>
 
         <div class="actions">
           <button class="btn btn-primary" (click)="uploadReceipt()" [disabled]="uploading">
-            {{ uploading ? 'Verarbeite...' : 'Beleg hochladen & verarbeiten' }}
+            {{ uploading ? ('receipts.capture.buttons.uploading' | t) : ('receipts.capture.buttons.upload' | t) }}
           </button>
           <button class="btn btn-secondary" (click)="cancelSelection()">
-            Abbrechen
+            {{ 'common.buttons.cancel' | t }}
           </button>
         </div>
 

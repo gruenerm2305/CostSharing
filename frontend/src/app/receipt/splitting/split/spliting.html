@@ -1,9 +1,9 @@
 <section class="app-page splitting-page">
       <div class="top-actions">
-        <button class="btn btn-secondary" routerLink="/receipts/list">Zurück zu Belege</button>
+        <button class="btn btn-secondary" routerLink="/receipts/list">{{ 'common.buttons.backToReceipts' | t }}</button>
       </div>
 
-      <h1>Kosten aufteilen</h1>
+      <h1>{{ 'splitting.title' | t }}</h1>
 
       <div *ngIf="receipt as receiptModel" class="receipt-info panel">
         <div class="receipt-header">
@@ -12,38 +12,38 @@
             <p>{{ receiptModel.date | date:'dd.MM.yyyy' }} - {{ receiptModel.totalAmount | currency:'EUR' }}</p>
           </div>
           <div class="header-actions">
-            <button *ngIf="isOwner && (receiptModel.isShared || (receiptModel.sharedWith && receiptModel.sharedWith.length > 0))" class="btn btn-warning" (click)="revokeShare()" title="Beleg wieder privat machen">
-              Privat machen
+            <button *ngIf="isOwner && (receiptModel.isShared || (receiptModel.sharedWith && receiptModel.sharedWith.length > 0))" class="btn btn-warning" (click)="revokeShare()" [title]="'splitting.buttons.makePrivate' | t">
+              {{ 'splitting.buttons.makePrivate' | t }}
             </button>
 
-            <button *ngIf="shareUrl" class="btn btn-secondary" (click)="copyShareLink()" title="Link kopieren">
-              Link kopieren
+            <button *ngIf="shareUrl" class="btn btn-secondary" (click)="copyShareLink()" [title]="'splitting.buttons.copyLink' | t">
+              {{ 'splitting.buttons.copyLink' | t }}
             </button>
 
-            <button *ngIf="!shareUrl" class="btn btn-secondary" (click)="getShareLink()" title="Link teilen">
-              Copy share link
+            <button *ngIf="!shareUrl" class="btn btn-secondary" (click)="getShareLink()" [title]="'splitting.buttons.getShareLink' | t">
+              {{ 'splitting.buttons.getShareLink' | t }}
             </button>
           </div>
         </div>
       </div>
 
       <div class="card invite-box" *ngIf="receipt as receiptModel">
-        <h3>Benutzer einladen</h3>
+        <h3>{{ 'splitting.invite.title' | t }}</h3>
 
         <div class="info-box">
-          <p><strong>Tipp:</strong> Ihre Freunde finden ihre User-ID im Dashboard.</p>
-          <p>Sie können den geteilten Link auch direkt verschicken - dann wird der Nutzer automatisch hinzugefügt, sobald er einen Artikel übernimmt.</p>
+          <p><strong>{{ 'splitting.invite.tipLabel' | t }}</strong> {{ 'splitting.invite.tip1' | t }}</p>
+          <p>{{ 'splitting.invite.tip2' | t }}</p>
         </div>
 
         <div class="invite-form">
-          <label class="form-label">User-ID des einzuladenden Nutzers</label>
+          <label class="form-label">{{ 'splitting.invite.label' | t }}</label>
 
           <div class="invite-controls">
             <input
               type="text"
               class="form-control"
               [(ngModel)]="inviteUserId"
-              placeholder="z.B. 550e8400-e29b-41d4-a716-446655440000"
+              [placeholder]="'splitting.invite.placeholder' | t"
             />
 
             <button
@@ -51,29 +51,29 @@
               (click)="inviteUser()"
               [disabled]="!inviteUserId || inviting"
             >
-              {{ inviting ? 'Lädt ein...' : 'Einladen' }}
+              {{ inviting ? ('splitting.invite.buttonInviting' | t) : ('splitting.invite.button' | t) }}
             </button>
           </div>
         </div>
 
         <div *ngIf="receiptModel.sharedWith && receiptModel.sharedWith.length > 0" class="shared-users">
-          <p><strong>Geteilt mit:</strong></p>
+          <p><strong>{{ 'splitting.labels.sharedWith' | t }}</strong></p>
           <ul>
-            <li *ngFor="let userId of receiptModel.sharedWith">User ID: {{ userId }}</li>
+            <li *ngFor="let userId of receiptModel.sharedWith">{{ 'splitting.labels.userId' | t }}: {{ userId }}</li>
           </ul>
         </div>
       </div>
 
       <div *ngIf="customClaimItem" class="modal">
         <div class="modal-content">
-          <h3>Benutzerdefinierte Aufteilung</h3>
+          <h3>{{ 'splitting.customClaim.title' | t }}</h3>
 
           <p><strong>{{ customClaimItem.name }}</strong></p>
-          <p>Gesamtpreis: {{ customClaimItem.totalPrice | currency:'EUR' }}</p>
+          <p>{{ 'splitting.labels.totalPrice' | t }}: {{ customClaimItem.totalPrice | currency:'EUR' }}</p>
 
           <div class="claim-options">
             <div class="form-group">
-              <label class="form-label">Prozentsatz (0-100%)</label>
+              <label class="form-label">{{ 'splitting.customClaim.labels.percentage' | t }}</label>
               <input 
                 type="number" 
                 class="form-control" 
@@ -84,7 +84,7 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label">Oder Menge</label>
+              <label class="form-label">{{ 'splitting.customClaim.labels.quantity' | t }}</label>
               <input 
                 type="number" 
                 class="form-control" 
@@ -93,13 +93,13 @@
                 [max]="customClaimItem.quantity"
                 step="0.01"
               />
-              <small>von {{ customClaimItem.quantity }}</small>
+              <small>{{ 'splitting.customClaim.labels.of' | t }} {{ customClaimItem.quantity }}</small>
             </div>
           </div>
 
           <div class="modal-actions">
-            <button class="btn btn-secondary" (click)="cancelCustomClaim()">Abbrechen</button>
-            <button class="btn btn-primary" (click)="submitCustomClaim()">Übernehmen</button>
+            <button class="btn btn-secondary" (click)="cancelCustomClaim()">{{ 'common.buttons.cancel' | t }}</button>
+            <button class="btn btn-primary" (click)="submitCustomClaim()">{{ 'common.buttons.apply' | t }}</button>
           </div>
         </div>
       </div>

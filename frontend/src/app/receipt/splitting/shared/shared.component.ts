@@ -7,10 +7,12 @@ import { SplittingService } from "../../../core/services/splitting.service";
 import { AuthService } from "../../../core/services/auth.service";
 import { interval } from "rxjs/internal/observable/interval";
 import { FormsModule } from "@angular/forms";
+import { TranslatePipe } from "../../../core/i18n/translate.pipe";
+import { TranslationService } from "../../../core/i18n/translation.service";
 
 @Component({
     selector: 'app-shared-receipt',
-    imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslatePipe],
     templateUrl: './shared.html',
     styleUrl: './shared.scss'
 })  
@@ -46,7 +48,8 @@ export class SharedReceiptComponent implements OnInit, OnDestroy {
     private readonly receiptService: ReceiptService,
     private readonly splittingService: SplittingService,
     private readonly authService: AuthService,
-    private readonly cdr: ChangeDetectorRef 
+    private readonly cdr: ChangeDetectorRef,
+    private readonly translationService: TranslationService
   ) {
     this.isAuthenticated = this.authService.isAuthenticated();
     this.currentUserId = this.authService.getCurrentUserId();
@@ -118,9 +121,9 @@ export class SharedReceiptComponent implements OnInit, OnDestroy {
       error: (err) => {
         this.loading = false;
         if (err.status === 404) {
-          this.errorMessage = 'Dieser geteilte Link ist abgelaufen oder ungültig. Der Beleg ist möglicherweise wieder privat.';
+          this.errorMessage = this.translationService.translate('shared.receipt.errors.expiredLink');
         } else {
-          this.errorMessage = 'Beleg konnte nicht geladen werden.';
+          this.errorMessage = this.translationService.translate('shared.receipt.errors.loadFailed');
         }
       }
     });
@@ -242,7 +245,7 @@ export class SharedReceiptComponent implements OnInit, OnDestroy {
 
     // Checking if fully claimed
     if (this.isItemFullyClaimed(item)) {
-       alert('Dieser Artikel wurde bereits vollständig übernommen.');
+       alert(this.translationService.translate('shared.receipt.errors.itemFullyClaimed'));
        return;
     }
 
@@ -257,7 +260,7 @@ export class SharedReceiptComponent implements OnInit, OnDestroy {
     
     // Safety check: if 100% already taken by others, we can't take anything
     if (othersPct >= 99.9) {
-      alert('Dieser Artikel wurde bereits vollständig von anderen übernommen.');
+      alert(this.translationService.translate('shared.receipt.errors.itemFullyClaimedByOthers'));
       return;
     }
     
@@ -271,13 +274,13 @@ export class SharedReceiptComponent implements OnInit, OnDestroy {
 
   handleError(err: any) {
     console.error('Failed to claim item:', err);
-        let errorMessage = 'Fehler beim Übernehmen des Artikels.';
+        let errorMessage = this.translationService.translate('shared.receipt.errors.claimFailed');
         if (err.error?.message) {
           errorMessage += ' ' + err.error.message;
         } else if (err.status === 403) {
-          errorMessage = 'Sie haben keine Berechtigung, diesen Artikel zu übernehmen.';
+          errorMessage = this.translationService.translate('shared.receipt.errors.claimForbidden');
         } else if (err.status === 409) {
-          errorMessage = 'Dieser Anteil übersteigt den verfügbaren Betrag.';
+          errorMessage = this.translationService.translate('shared.receipt.errors.claimConflict');
         }
         alert(errorMessage);
   }
@@ -306,10 +309,10 @@ export class SharedReceiptComponent implements OnInit, OnDestroy {
     this.splittingService.claimItem(this.receipt!.id, item.id, quantity, undefined).subscribe({
       next: () => {
         this.loadClaims(this.receipt!.id);
-        alert(`${quantity}/${item.quantity} des Artikels übernommen!`);
+        alert(`${quantity}/${item.quantity} ${this.translationService.translate('shared.receipt.messages.itemClaimedSuffix')}`);
       },
       error: (err) => {
-        alert(err.error?.message || 'Fehler beim Zuordnen des Artikels');
+        alert(err.error?.message || this.translationService.translate('shared.receipt.errors.assignFailed'));
       }
     });
   }
@@ -354,7 +357,7 @@ export class SharedReceiptComponent implements OnInit, OnDestroy {
     if (!this.customClaimItem || this.customPercentage === null) return;
     
     if (this.customPercentage > this.customMaxPercentage) {
-      this.customError = `Maximal ${this.customMaxPercentage}% verfügbar`;
+      this.customError = `${this.translationService.translate('shared.receipt.customClaim.errors.maxAvailablePrefix')} ${this.customMaxPercentage}% ${this.translationService.translate('shared.receipt.customClaim.errors.maxAvailableSuffix')}`;
     } else {
       this.customError = null;
     }
@@ -367,7 +370,7 @@ export class SharedReceiptComponent implements OnInit, OnDestroy {
     if (!this.customClaimItem || this.customQuantity === null) return;
     
     if (this.customQuantity > this.customMaxQuantity) {
-      this.customError = `Maximal ${this.customMaxQuantity} Stück verfügbar`;
+      this.customError = `${this.translationService.translate('shared.receipt.customClaim.errors.maxQuantityPrefix')} ${this.customMaxQuantity} ${this.translationService.translate('shared.receipt.customClaim.errors.maxQuantitySuffix')}`;
     } else {
       this.customError = null;
     }
@@ -473,15 +476,15 @@ export class SharedReceiptComponent implements OnInit, OnDestroy {
   }
 
   revokeShare(): void {
-    if (!this.receipt || !confirm('Möchten Sie diesen Beleg wirklich wieder privat machen? Der Link wird ungültig und alle Aufteilungen werden entfernt.')) return;
+    if (!this.receipt || !confirm(this.translationService.translate('shared.receipt.confirmations.makePrivate'))) return;
     
     this.splittingService.revokeShare(this.receipt.id).subscribe({
       next: () => {
-        alert('Beleg ist nun wieder privat.');
+        alert(this.translationService.translate('shared.receipt.messages.madePrivate'));
         this.router.navigate(['/receipts', this.receipt!.id, 'edit']);
       },
       error: () => {
-        alert('Fehler beim Zurücksetzen des Belegs.');
+        alert(this.translationService.translate('shared.receipt.errors.revokeFailed'));
       }
     });
   }

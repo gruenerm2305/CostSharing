@@ -1,0 +1,428 @@
+{
+  "common": {
+    "appName": "Cost Sharing",
+    "premiumTier": "Premium Tier",
+    "language": "Language",
+    "languageEnglish": "English",
+    "languageGerman": "German",
+    "loading": "Loading...",
+    "buttons": {
+      "cancel": "Cancel",
+      "save": "Save",
+      "retry": "Retry",
+      "edit": "Edit",
+      "back": "Back",
+      "delete": "Delete",
+      "backToReceipts": "Back to receipts",
+      "ok": "OK",
+      "close": "Close",
+      "apply": "Apply",
+      "backArrow": "<- Back"
+    }
+  },
+  "sidebar": {
+    "home": "Home",
+    "receipts": "Receipts",
+    "capture": "Capture",
+    "dashboard": "Dashboard",
+    "categories": "Categories",
+    "account": "Account",
+    "adminPanel": "Admin Panel",
+    "logout": "Logout"
+  },
+  "auth": {
+    "loginTitle": "Cost Sharing",
+    "loginSubtitle": "Please log in to manage your receipts.",
+    "username": "Username",
+    "usernamePlaceholder": "Enter your username",
+    "password": "Password",
+    "loginButton": "Login",
+    "loggingIn": "Logging in...",
+    "newToPlatform": "New to the platform?",
+    "createAccount": "Create an account",
+    "securityNote": "End-to-end encrypted receipt tracking",
+    "registerTitle": "Create Account",
+    "registerSubtitle": "Join CostSharing and track shared costs with your group.",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "registerButton": "Register",
+    "registering": "Registering...",
+    "alreadyRegistered": "Already registered?",
+    "signIn": "Sign in",
+    "errors": {
+      "usernameInvalid": "Please enter a valid username.",
+      "passwordInvalid": "Password must be at least 6 characters long.",
+      "firstNameInvalid": "Please enter a first name.",
+      "lastNameInvalid": "Please enter a last name.",
+      "loginUnauthorized": "Invalid username or password.",
+      "loginFailed": "Login failed. Please try again.",
+      "registerConflict": "A user with this email already exists.",
+      "registerFailed": "Registration failed. Please try again."
+    },
+    "registerSuccess": "Registration successful! Redirecting to login..."
+  },
+  "categories": {
+    "title": "Manage Categories",
+    "subtitle": "Create and organize your spending categories for better financial clarity.",
+    "labels": {
+      "categoryName": "Category Name",
+      "paletteTitle": "Luminous Palette",
+      "yourCategories": "Your Categories",
+      "name": "Name",
+      "color": "Color"
+    },
+    "placeholders": {
+      "categoryName": "e.g. Travel"
+    },
+    "buttons": {
+      "createCategory": "+ Create Category",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "modal": {
+      "editTitle": "Edit Category"
+    },
+    "emptyState": "No categories created yet.",
+    "validation": {
+      "nameRequired": "Name is required."
+    },
+    "errors": {
+      "createFailed": "Failed to create category.",
+      "updateFailed": "Failed to update category.",
+      "deleteFailed": "Failed to delete category."
+    }
+  },
+  "receipts": {
+    "title": "Receipts",
+    "search": {
+      "placeholder": "Search receipts..."
+    },
+    "labels": {
+      "items": "items",
+      "myShare": "my share"
+    },
+    "badges": {
+      "sharedWith": "Shared with",
+      "participant": "Participant",
+      "owner": "Owner"
+    },
+    "buttons": {
+      "newReceipt": "+ New Receipt",
+      "captureNow": "Capture now",
+      "makePrivate": "Private",
+      "splitCost": "Split cost",
+      "remove": "Remove"
+    },
+    "emptyState": {
+      "noReceipts": "No receipts captured yet."
+    },
+    "info": {
+      "makePrivateToEdit": "To edit this receipt, it needs to be private.",
+      "sharedByOther": "Receipt was shared by another user."
+    },
+    "tooltips": {
+      "sharedByOther": "This receipt was shared by another user.",
+      "makePrivateToEdit": "To edit this receipt, it must be private.",
+      "editReceipt": "Edit receipt",
+      "participantCantShare": "Participants cannot share this receipt further.",
+      "shareCosts": "Share costs",
+      "removeAndRelease": "Remove from my list and release claimed costs"
+    },
+    "confirmations": {
+      "makePrivatePrefix": "Do you really want to make receipt",
+      "makePrivateSuffix": "private again? All shares and participants will be removed.",
+      "removeReceiptPrefix": "Do you really want to remove shared receipt",
+      "removeReceiptSuffix": "from your list? Your claimed costs will be released."
+    },
+    "errors": {
+      "connectionFailed": "Could not connect to the server.",
+      "revokeShareFailed": "Failed to reset shared receipt.",
+      "removeFailed": "Failed to remove receipt."
+    },
+    "capture": {
+      "title": "Capture",
+      "subtitle": "Start by uploading a receipt photo or manually entering your expense details.",
+      "uploadCard": {
+        "title": "Choose Picture",
+        "description": "Upload from Gallery or Files"
+      },
+      "manualCard": {
+        "title": "Manually track",
+        "description": "Enter expense details manually"
+      },
+      "dropZone": {
+        "text": "Or drag and drop a receipt here",
+        "fileTypes": "JPG, PNG or PDF (max. 10MB)"
+      },
+      "preview": {
+        "title": "Preview",
+        "alt": "Receipt preview"
+      },
+      "buttons": {
+        "upload": "Upload and process receipt",
+        "uploading": "Processing..."
+      },
+      "errors": {
+        "invalidFileType": "Only JPG, PNG and PDF files are allowed.",
+        "fileTooLarge": "File is too large. Maximum is 10MB.",
+        "invalidResponse": "Invalid server response. Please try again.",
+        "navigationFailed": "Navigation failed. Please open the editor manually.",
+        "uploadFailed": "Upload failed. Please try again."
+      }
+    },
+    "editor": {
+      "readOnlyWarning": "This receipt was shared and can no longer be edited.",
+      "title": "Edit Detail",
+      "subtitle": "Adjust entry for precision tracking",
+      "labels": {
+        "date": "Date",
+        "merchant": "Merchant",
+        "category": "Category",
+        "items": "Receipt Items",
+        "itemName": "Name",
+        "quantity": "Quantity",
+        "unitPrice": "Cost per unit",
+        "total": "Total",
+        "totalAmount": "Total Amount"
+      },
+      "placeholders": {
+        "itemName": "Item name"
+      },
+      "options": {
+        "none": "None"
+      },
+      "buttons": {
+        "addItem": "+ Add Item",
+        "deleteItem": "Delete",
+        "save": "Confirm",
+        "saving": "Saving..."
+      },
+      "validation": {
+        "dateRequired": "Please select a date.",
+        "merchantRequired": "Please enter the merchant name.",
+        "itemNameRequired": "Item name is required.",
+        "quantityRequired": "Quantity must be greater than 0.",
+        "unitPriceInvalid": "Invalid value."
+      },
+      "emptyItems": "No items available. Click Add Item to begin.",
+      "confirmations": {
+        "deleteItem": "Delete this item?",
+        "deleteReceipt": "Delete this receipt?"
+      },
+      "errors": {
+        "notFound": "Receipt not found.",
+        "loadFailed": "Could not load receipt:",
+        "cannotEditShared": "This receipt cannot be edited because it was already shared.",
+        "fillRequiredFields": "Please fill all required fields.",
+        "saveFailed": "Error while saving:",
+        "createFailed": "Error while creating:",
+        "deleteFailed": "Error while deleting receipt."
+      }
+    }
+  },
+  "splitting": {
+    "title": "Split costs",
+    "buttons": {
+      "makePrivate": "Make private",
+      "copyLink": "Copy link",
+      "getShareLink": "Copy share link"
+    },
+    "invite": {
+      "title": "Invite users",
+      "tipLabel": "Tip:",
+      "tip1": "Your friends can find their user ID in the dashboard.",
+      "tip2": "You can also send the share link directly. The user will be added automatically after claiming an item.",
+      "label": "User ID to invite",
+      "placeholder": "e.g. 550e8400-e29b-41d4-a716-446655440000",
+      "button": "Invite",
+      "buttonInviting": "Inviting..."
+    },
+    "labels": {
+      "sharedWith": "Shared with:",
+      "userId": "User ID",
+      "totalPrice": "Total price"
+    },
+    "customClaim": {
+      "title": "Custom split",
+      "labels": {
+        "percentage": "Percentage (0-100%)",
+        "quantity": "Or quantity",
+        "of": "of"
+      }
+    },
+    "confirmations": {
+      "makePrivate": "Do you really want to make this receipt private again? All participants and splits will be removed."
+    },
+    "messages": {
+      "success": {
+        "madePrivate": "Receipt is private again.",
+        "linkCopied": "Link copied to clipboard!",
+        "itemClaimed": "Item assigned successfully.",
+        "itemClaimedSuffix": "of the item claimed!"
+      }
+    },
+    "errors": {
+      "loadReceiptFailed": "Could not load receipt.",
+      "revokeShareFailed": "Failed to reset shared receipt.",
+      "shareLinkFailed": "Failed to generate share link.",
+      "claimItemFailed": "Failed to assign item.",
+      "inviteFailed": "Failed to invite user.",
+      "claimFailed": "Failed to assign claim."
+    }
+  },
+  "shared": {
+    "receipt": {
+      "title": "Shared receipt",
+      "labels": {
+        "totalAmount": "Total amount",
+        "items": "Items",
+        "total": "Total",
+        "totalPrice": "Total price"
+      },
+      "buttons": {
+        "makePrivate": "Make private",
+        "claimAll": "Claim all",
+        "claimRest": "Claim remainder",
+        "customClaim": "Custom",
+        "unclaim": "Undo",
+        "login": "Sign in..."
+      },
+      "badges": {
+        "fullyAllocated": "Fully allocated"
+      },
+      "customClaim": {
+        "title": "Custom split",
+        "availableLabel": "Still available",
+        "quickSelect": "Quick select:",
+        "units": "units",
+        "labels": {
+          "percentage": "Percentage (0-100%)",
+          "quantity": "Or quantity",
+          "of": "of"
+        },
+        "errors": {
+          "maxAvailablePrefix": "Maximum",
+          "maxAvailableSuffix": "available",
+          "maxQuantityPrefix": "Maximum",
+          "maxQuantitySuffix": "units available"
+        }
+      },
+      "footer": {
+        "yourShare": "YOUR SHARE",
+        "receiptTotal": "RECEIPT TOTAL"
+      },
+      "loginPrompt": {
+        "title": "Sign-in required",
+        "text": "To claim items, you need to sign in or register."
+      },
+      "confirmations": {
+        "makePrivate": "Do you really want to make this receipt private again? The link will become invalid and all splits will be removed."
+      },
+      "messages": {
+        "madePrivate": "Receipt is private again.",
+        "itemClaimedSuffix": "of the item claimed!"
+      },
+      "errors": {
+        "expiredLink": "This shared link has expired or is invalid. The receipt may have been made private.",
+        "loadFailed": "Could not load receipt.",
+        "itemFullyClaimed": "This item has already been fully claimed.",
+        "itemFullyClaimedByOthers": "This item has already been fully claimed by others.",
+        "claimFailed": "Failed to claim item.",
+        "claimForbidden": "You are not allowed to claim this item.",
+        "claimConflict": "This claim exceeds the available amount.",
+        "assignFailed": "Failed to assign item.",
+        "revokeFailed": "Failed to reset shared receipt."
+      }
+    }
+  },
+  "admin": {
+    "label": "Admin Panel",
+    "roles": {
+      "owner": "OWNER",
+      "admin": "ADMIN",
+      "user": "USER"
+    },
+    "users": {
+      "title": "User Management",
+      "showingPrefix": "Showing",
+      "showingSuffix": "users",
+      "headers": {
+        "identity": "User Identity",
+        "role": "System Role",
+        "lastActive": "Last Active",
+        "actions": "Actions"
+      },
+      "buttons": {
+        "deleteTooltip": "Delete user"
+      },
+      "aria": {
+        "changeRoleFor": "Change role for"
+      },
+      "emptyState": "No users found.",
+      "loading": "Loading users...",
+      "time": {
+        "unknown": "Unknown",
+        "minAgo": "min ago",
+        "hoursAgo": "hours ago",
+        "daysAgo": "days ago"
+      },
+      "messages": {
+        "roleUpdated": "Role updated",
+        "userDeleted": "User deleted"
+      },
+      "errors": {
+        "loadFailed": "Unable to load users",
+        "updateRoleFailed": "Could not update role",
+        "deleteFailed": "Could not delete user"
+      }
+    }
+  },
+  "home": {
+    "title": "Home",
+    "labels": {
+      "totalExpenses": "Total amount of tracked expenses",
+      "trackedReceipts": "Tracked Receipts",
+      "categories": "Categories",
+      "recentExpenses": "Recent expenses"
+    },
+    "actionsCard": {
+      "title": "New Expense?",
+      "subtitle": "Quickly scan or manually add a new receipt to your account."
+    },
+    "buttons": {
+      "trackNewReceipt": "Track new receipt",
+      "viewAll": "View all"
+    },
+    "badges": {
+      "sharedReceipt": "Shared receipt"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "filters": {
+      "currentMonth": "Current Month",
+      "thisYear": "This Year",
+      "allTime": "All Time"
+    },
+    "cards": {
+      "totalExpenses": "Total Expenses",
+      "numberOfReceipts": "Number of Receipts"
+    },
+    "charts": {
+      "distributionTitle": "Distribution of Expenses",
+      "historyTitle": "Expense History",
+      "expensesLabel": "Expenses"
+    }
+  },
+  "account": {
+    "title": "Account",
+    "defaultUserName": "User",
+    "labels": {
+      "userId": "User ID",
+      "username": "Username"
+    },
+    "buttons": {
+      "copyUserId": "Copy User ID"
+    }
+  }
+}

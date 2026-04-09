@@ -7,6 +7,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import { TranslatePipe } from "../../../core/i18n/translate.pipe";
+import { TranslationService } from "../../../core/i18n/translation.service";
 
 export class ConfirmationDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: { message: string }) {}
@@ -14,7 +16,7 @@ export class ConfirmationDialogComponent {
 
 @Component({
   selector: 'app-splitting',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, TranslatePipe],
   templateUrl: './spliting.html',
   styleUrl: './spliting.scss'
 })
@@ -37,7 +39,8 @@ export class CostSplittingComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly snackBar: MatSnackBar,
     private readonly dialog: MatDialog,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    private readonly translationService: TranslationService
   ) {}
 
   ngOnInit(): void {
@@ -53,18 +56,26 @@ export class CostSplittingComponent implements OnInit {
     if (!this.receipt) return;
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: { message: 'Möchten Sie diesen Beleg wirklich wieder privat machen? Alle Teilnehmer und Aufteilungen werden entfernt.' }
+      data: { message: this.translationService.translate('splitting.confirmations.makePrivate') }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.splittingService.revokeShare(this.receipt!.id).subscribe({
           next: () => {
-            this.snackBar.open('Beleg ist nun wieder privat.', 'OK', { duration: 3000 });
+            this.snackBar.open(
+              this.translationService.translate('splitting.messages.success.madePrivate'),
+              this.translationService.translate('common.buttons.ok'),
+              { duration: 3000 }
+            );
             this.router.navigate(['/receipts', this.receipt!.id, 'edit']);
           },
           error: () => {
-            this.snackBar.open('Fehler beim Zurücksetzen des Belegs.', 'OK', { duration: 3000 });
+            this.snackBar.open(
+              this.translationService.translate('splitting.errors.revokeShareFailed'),
+              this.translationService.translate('common.buttons.ok'),
+              { duration: 3000 }
+            );
           }
         });
       }
@@ -84,7 +95,11 @@ export class CostSplittingComponent implements OnInit {
           }
         },
         error: () => {
-          this.snackBar.open('Beleg konnte nicht geladen werden', 'OK', { duration: 3000 });
+            this.snackBar.open(
+              this.translationService.translate('splitting.errors.loadReceiptFailed'),
+              this.translationService.translate('common.buttons.ok'),
+              { duration: 3000 }
+            );
           this.router.navigate(['/receipts']);
         }
       });
@@ -103,7 +118,13 @@ export class CostSplittingComponent implements OnInit {
         }
       },
       error: () => {
-        if (showAlert) this.snackBar.open('Fehler beim Generieren des Share-Links', 'OK', { duration: 3000 });
+        if (showAlert) {
+          this.snackBar.open(
+            this.translationService.translate('splitting.errors.shareLinkFailed'),
+            this.translationService.translate('common.buttons.ok'),
+            { duration: 3000 }
+          );
+        }
       }
     });
   }
@@ -111,7 +132,11 @@ export class CostSplittingComponent implements OnInit {
   copyShareLink(): void {
     if (this.shareUrl) {
       this.copyToClipboard(this.shareUrl);
-      this.snackBar.open('Link in die Zwischenablage kopiert!', 'OK', { duration: 2000 });
+      this.snackBar.open(
+        this.translationService.translate('splitting.messages.success.linkCopied'),
+        this.translationService.translate('common.buttons.ok'),
+        { duration: 2000 }
+      );
     }
   }
 
@@ -156,10 +181,18 @@ export class CostSplittingComponent implements OnInit {
     this.splittingService.claimItem(this.receipt.id, item.id, quantity).subscribe({
       next: () => {
         this.loadReceipt();
-        this.snackBar.open(`${quantity}/${item.quantity} des Artikels übernommen!`, 'OK', { duration: 2000 });
+        this.snackBar.open(
+          `${quantity}/${item.quantity} ${this.translationService.translate('splitting.messages.success.itemClaimedSuffix')}`,
+          this.translationService.translate('common.buttons.ok'),
+          { duration: 2000 }
+        );
       },
       error: (err) => {
-        this.snackBar.open(err.error?.message || 'Fehler beim Zuordnen des Artikels', 'OK', { duration: 3000 });
+        this.snackBar.open(
+          err.error?.message || this.translationService.translate('splitting.errors.claimItemFailed'),
+          this.translationService.translate('common.buttons.ok'),
+          { duration: 3000 }
+        );
       }
     });
   }
@@ -176,7 +209,11 @@ export class CostSplittingComponent implements OnInit {
         this.loadReceipt();
       },
       error: (err) => {
-        this.snackBar.open(err.error?.message || 'Fehler beim Einladen', 'OK', { duration: 3000 });
+        this.snackBar.open(
+          err.error?.message || this.translationService.translate('splitting.errors.inviteFailed'),
+          this.translationService.translate('common.buttons.ok'),
+          { duration: 3000 }
+        );
         this.inviting = false;
       }
     });
@@ -188,10 +225,18 @@ export class CostSplittingComponent implements OnInit {
     this.splittingService.claimItem(this.receipt.id, itemId, undefined, percentage / 100).subscribe({
       next: () => {
         this.loadReceipt();
-        this.snackBar.open(`${percentage}% des Artikels übernommen!`, 'OK', { duration: 2000 });
+        this.snackBar.open(
+          `${percentage}% ${this.translationService.translate('splitting.messages.success.itemClaimedSuffix')}`,
+          this.translationService.translate('common.buttons.ok'),
+          { duration: 2000 }
+        );
       },
       error: (err) => {
-        this.snackBar.open(err.error?.message || 'Fehler beim Zuordnen des Artikels', 'OK', { duration: 3000 });
+        this.snackBar.open(
+          err.error?.message || this.translationService.translate('splitting.errors.claimItemFailed'),
+          this.translationService.translate('common.buttons.ok'),
+          { duration: 3000 }
+        );
       }
     });
   }
@@ -217,10 +262,18 @@ export class CostSplittingComponent implements OnInit {
       next: () => {
         this.loadReceipt();
         this.cancelCustomClaim();
-        this.snackBar.open('Artikel erfolgreich zugeordnet!', 'OK', { duration: 2000 });
+        this.snackBar.open(
+          this.translationService.translate('splitting.messages.success.itemClaimed'),
+          this.translationService.translate('common.buttons.ok'),
+          { duration: 2000 }
+        );
       },
       error: () => {
-        this.snackBar.open('Fehler beim Zuordnen', 'OK', { duration: 3000 });
+        this.snackBar.open(
+          this.translationService.translate('splitting.errors.claimFailed'),
+          this.translationService.translate('common.buttons.ok'),
+          { duration: 3000 }
+        );
       }
     });
   }

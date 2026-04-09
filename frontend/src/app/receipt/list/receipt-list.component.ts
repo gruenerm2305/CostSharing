@@ -4,10 +4,12 @@ import { Router, RouterLink } from "@angular/router";
 import { SplittingService } from "../../core/services/splitting.service";
 import { CommonModule, CurrencyPipe, DatePipe } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import { TranslatePipe } from "../../core/i18n/translate.pipe";
+import { TranslationService } from "../../core/i18n/translation.service";
 
 @Component({
     selector: 'app-receipt-list',
-    imports: [RouterLink, CommonModule, CurrencyPipe, DatePipe, FormsModule],
+  imports: [RouterLink, CommonModule, CurrencyPipe, DatePipe, FormsModule, TranslatePipe],
     templateUrl: './receipt-list.html',
     styleUrl: './receipt-list.scss'
 })
@@ -22,7 +24,8 @@ export class ReceiptListComponent implements OnInit {
     private readonly receiptService: ReceiptService,
     private readonly splittingService: SplittingService,
     private readonly router: Router,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    private readonly translationService: TranslationService
   ) {}
 
   ngOnInit(): void {
@@ -92,21 +95,23 @@ export class ReceiptListComponent implements OnInit {
 
   getEditTooltip(receipt: any): string {
     if (receipt.isParticipant) {
-      return 'Der Beleg wurde von einem anderen Nutzer geteilt.';
+      return this.translationService.translate('receipts.tooltips.sharedByOther');
     }
     if (receipt.isShared) {
-      return 'Um den Beleg zu bearbeiten, muss er privat werden.';
+      return this.translationService.translate('receipts.tooltips.makePrivateToEdit');
     }
-    return 'Beleg bearbeiten';
+    return this.translationService.translate('receipts.tooltips.editReceipt');
   }
 
   getShareTooltip(receipt: any): string {
-      if (receipt.isParticipant) return 'Teilnehmer können den Beleg nicht weiter teilen.';
-      return 'Kosten teilen';
+      if (receipt.isParticipant) return this.translationService.translate('receipts.tooltips.participantCantShare');
+      return this.translationService.translate('receipts.tooltips.shareCosts');
   }
 
   revokeShare(receipt: any): void {
-    if (!confirm(`Möchten Sie den Beleg "${receipt.merchant}" wirklich wieder privat machen? Alle geteilten Kosten und Teilnehmer werden entfernt.`)) {
+    if (!confirm(
+      `${this.translationService.translate('receipts.confirmations.makePrivatePrefix')} "${receipt.merchant}" ${this.translationService.translate('receipts.confirmations.makePrivateSuffix')}`
+    )) {
       return;
     }
 
@@ -116,13 +121,15 @@ export class ReceiptListComponent implements OnInit {
       },
       error: (err) => {
          console.error(err);
-         alert('Fehler beim Zurücksetzen des Belegs.');
+         alert(this.translationService.translate('receipts.errors.revokeShareFailed'));
       }
     });
   }
 
   leaveReceipt(receipt: any): void {
-    if (!confirm(`Möchten Sie den geteilten Beleg "${receipt.merchant}" wirklich entfernen? Ihre übernommenen Kosten werden freigegeben.`)) {
+    if (!confirm(
+      `${this.translationService.translate('receipts.confirmations.removeReceiptPrefix')} "${receipt.merchant}" ${this.translationService.translate('receipts.confirmations.removeReceiptSuffix')}`
+    )) {
       return;
     }
 
@@ -133,7 +140,7 @@ export class ReceiptListComponent implements OnInit {
       },
       error: (err) => {
         console.error('Failed to leave receipt', err);
-        alert('Fehler beim Entfernen des Belegs.');
+        alert(this.translationService.translate('receipts.errors.removeFailed'));
       }
     });
   }

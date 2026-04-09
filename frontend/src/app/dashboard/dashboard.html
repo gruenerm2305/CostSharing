@@ -1,34 +1,34 @@
 <section class="app-page stats-page">
-  <h1>Dashboard</h1>
+  <h1>{{ 'dashboard.title' | t }}</h1>
 
   <div class="filters panel">
-    <button class="btn" [ngClass]="activeFilter === 'month' ? 'btn-primary' : 'btn-secondary'" (click)="onFilterChange('month')">Current Month</button>
-    <button class="btn" [ngClass]="activeFilter === 'year' ? 'btn-primary' : 'btn-secondary'" (click)="onFilterChange('year')">This Year</button>
-    <button class="btn" [ngClass]="activeFilter === 'all' ? 'btn-primary' : 'btn-secondary'" (click)="onFilterChange('all')">All Time</button>
+    <button class="btn" [ngClass]="activeFilter === 'month' ? 'btn-primary' : 'btn-secondary'" (click)="onFilterChange('month')">{{ 'dashboard.filters.currentMonth' | t }}</button>
+    <button class="btn" [ngClass]="activeFilter === 'year' ? 'btn-primary' : 'btn-secondary'" (click)="onFilterChange('year')">{{ 'dashboard.filters.thisYear' | t }}</button>
+    <button class="btn" [ngClass]="activeFilter === 'all' ? 'btn-primary' : 'btn-secondary'" (click)="onFilterChange('all')">{{ 'dashboard.filters.allTime' | t }}</button>
   </div>
 
   <div class="summary-cards">
     <article class="card summary-card">
-      <p>Total Expenses</p>
+      <p>{{ 'dashboard.cards.totalExpenses' | t }}</p>
       <h3 class="amount">{{ totalAmount | currency:'EUR' }}</h3>
     </article>
 
     <article class="card summary-card">
-      <p>Number of Receipts</p>
+      <p>{{ 'dashboard.cards.numberOfReceipts' | t }}</p>
       <h3 class="count">{{ receiptCount }}</h3>
     </article>
   </div>
 
   <div class="charts-grid">
     <article class="card chart-card">
-      <h3>Distribution of Expenses</h3>
+      <h3>{{ 'dashboard.charts.distributionTitle' | t }}</h3>
       <div class="chart-wrapper">
         <canvas baseChart [data]="pieChartData" [type]="pieChartType" [options]="pieChartOptions"> </canvas>
       </div>
     </article>
 
     <article class="card chart-card">
-      <h3>Expense History</h3>
+      <h3>{{ 'dashboard.charts.historyTitle' | t }}</h3>
       <div class="chart-wrapper">
         <canvas baseChart [data]="barChartData" [type]="barChartType" [options]="barChartOptions"> </canvas>
       </div>

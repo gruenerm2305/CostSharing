@@ -1,9 +1,9 @@
 <section class="app-page home">
-      <h1>Home</h1>
+      <h1>{{ 'home.title' | t }}</h1>
 
       <div class="hero panel">
         <div>
-          <p class="eyebrow">Total amount of tracked expenses</p>
+          <p class="eyebrow">{{ 'home.labels.totalExpenses' | t }}</p>
           <p class="hero-value">{{ totalAmount | currency:'EUR' }}</p>
         </div>
         <span class="material-symbols-outlined wallet">account_balance_wallet</span>
@@ -11,29 +11,29 @@
 
       <div class="stats-grid">
         <article class="card">
-          <p class="label">Tracked Receipts</p>
+          <p class="label">{{ 'home.labels.trackedReceipts' | t }}</p>
           <p class="stat">{{ receipts.length }}</p>
         </article>
         <article class="card">
-          <p class="label">Categories</p>
+          <p class="label">{{ 'home.labels.categories' | t }}</p>
           <p class="stat">{{ categories.length }}</p>
         </article>
       </div>
 
       <div class="actions panel">
         <div>
-          <h2>New Expense?</h2>
-          <p>Quickly scan or manually add a new receipt to your account.</p>
+          <h2>{{ 'home.actionsCard.title' | t }}</h2>
+          <p>{{ 'home.actionsCard.subtitle' | t }}</p>
         </div>
         <div class="action-buttons">
-          <button class="btn btn-primary" routerLink="/receipts/capture">Track new receipt</button>
+          <button class="btn btn-primary" routerLink="/receipts/capture">{{ 'home.buttons.trackNewReceipt' | t }}</button>
         </div>
       </div>
 
       <section *ngIf="recentReceipts.length > 0" class="recent panel">
         <div class="recent-head">
-          <h3>Kurzliche Ausgaben</h3>
-          <button class="btn btn-secondary btn-sm" routerLink="/receipts/list">Alle anzeigen</button>
+          <h3>{{ 'home.labels.recentExpenses' | t }}</h3>
+          <button class="btn btn-secondary btn-sm" routerLink="/receipts/list">{{ 'home.buttons.viewAll' | t }}</button>
         </div>
 
         <div class="receipt-row" *ngFor="let receipt of recentReceipts" (click)="viewReceipt(receipt)">
@@ -46,8 +46,8 @@
               {{ receipt.myTotal | currency:'EUR' }}
             </span>
             <ng-template #totalAmount>{{ receipt.totalAmount | currency:'EUR' }}</ng-template>
-            <small *ngIf="receipt.isParticipant">Geteilter Beleg</small>
-            <small *ngIf="!receipt.isParticipant && receipt.isShared">Geteilter Beleg</small>
+            <small *ngIf="receipt.isParticipant">{{ 'home.badges.sharedReceipt' | t }}</small>
+            <small *ngIf="!receipt.isParticipant && receipt.isShared">{{ 'home.badges.sharedReceipt' | t }}</small>
           </div>
         </div>
       </section>

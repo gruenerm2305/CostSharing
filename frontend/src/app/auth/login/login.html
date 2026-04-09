@@ -3,45 +3,81 @@
       <div class="atmo two"></div>
 
       <div class="auth-card panel">
+        
+
         <div class="brand">
           <div class="logo">
             <span class="material-symbols-outlined">account_balance_wallet</span>
           </div>
-          <h1>Cost Sharing</h1>
-          <p>Please log in to manage your receipts.</p>
+          <h1>{{ 'auth.loginTitle' | t }}</h1>
+          <p>{{ 'auth.loginSubtitle' | t }}</p>
         </div>
 
         <div *ngIf="error()" class="alert alert-error">{{ error() }}</div>
 
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
           <div class="form-group">
-            <label class="form-label" for="username">Username</label>
-            <input type="text" class="form-control" id="username" formControlName="username" placeholder="Enter your username" />
+            <label class="form-label" for="username">{{ 'auth.username' | t }}</label>
+            <input type="text" class="form-control" id="username" formControlName="username" [placeholder]="'auth.usernamePlaceholder' | t" />
             <small class="field-error" *ngIf="isFieldInvalid('username')">
-              Please enter a valid username.
+              {{ 'auth.errors.usernameInvalid' | t }}
             </small>
           </div>
 
           <div class="form-group">
             <div class="label-row">
-              <label class="form-label" for="password">Password</label>
+              <label class="form-label" for="password">{{ 'auth.password' | t }}</label>
             </div>
             <input type="password" class="form-control" id="password" formControlName="password" placeholder="••••••••" />
             <small class="field-error" *ngIf="isFieldInvalid('password')">
-              Password must be at least 6 characters long.
+              {{ 'auth.errors.passwordInvalid' | t }}
             </small>
           </div>
+          <div class="auth-language">
+          <label>{{ 'common.language' | t }}</label>
+          <div class="language-dropdown" [class.open]="isLanguageMenuOpen">
+            <button
+              type="button"
+              class="language-trigger"
+              (click)="toggleLanguageMenu($event)"
+              [attr.aria-expanded]="isLanguageMenuOpen"
+              aria-haspopup="listbox"
+            >
+              <span class="material-symbols-outlined language-icon">language</span>
+              <span class="language-current">{{ selectedLanguageLabelKey() | t }}</span>
+              <span class="material-symbols-outlined language-chevron">expand_more</span>
+            </button>
 
+            <div class="language-menu" *ngIf="isLanguageMenuOpen" role="listbox" aria-label="Language selection">
+              <button
+                type="button"
+                class="language-option"
+                [class.active]="languagePreference() === 'en'"
+                (click)="onLanguagePreferenceChange('en')"
+              >
+                {{ 'common.languageEnglish' | t }}
+              </button>
+              <button
+                type="button"
+                class="language-option"
+                [class.active]="languagePreference() === 'de'"
+                (click)="onLanguagePreferenceChange('de')"
+              >
+                {{ 'common.languageGerman' | t }}
+              </button>
+            </div>
+          </div>
+        </div>
           <button type="submit" class="btn btn-primary submit" [disabled]="!loginForm.valid || loading()">
-            {{ loading() ? 'Logging in...' : 'Login' }}
+            {{ loading() ? ('auth.loggingIn' | t) : ('auth.loginButton' | t) }}
           </button>
         </form>
 
         <p class="register-link">
-          New to the platform?
-          <a routerLink="/register">Create an account</a>
+          {{ 'auth.newToPlatform' | t }}
+          <a routerLink="/register">{{ 'auth.createAccount' | t }}</a>
         </p>
 
-        <div class="security-note">End-to-end encrypted receipt tracking</div>
+        <div class="security-note">{{ 'auth.securityNote' | t }}</div>
       </div>
     </section>

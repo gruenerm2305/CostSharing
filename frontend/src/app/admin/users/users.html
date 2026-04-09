@@ -2,18 +2,18 @@
   <div class="admin-content">
       <header class="admin-header">
         <div>
-          <p class="eyebrow">Admin Panel</p>
-          <h2>User Management</h2>
+          <p class="eyebrow">{{ 'admin.label' | t }}</p>
+          <h2>{{ 'admin.users.title' | t }}</h2>
         </div>
-        <p class="count">Showing {{ users.length }} users</p>
+        <p class="count">{{ 'admin.users.showingPrefix' | t }} {{ users.length }} {{ 'admin.users.showingSuffix' | t }}</p>
       </header>
 
       <div class="user-list-shell" *ngIf="!isLoading; else loadingTemplate">
         <div class="list-head list-row">
-          <span>User Identity</span>
-          <span>System Role</span>
-          <span>Last Active</span>
-          <span>Actions</span>
+          <span>{{ 'admin.users.headers.identity' | t }}</span>
+          <span>{{ 'admin.users.headers.role' | t }}</span>
+          <span>{{ 'admin.users.headers.lastActive' | t }}</span>
+          <span>{{ 'admin.users.headers.actions' | t }}</span>
         </div>
 
         <article class="list-row" *ngFor="let user of users">
@@ -33,7 +33,7 @@
                   class="role-trigger"
                   [disabled]="!canEditRole(user)"
                   [attr.aria-expanded]="isRoleMenuOpen(user.id)"
-                  [attr.aria-label]="'Change role for ' + displayName(user)"
+                  [attr.aria-label]="roleTriggerAriaLabel(displayName(user))"
                   (click)="toggleRoleMenu(user.id)"
                 >
                   <span class="role-chip" [attr.data-tone]="roleTone(user.role)">{{ roleLabel(user.role) }}</span>
@@ -55,7 +55,7 @@
               </div>
             </ng-container>
             <ng-template #staticRole>
-              <span class="role-pill">{{ user.role }}</span>
+              <span class="role-pill">{{ roleLabel(user.role) }}</span>
             </ng-template>
           </div>
 
@@ -69,7 +69,7 @@
               class="delete-btn"
               [disabled]="!canDelete(user)"
               (click)="deleteUser(user)"
-              title="Delete user"
+              [title]="'admin.users.buttons.deleteTooltip' | t"
             >
               <span class="material-symbols-outlined">delete</span>
             </button>
@@ -77,12 +77,12 @@
         </article>
 
         <div class="empty-state" *ngIf="users.length === 0">
-          No users found.
+          {{ 'admin.users.emptyState' | t }}
         </div>
       </div>
 
       <ng-template #loadingTemplate>
-        <div class="loading">Loading users...</div>
+        <div class="loading">{{ 'admin.users.loading' | t }}</div>
       </ng-template>
       </div>
     </section>

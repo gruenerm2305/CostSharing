@@ -2,10 +2,12 @@ import { Component, ElementRef, ViewChild } from "@angular/core";
 import { ReceiptService } from "../../core/services/receipt.service";
 import { Router, RouterLink } from "@angular/router";
 import { CommonModule } from "@angular/common";
+import { TranslatePipe } from "../../core/i18n/translate.pipe";
+import { TranslationService } from "../../core/i18n/translation.service";
 
 @Component({
     selector: 'app-receipt-capture',
-    imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TranslatePipe],
     templateUrl: './receipt-capture.html',
     styleUrl: './receipt-capture.scss',
 })
@@ -21,7 +23,8 @@ export class ReceiptCaptureComponent {
 
   constructor(
     private readonly receiptService: ReceiptService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly translationService: TranslationService
   ) {}
 
   onFileSelected(event: Event): void {
@@ -57,14 +60,14 @@ export class ReceiptCaptureComponent {
     // Validate file type
     const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
     if (!allowedTypes.includes(file.type)) {
-      this.error = 'Nur JPG, PNG und PDF Dateien sind erlaubt.';
+      this.error = this.translationService.translate('receipts.capture.errors.invalidFileType');
       return;
     }
 
     // Validate file size (10MB)
     const maxSize = 10 * 1024 * 1024;
     if (file.size > maxSize) {
-      this.error = 'Datei ist zu groß. Maximum 10MB.';
+      this.error = this.translationService.translate('receipts.capture.errors.fileTooLarge');
       return;
     }
 
@@ -94,7 +97,7 @@ export class ReceiptCaptureComponent {
         console.log('Receipt uploaded successfully:', receipt);
         
         if (!receipt?.id) {
-          this.error = 'Ungültige Antwort vom Server. Bitte versuche es erneut.';
+          this.error = this.translationService.translate('receipts.capture.errors.invalidResponse');
           this.uploading = false;
           return;
         }
@@ -106,14 +109,14 @@ export class ReceiptCaptureComponent {
           },
           (err) => {
             console.error('Navigation error:', err);
-            this.error = 'Navigation fehlgeschlagen. Bitte versuche es manuell.';
+            this.error = this.translationService.translate('receipts.capture.errors.navigationFailed');
             this.uploading = false;
           }
         );
       },
       error: (err) => {
         console.error('Upload error:', err);
-        this.error = err.error?.message || 'Upload fehlgeschlagen. Bitte versuche es erneut.';
+        this.error = err.error?.message || this.translationService.translate('receipts.capture.errors.uploadFailed');
         this.uploading = false;
       }
     });

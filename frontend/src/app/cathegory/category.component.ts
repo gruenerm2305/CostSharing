@@ -3,10 +3,12 @@ import { Category, CategoryService } from "../core/services/category.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
+import { TranslatePipe } from "../core/i18n/translate.pipe";
+import { TranslationService } from "../core/i18n/translation.service";
 
 @Component({
     selector: 'app-category',
-    imports: [CommonModule, FormsModule], 
+  imports: [CommonModule, FormsModule, TranslatePipe], 
     templateUrl: './category.html',
     styleUrl: './category.scss'
 })
@@ -22,7 +24,8 @@ export class CategoryComponent implements OnInit {
   categoryNameErrorMessage = '';
 
   constructor(private readonly categoryService: CategoryService,
-              private readonly cdr: ChangeDetectorRef ) {}
+              private readonly cdr: ChangeDetectorRef,
+              private readonly translationService: TranslationService ) {}
 
   ngOnInit(): void {
     this.loadCategories();
@@ -39,7 +42,7 @@ export class CategoryComponent implements OnInit {
     const categoryName = this.newCategory.name.trim();
 
     if (categoryName.length === 0) {
-      this.setCategoryNameError('Name is required.');
+      this.setCategoryNameError(this.translationService.translate('categories.validation.nameRequired'));
       return;
     }
 
@@ -58,7 +61,9 @@ export class CategoryComponent implements OnInit {
         this.cdr.detectChanges();
       },
       error: (error: HttpErrorResponse) => {
-        this.setCategoryNameError(this.extractErrorMessage(error, 'Fehler beim Erstellen der Kategorie'));
+        this.setCategoryNameError(
+          this.extractErrorMessage(error, this.translationService.translate('categories.errors.createFailed'))
+        );
       }
     });
   }
@@ -87,7 +92,7 @@ export class CategoryComponent implements OnInit {
           this.editingCategory = null;
         },
         error: (error: HttpErrorResponse) => {
-          alert(this.extractErrorMessage(error, 'Fehler beim Aktualisieren'));
+          alert(this.extractErrorMessage(error, this.translationService.translate('categories.errors.updateFailed')));
         }
       });
     }
@@ -103,7 +108,7 @@ export class CategoryComponent implements OnInit {
           this.loadCategories();
         },
         error: (error: HttpErrorResponse) => {
-          alert(this.extractErrorMessage(error, 'Fehler beim Löschen'));
+          alert(this.extractErrorMessage(error, this.translationService.translate('categories.errors.deleteFailed')));
         }
     });
   }

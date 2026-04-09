@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ReceiptService } from '../core/services/receipt.service';
 import { Chart, registerables, ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { TranslatePipe } from '../core/i18n/translate.pipe';
+import { TranslationService } from '../core/i18n/translation.service';
 
 Chart.register(...registerables); 
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, BaseChartDirective], 
+  imports: [CommonModule, BaseChartDirective, TranslatePipe], 
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })
@@ -53,7 +55,7 @@ export class DashboardComponent implements OnInit {
 
   public barChartData: ChartData<'bar'> = {
     labels: [],
-    datasets: [{ data: [], label: 'Ausgaben' }]
+    datasets: [{ data: [], label: '' }]
   };
   public barChartType: ChartType = 'bar';
 
@@ -66,7 +68,8 @@ export class DashboardComponent implements OnInit {
   public activeFilter: 'month' | 'year' | 'all' = 'all';
 
   constructor(private readonly receiptService: ReceiptService,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    private readonly translationService: TranslationService
   ) {}
 
   ngOnInit(): void {
@@ -102,7 +105,7 @@ export class DashboardComponent implements OnInit {
           datasets: [
             { 
               data: amounts, 
-              label: 'Ausgaben',
+              label: this.translationService.translate('dashboard.charts.expensesLabel'),
               backgroundColor: barColors[0] || '#007bff',
               borderColor: barColors[0] || '#0056b3',
               borderWidth: 1

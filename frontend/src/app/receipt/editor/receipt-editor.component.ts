@@ -8,6 +8,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { TranslatePipe } from "../../core/i18n/translate.pipe";
+import { TranslationService } from "../../core/i18n/translation.service";
 
 @Component({
   selector: 'app-receipt-editor',
@@ -19,6 +21,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    TranslatePipe,
   ],
   templateUrl: './receipt-editor.html',
   styleUrl: './receipt-editor.scss',
@@ -41,7 +44,8 @@ export class ReceiptEditorComponent implements OnInit {
     private readonly router: Router,
     private readonly receiptService: ReceiptService,
     private readonly categoryService: CategoryService,
-    private readonly cdr: ChangeDetectorRef  
+    private readonly cdr: ChangeDetectorRef,
+    private readonly translationService: TranslationService
   ) {}
 
   roundValue(index: number) {
@@ -73,7 +77,7 @@ export class ReceiptEditorComponent implements OnInit {
           console.log('Receipt loaded:', receipt);
           
           if (!receipt) {
-            alert('Beleg nicht gefunden');
+            alert(this.translationService.translate('receipts.editor.errors.notFound'));
             this.router.navigate(['/receipts']);
             this.loading = false;
             return;
@@ -100,7 +104,7 @@ export class ReceiptEditorComponent implements OnInit {
         error: (err) => {
           console.error('Error loading receipt:', err);
           this.loading = false;
-          alert('Beleg konnte nicht geladen werden: ' + (err.error?.message || err.message));
+          alert(`${this.translationService.translate('receipts.editor.errors.loadFailed')} ${(err.error?.message || err.message)}`);
           this.router.navigate(['/receipts']);
         }
       });
@@ -183,7 +187,7 @@ export class ReceiptEditorComponent implements OnInit {
   }
 
   removeItem(index: number): void {
-    if (confirm('Artikel wirklich löschen?')) {
+    if (confirm(this.translationService.translate('receipts.editor.confirmations.deleteItem'))) {
       this.items.removeAt(index);
     }
   }
@@ -252,7 +256,7 @@ export class ReceiptEditorComponent implements OnInit {
 
   saveReceipt(): void {
     if (this.isReadOnly) {
-      alert('Dieser Beleg kann nicht bearbeitet werden, da er bereits geteilt wurde.');
+      alert(this.translationService.translate('receipts.editor.errors.cannotEditShared'));
       return;
     }
 
@@ -260,7 +264,7 @@ export class ReceiptEditorComponent implements OnInit {
       this.submitAttempted = true;
       this.receiptForm.markAllAsTouched();
 
-      this.formError = 'Bitte alle Pflichtfelder ausfullen.';
+      this.formError = this.translationService.translate('receipts.editor.errors.fillRequiredFields');
       return;
     }
 
@@ -301,7 +305,7 @@ export class ReceiptEditorComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error saving receipt:', err);
-          alert('Fehler beim Speichern: ' + (err.error?.message || err.message));
+          alert(`${this.translationService.translate('receipts.editor.errors.saveFailed')} ${(err.error?.message || err.message)}`);
           this.saving = false;
         }
       });
@@ -315,7 +319,7 @@ export class ReceiptEditorComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error creating receipt:', err);
-          alert('Fehler beim Erstellen: ' + (err.error?.message || err.message));
+          alert(`${this.translationService.translate('receipts.editor.errors.createFailed')} ${(err.error?.message || err.message)}`);
           this.saving = false;
         }
       });
@@ -323,13 +327,13 @@ export class ReceiptEditorComponent implements OnInit {
   }
 
   deleteReceipt(): void {
-    if (this.receipt && confirm('Beleg wirklich löschen?')) {
+    if (this.receipt && confirm(this.translationService.translate('receipts.editor.confirmations.deleteReceipt'))) {
       this.receiptService.delete(this.receipt.id).subscribe({
         next: () => {
           this.router.navigate(['/receipts/list']);
         },
         error: () => {
-          alert('Fehler beim Löschen');
+          alert(this.translationService.translate('receipts.editor.errors.deleteFailed'));
           this.router.navigate(['/receipts/list']);
         }
       });

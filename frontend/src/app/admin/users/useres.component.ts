@@ -3,10 +3,12 @@ import { AuthService, User, UserRole } from "../../core/services/auth.service";
 import { UserAdminService } from "../../core/services/user-admin.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { CommonModule } from "@angular/common";
+import { TranslatePipe } from "../../core/i18n/translate.pipe";
+import { TranslationService } from "../../core/i18n/translation.service";
 
 @Component({
   selector: 'app-user-management',
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './users.html',
   styleUrl: './users.scss'
 })
@@ -23,7 +25,8 @@ export class UserManagementComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly snackBar: MatSnackBar,
     private readonly cdr: ChangeDetectorRef,
-    private readonly elementRef: ElementRef<HTMLElement>
+    private readonly elementRef: ElementRef<HTMLElement>,
+    private readonly translationService: TranslationService
   ) {}
 
   ngOnInit(): void {
@@ -40,7 +43,11 @@ export class UserManagementComponent implements OnInit {
       },
       error: () => {
         this.isLoading = false;
-        this.snackBar.open('Unable to load users', 'Close', { duration: 3000 });
+        this.snackBar.open(
+          this.translationService.translate('admin.users.errors.loadFailed'),
+          this.translationService.translate('common.buttons.close'),
+          { duration: 3000 }
+        );
       },
     });
   }
@@ -108,17 +115,36 @@ export class UserManagementComponent implements OnInit {
           candidate.id === updatedUser.id ? updatedUser : candidate,
         );
         this.loadUsers();
-        this.snackBar.open('Role updated', 'Close', { duration: 1800 });
+        this.snackBar.open(
+          this.translationService.translate('admin.users.messages.roleUpdated'),
+          this.translationService.translate('common.buttons.close'),
+          { duration: 1800 }
+        );
       },
       error: () => {
-        this.snackBar.open('Could not update role', 'Close', { duration: 2500 });
+        this.snackBar.open(
+          this.translationService.translate('admin.users.errors.updateRoleFailed'),
+          this.translationService.translate('common.buttons.close'),
+          { duration: 2500 }
+        );
         this.loadUsers();
       },
     });
   }
 
   roleLabel(role: UserRole): string {
-    return role;
+    switch (role) {
+      case UserRole.OWNER:
+        return this.translationService.translate('admin.roles.owner');
+      case UserRole.ADMIN:
+        return this.translationService.translate('admin.roles.admin');
+      default:
+        return this.translationService.translate('admin.roles.user');
+    }
+  }
+
+  roleTriggerAriaLabel(displayName: string): string {
+    return `${this.translationService.translate('admin.users.aria.changeRoleFor')} ${displayName}`;
   }
 
   roleTone(role: UserRole): string {
@@ -150,10 +176,18 @@ export class UserManagementComponent implements OnInit {
       next: () => {
         this.users = this.users.filter((candidate) => candidate.id !== user.id);
         this.cdr.detectChanges();
-        this.snackBar.open('User deleted', 'Close', { duration: 1800 });
+        this.snackBar.open(
+          this.translationService.translate('admin.users.messages.userDeleted'),
+          this.translationService.translate('common.buttons.close'),
+          { duration: 1800 }
+        );
       },
       error: () => {
-        this.snackBar.open('Could not delete user', 'Close', { duration: 2500 });
+        this.snackBar.open(
+          this.translationService.translate('admin.users.errors.deleteFailed'),
+          this.translationService.translate('common.buttons.close'),
+          { duration: 2500 }
+        );
       },
     });
   }
@@ -174,7 +208,7 @@ export class UserManagementComponent implements OnInit {
 
   relativeTime(value?: string | Date): string {
     if (!value) {
-      return 'Unknown';
+      return this.translationService.translate('admin.users.time.unknown');
     }
 
     const date = new Date(value);
@@ -185,16 +219,16 @@ export class UserManagementComponent implements OnInit {
 
     if (diffMs < hour) {
       const minutes = Math.max(1, Math.floor(diffMs / minute));
-      return `${minutes} min ago`;
+      return `${minutes} ${this.translationService.translate('admin.users.time.minAgo')}`;
     }
 
     if (diffMs < day) {
       const hours = Math.floor(diffMs / hour);
-      return `${hours} hours ago`;
+      return `${hours} ${this.translationService.translate('admin.users.time.hoursAgo')}`;
     }
 
     const days = Math.floor(diffMs / day);
-    return `${days} days ago`;
+    return `${days} ${this.translationService.translate('admin.users.time.daysAgo')}`;
   }
 
   @HostListener('document:click', ['$event'])
