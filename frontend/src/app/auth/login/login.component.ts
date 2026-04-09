@@ -16,7 +16,6 @@ export class LoginComponent {
     loginForm: FormGroup;
     loading = signal(false);
     error: WritableSignal<string | null> = signal(null);
-    submitAttempted = false;
     isLanguageMenuOpen = false;
 
     constructor(
@@ -27,7 +26,7 @@ export class LoginComponent {
     ) {
         this.loginForm = this.fb.group({
             username: ['',[Validators.required, Validators.maxLength(100)]],
-            password: ['',[Validators.required, Validators.minLength(6), Validators.maxLength(100)]]
+            password: ['',[Validators.required, Validators.maxLength(100)]]
         });
     }
 
@@ -35,16 +34,9 @@ export class LoginComponent {
         return this.translationService.languagePreference();
     }
     onSubmit(): void {
-        if (!this.loginForm.valid) {
-        this.submitAttempted = true;
-        this.loginForm.markAllAsTouched();
-        return;
-        }
-        if(this.loginForm.valid) {
-            this.submitAttempted = false;
-            this.loading.set(true);
-            this.error.set(null);
-            const { username, password } = this.loginForm.value;
+        this.loading.set(true);
+        this.error.set(null);
+        const { username, password } = this.loginForm.value;
 
       this.authService.login(username, password).subscribe({
         next: () => {
@@ -72,7 +64,6 @@ export class LoginComponent {
             this.loading.set(false);
             }
         });
-        }
     }
 
     onLanguagePreferenceChange(preference: string): void {
@@ -94,11 +85,6 @@ export class LoginComponent {
         return this.languagePreference() === 'de' ? 'common.languageGerman' : 'common.languageEnglish';
     }
         
-    isFieldInvalid(fieldName: string): boolean {
-        const control = this.loginForm.get(fieldName);
-        return !!control && control.invalid && (control.touched || this.submitAttempted);
-    }
-
     @HostListener('document:click', ['$event'])
     onDocumentClick(event: MouseEvent): void {
         const target = event.target as HTMLElement | null;

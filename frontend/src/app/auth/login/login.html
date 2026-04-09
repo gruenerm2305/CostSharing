@@ -19,9 +19,6 @@
           <div class="form-group">
             <label class="form-label" for="username">{{ 'auth.username' | t }}</label>
             <input type="text" class="form-control" id="username" formControlName="username" [placeholder]="'auth.usernamePlaceholder' | t" />
-            <small class="field-error" *ngIf="isFieldInvalid('username')">
-              {{ 'auth.errors.usernameInvalid' | t }}
-            </small>
           </div>
 
           <div class="form-group">
@@ -29,9 +26,6 @@
               <label class="form-label" for="password">{{ 'auth.password' | t }}</label>
             </div>
             <input type="password" class="form-control" id="password" formControlName="password" placeholder="••••••••" />
-            <small class="field-error" *ngIf="isFieldInvalid('password')">
-              {{ 'auth.errors.passwordInvalid' | t }}
-            </small>
           </div>
           <div class="auth-language">
           <label>{{ 'common.language' | t }}</label>
@@ -68,7 +62,7 @@
             </div>
           </div>
         </div>
-          <button type="submit" class="btn btn-primary submit" [disabled]="!loginForm.valid || loading()">
+          <button type="submit" class="btn btn-primary submit" [disabled]="loading()">
             {{ loading() ? ('auth.loggingIn' | t) : ('auth.loginButton' | t) }}
           </button>
         </form>
