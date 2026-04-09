@@ -5,6 +5,7 @@ import { filter } from "rxjs";
 import { CommonModule } from "@angular/common";
 import { LanguagePreference, TranslationService } from './core/i18n/translation.service';
 import { TranslatePipe } from './core/i18n/translate.pipe';
+import { signal } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -48,6 +49,22 @@ export class App {
 
   selectedLanguageLabelKey(): string {
     return this.languagePreference() === 'de' ? 'common.languageGerman' : 'common.languageEnglish';
+  }
+
+  getUserRoleKey(): string {
+    const user = this.authService.getCurrentUser();
+    if (!user) {
+      return 'common.roleUser';
+    }
+    switch (user.role) {
+      case UserRole.OWNER:
+        return 'common.roleOwner';
+      case UserRole.ADMIN:
+        return 'common.roleAdmin';
+      case UserRole.USER:
+      default:
+        return 'common.roleUser';
+    }
   }
 
   isLoggedIn(): boolean {

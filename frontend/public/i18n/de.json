@@ -2,6 +2,9 @@
   "common": {
     "appName": "Cost Sharing",
     "premiumTier": "Premium Tier",
+    "roleUser": "Mitglied",
+    "roleAdmin": "Admin",
+    "roleOwner": "Besitzer",
     "language": "Sprache",
     "languageEnglish": "Englisch",
     "languageGerman": "Deutsch",

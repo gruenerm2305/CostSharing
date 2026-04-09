@@ -2,7 +2,7 @@
       <aside class="side-nav" *ngIf="showNavigation()">
         <div class="brand-box">
           <h1>{{ 'common.appName' | t }}</h1>
-          <p>{{ 'common.premiumTier' | t }}</p>
+          <p>{{ getUserRoleKey() | t }}</p>
         </div>
 
         <nav class="menu-list" aria-label="Main navigation">
