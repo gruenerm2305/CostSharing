@@ -8,7 +8,7 @@
         </div>
 
         <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
-        <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+        <div *ngIf="error" class="alert alert-error">{{ error | t }}</div>
 
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" *ngIf="!successMessage">
           <div class="split">

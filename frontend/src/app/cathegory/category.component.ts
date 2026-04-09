@@ -24,8 +24,7 @@ export class CategoryComponent implements OnInit {
   categoryNameErrorMessage = '';
 
   constructor(private readonly categoryService: CategoryService,
-              private readonly cdr: ChangeDetectorRef,
-              private readonly translationService: TranslationService ) {}
+              private readonly cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.loadCategories();
@@ -42,7 +41,7 @@ export class CategoryComponent implements OnInit {
     const categoryName = this.newCategory.name.trim();
 
     if (categoryName.length === 0) {
-      this.setCategoryNameError(this.translationService.translate('categories.validation.nameRequired'));
+      this.setCategoryNameError('categories.validation.nameRequired');
       return;
     }
 
@@ -62,7 +61,7 @@ export class CategoryComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         this.setCategoryNameError(
-          this.extractErrorMessage(error, this.translationService.translate('categories.errors.createFailed'))
+          this.extractErrorMessage(error, 'categories.errors.createFailed')
         );
       }
     });
@@ -92,7 +91,7 @@ export class CategoryComponent implements OnInit {
           this.editingCategory = null;
         },
         error: (error: HttpErrorResponse) => {
-          alert(this.extractErrorMessage(error, this.translationService.translate('categories.errors.updateFailed')));
+          alert(this.extractErrorMessage(error,'categories.errors.updateFailed'));
         }
       });
     }
@@ -108,7 +107,7 @@ export class CategoryComponent implements OnInit {
           this.loadCategories();
         },
         error: (error: HttpErrorResponse) => {
-          alert(this.extractErrorMessage(error, this.translationService.translate('categories.errors.deleteFailed')));
+          alert(this.extractErrorMessage(error, 'categories.errors.deleteFailed'));
         }
     });
   }

@@ -13,7 +13,7 @@
           <p>{{ 'auth.loginSubtitle' | t }}</p>
         </div>
 
-        <div *ngIf="error()" class="alert alert-error">{{ error() }}</div>
+        <div *ngIf="error()" class="alert alert-error">{{ error()}}</div>
 
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
           <div class="form-group">

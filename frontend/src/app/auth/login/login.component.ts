@@ -40,19 +40,16 @@ export class LoginComponent {
 
       this.authService.login(username, password).subscribe({
         next: () => {
-            // Check if there's a return URL saved
+            this.loading.set(false);
           const returnUrl = localStorage.getItem('returnUrl');
           if (returnUrl) {
             localStorage.removeItem('returnUrl');
             this.router.navigateByUrl(returnUrl);
           } else {
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/home']);
           }
         },
             error: (err) => {
-                
-                // errorhandling !!!To implement !!
-            
             console.error('Login error:', err);
             if (err.status === 401) {
                 this.error.set(this.translationService.translate('auth.errors.loginUnauthorized'));
