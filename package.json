@@ -1,5 +1,10 @@
 {
   "devDependencies": {
     "@types/node": "^25.5.2"
+  },
+  "dependencies": {
+    "@types/archiver": "^7.0.0",
+    "archiver": "^7.0.1",
+    "readable-stream": "^4.7.0"
   }
 }
