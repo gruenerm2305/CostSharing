@@ -75,6 +75,23 @@
           }
         </div>
 
+        <div class="export-zone">
+          <h3>{{ 'account.export.title' | t }}</h3>
+          <p>{{ 'account.export.description' | t }}</p>
+          <button
+            class="btn btn-secondary"
+            type="button"
+            (click)="downloadReceiptExport()"
+            [disabled]="!canExportReceipts()"
+          >
+            {{ exportSaving ? ('account.buttons.exportingReceipts' | t) : ('account.buttons.exportReceipts' | t) }}
+          </button>
+
+          @if (exportErrorKey) {
+            <div class="alert alert-error inline-alert">{{ exportErrorKey | t }}</div>
+          }
+        </div>
+
         <div class="danger-zone">
           <h3>{{ 'account.delete.title' | t }}</h3>
           <p>{{ 'account.delete.description' | t }}</p>

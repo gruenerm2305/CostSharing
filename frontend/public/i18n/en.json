@@ -437,8 +437,14 @@
       "savingUsername": "Saving username...",
       "savePassword": "Save Password",
       "savingPassword": "Saving password...",
+      "exportReceipts": "Download Receipt Export",
+      "exportingReceipts": "Preparing download...",
       "deleteAccount": "Delete Account",
       "deletingAccount": "Deleting account..."
+    },
+    "export": {
+      "title": "Data Export",
+      "description": "Download all your receipts as a ZIP archive for backup or portability."
     },
     "delete": {
       "title": "Danger Zone",
@@ -458,6 +464,7 @@
       "passwordTooShort": "Password must be longer than or equal to 6 characters.",
       "passwordMismatch": "Both password fields must match.",
       "passwordSaveFailed": "Could not update password.",
+      "exportFailed": "Could not generate your export. Please try again.",
       "deleteAccountFailed": "Could not delete your account."
     }
   }

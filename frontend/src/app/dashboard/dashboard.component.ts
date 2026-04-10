@@ -57,10 +57,12 @@ export class DashboardComponent implements OnInit {
     },
     scales: {
       x: {
+        stacked: true,
         ticks: { color: '#a5adc6' },
         grid: { color: 'rgba(255, 255, 255, 0.08)' }
       },
       y: {
+        stacked: true,
         ticks: { color: '#a5adc6' },
         grid: { color: 'rgba(255, 255, 255, 0.08)' }
       }
@@ -75,7 +77,6 @@ export class DashboardComponent implements OnInit {
 
   public totalAmount: number = 0;
   public receiptCount: number = 0;
-  public test: any;
   
   public startDate: string | null = null;
   public endDate: string | null = null;
@@ -95,41 +96,171 @@ export class DashboardComponent implements OnInit {
       next: (data) => {
         this.totalAmount = data.totalAmount;
         this.receiptCount = data.receiptCount;
-        
+
         const categoryNames = Object.keys(data.byCategory);
         const categoryAmounts = Object.values(data.byCategory) as number[];
-        const colors = categoryNames.map(name => data.categoryColors[name] || '#cccccc');
-        
+        const categoryColorMap = this.buildCategoryColorMap(categoryNames, data.categoryColors || {});
+        const pieColors = categoryNames.map((name) => categoryColorMap[name]);
+
         this.pieChartData = {
           labels: categoryNames,
           datasets: [{
             data: categoryAmounts,
-            backgroundColor: colors,
-            borderWidth: 2,
-            borderColor: '#ffffff'
+            backgroundColor: pieColors,
+            borderWidth: 0,
+            borderColor: 'transparent'
           }]
         };
 
-        const dates = Object.keys(data.byDate).sort();
-        const amounts = dates.map(date => data.byDate[date] as number);
-        const barColors = categoryNames.length > 0 ? colors : ['#007bff'];
-        
+        const dates = Object.keys(data.byDate).sort((a, b) => a.localeCompare(b));
+        const isDetailedByDate = dates.length > 0 && this.hasDetailedDateData(data.byDate[dates[0]]);
+
+        if (isDetailedByDate) {
+          const datasets = categoryNames.map((categoryName) => {
+            const categoryColor = categoryColorMap[categoryName] || '#cccccc';
+
+            return {
+              data: dates.map((date) => this.getCategoryAmountForDate(data.byDate[date], categoryName)),
+              label: categoryName,
+              backgroundColor: categoryColor,
+              borderColor: categoryColor,
+              borderWidth: 1,
+            };
+          });
+
+          this.barChartData = {
+            labels: dates,
+            datasets,
+          };
+        } else {
+          const fallbackColor = categoryNames.length > 0 ? categoryColorMap[categoryNames[0]] : '#007bff';
+          const amounts = dates.map((date) => Number(data.byDate[date]) || 0);
+
+          this.barChartData = {
+            labels: dates,
+            datasets: [
+              {
+                data: amounts,
+                label: this.translationService.translate('dashboard.charts.expensesLabel'),
+                backgroundColor: fallbackColor,
+                borderColor: fallbackColor,
+                borderWidth: 1,
+              }
+            ]
+          };
+        }
+
         this.barChartData = {
+          ...this.barChartData,
           labels: dates,
-          datasets: [
-            { 
-              data: amounts, 
-              label: this.translationService.translate('dashboard.charts.expensesLabel'),
-              backgroundColor: barColors[0] || '#007bff',
-              borderColor: barColors[0] || '#0056b3',
-              borderWidth: 1
-            }
-          ]
         };
         this.cdr.detectChanges();
       },
       error: (err) => console.error('Error loading statistics', err)
     });
+  }
+
+  private hasDetailedDateData(
+    dateEntry: unknown,
+  ): dateEntry is { categories: Array<{ name: string; amount: number }> } {
+    return !!dateEntry && typeof dateEntry === 'object' && Array.isArray((dateEntry as { categories?: unknown }).categories);
+  }
+
+  private getCategoryAmountForDate(
+    dateEntry: unknown,
+    categoryName: string,
+  ): number {
+    if (!this.hasDetailedDateData(dateEntry)) {
+      return 0;
+    }
+
+    const match = dateEntry.categories.find((category) => category.name === categoryName);
+    return Number(match?.amount) || 0;
+  }
+
+  private buildCategoryColorMap(
+    categoryNames: string[],
+    categoryColors: Record<string, string>,
+  ): Record<string, string> {
+    const map: Record<string, string> = {};
+    const buckets: Record<string, string[]> = {};
+
+    for (const name of categoryNames) {
+      const baseColor = this.normalizeHexColor(categoryColors[name] || '#cccccc');
+      if (!buckets[baseColor]) {
+        buckets[baseColor] = [];
+      }
+      buckets[baseColor].push(name);
+    }
+
+    Object.entries(buckets).forEach(([baseColor, names]) => {
+      names.forEach((name, index) => {
+        map[name] = this.applyShadeVariant(baseColor, index, names.length);
+      });
+    });
+
+    return map;
+  }
+
+  private applyShadeVariant(baseHex: string, index: number, total: number): string {
+    if (total <= 1) {
+      return baseHex;
+    }
+
+    const [r, g, b] = this.hexToRgb(baseHex);
+    const center = (total - 1) / 2;
+    const offset = index - center;
+    const strength = 0.18;
+    const factor = total === 1 ? 0 : (offset / Math.max(center, 1)) * strength;
+
+    const shaded = [
+      this.adjustChannel(r, factor),
+      this.adjustChannel(g, factor),
+      this.adjustChannel(b, factor),
+    ] as const;
+
+    return this.rgbToHex(shaded[0], shaded[1], shaded[2]);
+  }
+
+  private adjustChannel(value: number, factor: number): number {
+    if (factor >= 0) {
+      return Math.round(value + (255 - value) * factor);
+    }
+
+    return Math.round(value * (1 + factor));
+  }
+
+  private normalizeHexColor(color: string): string {
+    const trimmed = color.trim();
+    if (/^#[0-9A-Fa-f]{6}$/.test(trimmed)) {
+      return trimmed.toLowerCase();
+    }
+
+    if (/^#[0-9A-Fa-f]{3}$/.test(trimmed)) {
+      const r = trimmed[1];
+      const g = trimmed[2];
+      const b = trimmed[3];
+      return `#${r}${r}${g}${g}${b}${b}`.toLowerCase();
+    }
+
+    return '#cccccc';
+  }
+
+  private hexToRgb(hex: string): [number, number, number] {
+    const normalized = this.normalizeHexColor(hex).replace('#', '');
+    const r = Number.parseInt(normalized.slice(0, 2), 16);
+    const g = Number.parseInt(normalized.slice(2, 4), 16);
+    const b = Number.parseInt(normalized.slice(4, 6), 16);
+    return [r, g, b];
+  }
+
+  private rgbToHex(r: number, g: number, b: number): string {
+    const toHex = (value: number) => value.toString(16).padStart(2, '0');
+    return `#${toHex(this.clampColor(r))}${toHex(this.clampColor(g))}${toHex(this.clampColor(b))}`;
+  }
+
+  private clampColor(value: number): number {
+    return Math.min(255, Math.max(0, value));
   }
 
   onFilterChange(type: 'month' | 'year' | 'all'): void {

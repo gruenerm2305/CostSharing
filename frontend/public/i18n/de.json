@@ -437,8 +437,14 @@
       "savingUsername": "Benutzername wird gespeichert...",
       "savePassword": "Passwort speichern",
       "savingPassword": "Passwort wird gespeichert...",
+      "exportReceipts": "Beleg-Export herunterladen",
+      "exportingReceipts": "Download wird vorbereitet...",
       "deleteAccount": "Konto löschen",
       "deletingAccount": "Konto wird gelöscht..."
+    },
+    "export": {
+      "title": "Datenexport",
+      "description": "Laden Sie alle Ihre Belege als ZIP-Archiv für Backup oder Portabilität herunter."
     },
     "delete": {
       "title": "Gefahrenbereich",
@@ -458,6 +464,7 @@
       "passwordTooShort": "Passwort muss länger als 6 Zeichen sein.",
       "passwordMismatch": "Beide Passwortfelder müssen übereinstimmen.",
       "passwordSaveFailed": "Passwort konnte nicht aktualisiert werden.",
+      "exportFailed": "Ihr Export konnte nicht erstellt werden. Bitte versuchen Sie es erneut.",
       "deleteAccountFailed": "Ihr Konto konnte nicht gelöscht werden."
     }
   }
