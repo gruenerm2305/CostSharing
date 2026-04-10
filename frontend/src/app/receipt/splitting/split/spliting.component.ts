@@ -1,18 +1,13 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { Receipt, ReceiptService } from "../../../core/services/receipt.service";
 import { SplittingService } from "../../../core/services/splitting.service";
 import { AuthService } from "../../../core/services/auth.service";
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { TranslatePipe } from "../../../core/i18n/translate.pipe";
 import { TranslationService } from "../../../core/i18n/translation.service";
-
-export class ConfirmationDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { message: string }) {}
-}
 
 @Component({
   selector: 'app-splitting',
@@ -38,7 +33,6 @@ export class CostSplittingComponent implements OnInit {
     private readonly splittingService: SplittingService,
     private readonly authService: AuthService,
     private readonly snackBar: MatSnackBar,
-    private readonly dialog: MatDialog,
     private readonly cdr: ChangeDetectorRef,
     private readonly translationService: TranslationService
   ) {}
@@ -55,29 +49,25 @@ export class CostSplittingComponent implements OnInit {
   revokeShare(): void {
     if (!this.receipt) return;
 
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: { message: this.translationService.translate('splitting.confirmations.makePrivate') }
-    });
+    const receiptId = this.receipt.id;
+    const confirmed = globalThis.confirm(this.translationService.translate('splitting.confirmations.makePrivate'));
+    if (!confirmed) return;
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.splittingService.revokeShare(this.receipt!.id).subscribe({
-          next: () => {
-            this.snackBar.open(
-              this.translationService.translate('splitting.messages.success.madePrivate'),
-              this.translationService.translate('common.buttons.ok'),
-              { duration: 3000 }
-            );
-            this.router.navigate(['/receipts', this.receipt!.id, 'edit']);
-          },
-          error: () => {
-            this.snackBar.open(
-              this.translationService.translate('splitting.errors.revokeShareFailed'),
-              this.translationService.translate('common.buttons.ok'),
-              { duration: 3000 }
-            );
-          }
-        });
+    this.splittingService.revokeShare(receiptId).subscribe({
+      next: () => {
+        this.snackBar.open(
+          this.translationService.translate('splitting.messages.success.madePrivate'),
+          this.translationService.translate('common.buttons.ok'),
+          { duration: 3000 }
+        );
+        this.router.navigate(['/receipts/list']);
+      },
+      error: () => {
+        this.snackBar.open(
+          this.translationService.translate('splitting.errors.revokeShareFailed'),
+          this.translationService.translate('common.buttons.ok'),
+          { duration: 3000 }
+        );
       }
     });
   }
@@ -88,6 +78,9 @@ export class CostSplittingComponent implements OnInit {
       this.receiptService.getById(id).subscribe({
         next: (receipt) => {
           this.receipt = receipt;
+          if (this.isOwner) {
+            this.receipt.isShared = true;
+          }
           this.cdr.detectChanges();
           // Auto-generate share link if owner to ensure "Privat machen" is visible immediately
           if (this.isOwner && !this.shareUrl) {
@@ -130,6 +123,8 @@ export class CostSplittingComponent implements OnInit {
   }
 
   copyShareLink(): void {
+    if (!this.receipt) return;
+
     if (this.shareUrl) {
       this.copyToClipboard(this.shareUrl);
       this.snackBar.open(
@@ -137,7 +132,31 @@ export class CostSplittingComponent implements OnInit {
         this.translationService.translate('common.buttons.ok'),
         { duration: 2000 }
       );
+      return;
     }
+
+    this.receiptService.getShareLink(this.receipt.id).subscribe({
+      next: (data) => {
+        this.shareUrl = data.shareUrl;
+        if (this.receipt) {
+          this.receipt.isShared = true;
+        }
+
+        this.copyToClipboard(data.shareUrl);
+        this.snackBar.open(
+          this.translationService.translate('splitting.messages.success.linkCopied'),
+          this.translationService.translate('common.buttons.ok'),
+          { duration: 2000 }
+        );
+      },
+      error: () => {
+        this.snackBar.open(
+          this.translationService.translate('splitting.errors.shareLinkFailed'),
+          this.translationService.translate('common.buttons.ok'),
+          { duration: 3000 }
+        );
+      }
+    });
   }
 
   copyToClipboard(text: string): void {

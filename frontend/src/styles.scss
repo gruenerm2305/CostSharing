@@ -87,6 +87,24 @@ h5 {
   filter: brightness(1.08);
 }
 
+.mat-mdc-snack-bar-container .mdc-button,
+.mat-mdc-snack-bar-container .mat-mdc-button {
+  color: var(--secondary) !important;
+}
+
+.mat-mdc-snack-bar-container .mdc-button:hover,
+.mat-mdc-snack-bar-container .mat-mdc-button:hover {
+  background: rgba(16, 184, 255, 0.12) !important;
+  color: var(--secondary) !important;
+}
+
+.mat-mdc-snack-bar-container .mdc-button .mat-mdc-button-persistent-ripple::before,
+.mat-mdc-snack-bar-container .mdc-button .mat-mdc-button-persistent-ripple::after,
+.mat-mdc-snack-bar-container .mat-mdc-button .mat-mdc-button-persistent-ripple::before,
+.mat-mdc-snack-bar-container .mat-mdc-button .mat-mdc-button-persistent-ripple::after {
+  background-color: transparent !important;
+}
+
 .btn:active {
   transform: translateY(1px) scale(0.99);
 }

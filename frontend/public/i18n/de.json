@@ -20,7 +20,7 @@
       "ok": "OK",
       "close": "Schließen",
       "apply": "Übernehmen",
-      "backArrow": "<- Zurück"
+      "backArrow": "Zurück"
     }
   },
   "sidebar": {
@@ -233,7 +233,7 @@
     "invite": {
       "title": "Benutzer einladen",
       "tipLabel": "Tipp:",
-      "tip1": "Ihre Freunde finden ihre User-ID im Dashboard.",
+      "tip1": "Ihre Freunde finden ihre User-ID im der Account Sektion.",
       "tip2": "Sie können den geteilten Link auch direkt verschicken. Der Nutzer wird automatisch hinzugefügt, sobald er einen Artikel übernimmt.",
       "label": "User-ID des einzuladenden Nutzers",
       "placeholder": "z.B. 550e8400-e29b-41d4-a716-446655440000",

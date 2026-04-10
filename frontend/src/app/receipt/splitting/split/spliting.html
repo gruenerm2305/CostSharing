@@ -16,12 +16,8 @@
               {{ 'splitting.buttons.makePrivate' | t }}
             </button>
 
-            <button *ngIf="shareUrl" class="btn btn-secondary" (click)="copyShareLink()" [title]="'splitting.buttons.copyLink' | t">
+            <button *ngIf="isOwner" class="btn btn-secondary" (click)="copyShareLink()" [title]="'splitting.buttons.copyLink' | t">
               {{ 'splitting.buttons.copyLink' | t }}
-            </button>
-
-            <button *ngIf="!shareUrl" class="btn btn-secondary" (click)="getShareLink()" [title]="'splitting.buttons.getShareLink' | t">
-              {{ 'splitting.buttons.getShareLink' | t }}
             </button>
           </div>
         </div>
@@ -36,10 +32,11 @@
         </div>
 
         <div class="invite-form">
-          <label class="form-label">{{ 'splitting.invite.label' | t }}</label>
+          <label class="form-label" for="invite-user-id">{{ 'splitting.invite.label' | t }}</label>
 
           <div class="invite-controls">
             <input
+              id="invite-user-id"
               type="text"
               class="form-control"
               [(ngModel)]="inviteUserId"
@@ -73,8 +70,9 @@
 
           <div class="claim-options">
             <div class="form-group">
-              <label class="form-label">{{ 'splitting.customClaim.labels.percentage' | t }}</label>
+              <label class="form-label" for="custom-percentage">{{ 'splitting.customClaim.labels.percentage' | t }}</label>
               <input 
+                id="custom-percentage"
                 type="number" 
                 class="form-control" 
                 [(ngModel)]="customPercentage"
@@ -84,8 +82,9 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label">{{ 'splitting.customClaim.labels.quantity' | t }}</label>
+              <label class="form-label" for="custom-quantity">{{ 'splitting.customClaim.labels.quantity' | t }}</label>
               <input 
+                id="custom-quantity"
                 type="number" 
                 class="form-control" 
                 [(ngModel)]="customQuantity"
