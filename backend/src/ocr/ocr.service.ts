@@ -29,48 +29,52 @@ export class OcrService {
   private readonly baseUrl: string;
 
   constructor(private readonly configService: ConfigService) {
-    this.apiKey = this.configService.get<string>('GOOGLE_API_KEY') || 'AIzaSyAQZCjxyuetfmdfPkFNhyftzLzWBak_DaY';
-    this.model = this.configService.get<string>('GOOGLE_MODEL') || 'gemma-4-31b-it';
-    this.baseUrl = this.configService.get<string>('GOOGLE_BASE_URL') || 'https://generativelanguage.googleapis.com/v1beta/models';
+    this.apiKey = this.configService.get<string>('GEMINI_API_KEY');
+    this.model = this.configService.get<string>('GEMINI_MODEL') || 'gemma-4-31b-it';
+    this.baseUrl = this.configService.get<string>('GEMINI_BASE_URL') || 'https://generativelanguage.googleapis.com/v1beta';
   }
 
   async processReceipt(imageBuffer: Buffer, mimeType: string): Promise<OcrResult> {
     try {
-      this.logger.log('Starting receipt OCR processing with Google Gemini');
-
       const base64Image = imageBuffer.toString('base64');
 
       const prompt = this.getOcrPrompt();
 
-      const response = await axios.post(
-        `${this.baseUrl}/${this.model}:generateContent?key=${this.apiKey}`,
-        {
-          contents: [
+      const url = `${this.baseUrl}/models/${this.model}:generateContent?key=${this.apiKey}`;
+
+      const response = await axios.post(url, {
+        systemInstruction: {
+          parts: [
             {
-              role: 'user',
-              parts: [
-                {
-                  text: prompt,
-                },
-                {
-                  inlineData: {
-                    mimeType: mimeType,
-                    data: base64Image,
-                  },
-                },
-              ],
+              text: 'Gib ausschliesslich das XML <receipt>...</receipt> zurueck. Kein Markdown, keine Erklaerungen, keine Listen, kein Text davor oder danach.',
             },
           ],
         },
-        {
-          headers: {
-            'Content-Type': 'application/json',
+        contents: [
+          {
+            role: 'user',
+            parts: [
+              { text: prompt },
+              {
+                inline_data: {
+                  mime_type: mimeType,
+                  data: base64Image,
+                },
+              },
+            ],
           },
+        ],
+        generationConfig: {
+          temperature: 0,
+          maxOutputTokens: 4000,
         },
-      );
+      });
 
-      const xmlContent = response.data.candidates[0].content.parts[0].text;
-      this.logger.log('Received response from Google Gemini');
+      const parts = response.data.candidates?.[0]?.content?.parts || [];
+      const xmlContent = parts.map((part: { text?: string }) => part.text || '').join('');
+      if (!xmlContent || !xmlContent.includes('<receipt>')) {
+        throw new BadRequestException('Gemini response missing <receipt> XML');
+      }
 
       const ocrResult = await this.parseXmlResponse(xmlContent);
 
@@ -85,10 +89,6 @@ export class OcrService {
       };
     } catch (error) {
       this.logger.error('Error processing receipt:', this.getErrorMessage(error));
-      if (axios.isAxiosError(error)) {
-        this.logger.error('API response:', error.response?.data);
-        this.logger.error('API status:', error.response?.status);
-      }
       throw new BadRequestException('Failed to process receipt image');
     }
   }
@@ -105,9 +105,10 @@ export class OcrService {
       
       this.logger.debug('Cleaned XML for parsing:', cleanedXml.substring(0, 200));
 
-      const xmlRegex = /<receipt>[\s\S]*<\/receipt>/;
-      const xmlMatch = xmlRegex.exec(cleanedXml);
-      const finalXml = xmlMatch ? xmlMatch[0] : cleanedXml;
+      const xmlMatches = cleanedXml.match(/<receipt>[\s\S]*?<\/receipt>/g);
+      const finalXml = xmlMatches && xmlMatches.length > 0
+        ? xmlMatches[xmlMatches.length - 1]
+        : cleanedXml;
 
       this.logger.debug('Parsing XML...');
       const parsed = await parseStringPromise(finalXml);
@@ -187,8 +188,8 @@ export class OcrService {
 
   private getOcrPrompt(): string {
     return `
-    Do Allways respond in one Single Line
-    Du bist ein hochpräzises OCR-System spezialisiert auf Kassenbelege und Rechnungen.
+    Du bist ein OCR-System fuer Kassenbelege. Antworte NUR mit dem XML-Block <receipt>...</receipt>.
+    Kein Markdown, keine Erklaerungen, keine Listen, kein Text davor oder danach.
 
 EXTRAKTIONSAUFGABE:
 Extrahiere die folgenden Informationen aus dem Belegbild:
@@ -204,9 +205,9 @@ Extrahiere die folgenden Informationen aus dem Belegbild:
 4. GESAMTSUMME (erforderlich): Die Endsumme des Belegs
 5. MEHRWERTSTEUER (optional): Der Steuerbetrag, falls angegeben
 
-RÜCKGABEFORMAT:
-Gib NUR das reine XML zurück. KEIN Markdown, KEINE Code-Blöcke, KEINE zusätzlichen Erklärungen.
-Deine Antwort muss direkt mit <receipt> beginnen und mit </receipt> enden.
+RUECKGABEFORMAT:
+Gib NUR das reine XML zurueck. KEIN Markdown, KEINE Code-Bloecke, KEINE zusaetzlichen Erklaerungen.
+Die Antwort muss mit <receipt> beginnen und mit </receipt> enden.
 
 XML-STRUKTUR (genau so verwenden):
 <receipt>
@@ -232,8 +233,8 @@ KRITISCHE REGELN:
 3. Alle Zahlen mit Punkt als Dezimaltrennzeichen (9.99 nicht 9,99)
 4. Konfidenz zwischen 0.0 und 1.0
 5. Sonderzeichen als XML-Entities: & wird zu &amp; , < wird zu &lt; , > wird zu &gt;
-6. KEINE Markdown Code-Blöcke (kein \`\`\`xml)
-7. KEINE Escape-Sequenzen wie \\n - nutze normale Zeilenumbrüche
+6. KEINE Markdown Code-Bloecke (kein \`\`\`xml)
+7. KEINE Escape-Sequenzen wie \\n - nutze normale Zeilenumbrueche
 8. Ende deine Antwort mit </receipt> - KEIN Text danach
 
 FALSCH: \`\`\`xml<receipt>...</receipt>\`\`\`
