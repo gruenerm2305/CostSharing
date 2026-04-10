@@ -20,6 +20,12 @@ export class UsersController {
     return this.usersService.findById(req.user.userId);
   }
 
+  @Get('me/permissions')
+  @ApiOperation({ summary: 'Get current user permissions' })
+  async getPermissions(@Request() req) {
+    return this.usersService.getRolePermissions(req.user.role);
+  }
+
   @Get()
   @ApiOperation({ summary: 'List users with id and username' })
   async listUsers(@Request() req) {
@@ -32,7 +38,24 @@ export class UsersController {
   @Delete(':id')
   @ApiOperation({ summary: 'Delete user by id' })
   @ApiParam({ name: 'id', type: String })
-  async deleteUser(@Param('id') id: string) {
+  async deleteUser(@Request() req, @Param('id') id: string) {
+    const requester = await this.usersService.findById(req.user.userId);
+    const targetUser = await this.usersService.findById(id);
+
+    if (requester.role === UserRole.Owner) {
+      if (targetUser.role === UserRole.Owner && targetUser.id !== requester.id) {
+        throw new ForbiddenException('Owners cannot delete other owners');
+      }
+    } else if (requester.role === UserRole.Admin) {
+      if (targetUser.role !== UserRole.User) {
+        throw new ForbiddenException('Admins can only delete users');
+      }
+    } else {
+      if (targetUser.id !== requester.id) {
+        throw new ForbiddenException('Users can only delete their own account');
+      }
+    }
+
     await this.usersService.removeById(id);
     return { success: true };
   }
@@ -78,7 +101,6 @@ export class UsersController {
 
     await this.usersService.updateRoleById(id, body.role);
     return { success: true };
-  }
-
+  } 
 
 }
