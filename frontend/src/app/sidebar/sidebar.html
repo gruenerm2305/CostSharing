@@ -83,9 +83,12 @@
 
       <nav class="mobile-nav" *ngIf="showNavigation()" aria-label="Mobile navigation">
         <a routerLink="/home" routerLinkActive="active-mobile"><span class="material-symbols-outlined">home</span></a>
-        <a routerLink="/receipts" routerLinkActive="active-mobile" [routerLinkActiveOptions]="{ exact: true }"><span class="material-symbols-outlined">receipt_long</span></a>
+        <a routerLink="/receipts/list" routerLinkActive="active-mobile" [routerLinkActiveOptions]="{ exact: true }"><span class="material-symbols-outlined">receipt_long</span></a>
         <a routerLink="/receipts/capture" routerLinkActive="active-mobile"><span class="material-symbols-outlined">add</span></a>
-        <a routerLink="/statistics" routerLinkActive="active-mobile"><span class="material-symbols-outlined">dashboard</span></a>
+        <a routerLink="/dashboard" routerLinkActive="active-mobile"><span class="material-symbols-outlined">dashboard</span></a>
+        <a routerLink="/categories" routerLinkActive="active-mobile"><span class="material-symbols-outlined">category</span></a>
         <a routerLink="/account" routerLinkActive="active-mobile"><span class="material-symbols-outlined">person</span></a>
+        <a *ngIf="canAccessAdminPanel()" routerLink="/admin" routerLinkActive="active-mobile"><span class="material-symbols-outlined">admin_panel_settings</span></a>
+        <button type="button" class="mobile-logout-btn" (click)="logout()" title="Logout"><span class="material-symbols-outlined">logout</span></button>
       </nav>
     </div>

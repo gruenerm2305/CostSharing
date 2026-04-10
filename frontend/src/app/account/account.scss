@@ -3,7 +3,8 @@
     }
 
     h1 {
-      margin: 0 0 16px;
+      max-width: 760px;
+      margin: 0 auto 16px;
       font-size: 52px;
       letter-spacing: -0.04em;
     }
@@ -11,6 +12,7 @@
     .profile-card {
       padding: 26px;
       max-width: 760px;
+      margin: 0 auto;
     }
 
     .profile-card h2 {
