@@ -4,6 +4,7 @@ import { ReceiptService } from "../../core/services/receipt.service";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReceiptCaptureComponent } from "./receipt-capture.component";
 import { of } from "rxjs";
+import { createTranslationServiceMock } from "../../testing/mockServices/translationService.mock";
 
 describe('receipt-capture.component', () => {
   let component: ReceiptCaptureComponent;
@@ -18,7 +19,7 @@ describe('receipt-capture.component', () => {
   beforeEach(async () => {
     mockReceiptService = jasmine.createSpyObj<ReceiptService>('ReceiptService', ['uploadReceipt']);
     mockRouter = jasmine.createSpyObj<Router>('Router', ['navigate']);
-    mockTranslationService = jasmine.createSpyObj<TranslationService>('TranslationService', ['translate']);
+    mockTranslationService = createTranslationServiceMock();
     mockActivatedRoute = {
       params: of({}),
       queryParams: of({}),
@@ -82,7 +83,7 @@ describe('receipt-capture.component', () => {
     component.uploadReceipt();
     expect(mockReceiptService.uploadReceipt).toHaveBeenCalledWith(validFile);
   });
-  
+
   it('check if cancel works', () => {
     const file = new File(['%PDF-1.4'], 'receipt.pdf', { type: 'application/pdf' });
     component.selectedFile = file;

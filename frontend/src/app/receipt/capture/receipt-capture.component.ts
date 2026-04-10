@@ -3,7 +3,6 @@ import { ReceiptService } from "../../core/services/receipt.service";
 import { Router, RouterLink } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { TranslatePipe } from "../../core/i18n/translate.pipe";
-import { TranslationService } from "../../core/i18n/translation.service";
 
 @Component({
     selector: 'app-receipt-capture',
