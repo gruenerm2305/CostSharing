@@ -34,10 +34,15 @@ export class ReceiptsService {
       this.logger.log(`Processing receipt image for user ${userId}`);
 
       const imageBuffer = await fs.readFile(file.path);
+      const userCategories = await this.categoriesService.findAllByUser(userId);
 
-      const ocrResult = await this.ocrService.processReceipt(imageBuffer, file.mimetype);
+      const ocrResult = await this.ocrService.processReceipt(
+        imageBuffer,
+        file.mimetype,
+        userCategories.map((category) => ({ id: category.id, name: category.name })),
+      );
 
-      this.logger.debug(`OCR Result - Items: ${ocrResult.items?.length || 0}, Confidence: ${ocrResult.confidence}`);
+      this.logger.debug(`OCR Result - Items: ${ocrResult.items?.length || 0}`);
 
       if (!ocrResult.items || ocrResult.items.length === 0) {
         this.logger.warn('OCR returned no items. Using fallback empty receipt.');
@@ -47,11 +52,11 @@ export class ReceiptsService {
         userId,
         date: ocrResult.date ? new Date(ocrResult.date) : new Date(),
         merchant: ocrResult.merchant || 'Unknown Merchant',
+        categoryId: ocrResult.categoryId,
         totalAmount: ocrResult.totalAmount || 0,
         taxAmount: ocrResult.taxAmount,
         imageUrl: file.path,
         rawXml: ocrResult.rawXml,
-        confidence: ocrResult.confidence,
       });
 
       const savedReceipt = await this.receiptsRepository.save(receipt);
@@ -59,29 +64,14 @@ export class ReceiptsService {
 
       let items = [];
       if (ocrResult.items && ocrResult.items.length > 0) {
-        items = await Promise.all(
-          ocrResult.items.map(async (item) => {
-            let categoryId: string | undefined;
-            
-            try {
-              const mapping = await this.categoriesService.mapItemToCategory(item.name, userId);
-              if (mapping.categoryId && mapping.confidence >= 0.5) {
-                categoryId = mapping.categoryId;
-              }
-            } catch (error) {
-              this.logger.warn(`Failed to map category for item ${item.name}:`, this.getErrorMessage(error));
-            }
-
-            return this.receiptItemsRepository.create({
-              receiptId: savedReceipt.id,
-              name: item.name,
-              quantity: item.quantity,
-              unitPrice: item.unitPrice,
-              totalPrice: item.totalPrice,
-              confidence: item.confidence,
-              needsReview: item.confidence < 0.7,
-              categoryId,
-            });
+        items = ocrResult.items.map((item) =>
+          this.receiptItemsRepository.create({
+            receiptId: savedReceipt.id,
+            name: item.name,
+            quantity: item.quantity,
+            unitPrice: item.unitPrice,
+            totalPrice: item.totalPrice,
+            needsReview: false,
           }),
         );
 

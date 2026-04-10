@@ -52,9 +52,6 @@ export class Receipt {
   @Column({ type: 'simple-array', nullable: true })
   validationErrors: string[];
 
-  @Column({ type: 'decimal', precision: 3, scale: 2, nullable: true })
-  confidence: number;
-
   @Column({ type: 'simple-array', nullable: true })
   sharedWith: string[];
 

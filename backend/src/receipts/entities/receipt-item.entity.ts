@@ -40,9 +40,6 @@ export class ReceiptItem {
   @JoinColumn({ name: 'categoryId' })
   category: Category;
 
-  @Column({ type: 'decimal', precision: 3, scale: 2, nullable: true })
-  confidence: number;
-
   @Column({ default: false })
   needsReview: boolean;
 
