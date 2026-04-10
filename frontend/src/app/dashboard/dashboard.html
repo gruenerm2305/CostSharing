@@ -2,9 +2,9 @@
   <h1>{{ 'dashboard.title' | t }}</h1>
 
   <div class="filters panel">
+    <button class="btn" [ngClass]="activeFilter === 'all' ? 'btn-primary' : 'btn-secondary'" (click)="onFilterChange('all')">{{ 'dashboard.filters.allTime' | t }}</button>
     <button class="btn" [ngClass]="activeFilter === 'month' ? 'btn-primary' : 'btn-secondary'" (click)="onFilterChange('month')">{{ 'dashboard.filters.currentMonth' | t }}</button>
     <button class="btn" [ngClass]="activeFilter === 'year' ? 'btn-primary' : 'btn-secondary'" (click)="onFilterChange('year')">{{ 'dashboard.filters.thisYear' | t }}</button>
-    <button class="btn" [ngClass]="activeFilter === 'all' ? 'btn-primary' : 'btn-secondary'" (click)="onFilterChange('all')">{{ 'dashboard.filters.allTime' | t }}</button>
   </div>
 
   <div class="summary-cards">
