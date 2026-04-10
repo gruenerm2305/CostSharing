@@ -3,7 +3,8 @@
     }
 
     h1 {
-      margin: 0 0 16px;
+      max-width: 760px;
+      margin: 0 auto 16px;
       font-size: 52px;
       letter-spacing: -0.04em;
     }
@@ -11,6 +12,7 @@
     .profile-card {
       padding: 26px;
       max-width: 760px;
+      margin: 0 auto;
     }
 
     .profile-card h2 {
@@ -86,6 +88,36 @@
 
     .password-group {
       margin-top: 6px;
+    }
+
+    .export-zone {
+      margin-top: 22px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      padding-top: 18px;
+    }
+
+    .export-zone h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: #cfe4ff;
+    }
+
+    .export-zone p {
+      margin: 0 0 12px;
+      color: #c5ccdf;
+      font-size: 13px;
+    }
+
+    .export-zone .btn:disabled {
+      background: rgba(67, 72, 90, 0.75);
+      border-color: rgba(246, 247, 255, 0.16);
+      color: rgba(245, 247, 255, 0.62);
+      cursor: not-allowed;
+      filter: none;
+      transform: none;
+      box-shadow: none;
     }
 
     .danger-zone {

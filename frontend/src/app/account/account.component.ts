@@ -4,7 +4,7 @@ import { TranslatePipe } from "../core/i18n/translate.pipe";
 import { UserAdminService } from "../core/services/user-admin.service";
 import { Router } from "@angular/router";
 import { TranslationService } from "../core/i18n/translation.service";
-
+import { ReceiptService } from "../core/services/receipt.service";
 
 @Component({
     selector: 'app-account',
@@ -27,11 +27,14 @@ export class AccountComponent implements OnInit {
   deleteErrorKey: string | null = null;
   usernameSuccessKey: string | null = null;
   passwordSuccessKey: string | null = null;
+  exportErrorKey: string | null = null;
   canDeleteSelf = false;
+  exportSaving = false;
 
   constructor(
     private readonly authService: AuthService,
     private readonly userAdminService: UserAdminService,
+    private readonly receiptService: ReceiptService,
     private readonly cdr: ChangeDetectorRef,
     private readonly router: Router,
     private readonly translationService: TranslationService
@@ -92,6 +95,10 @@ export class AccountComponent implements OnInit {
 
   canDeleteOwnAccount(): boolean {
     return !!this.currentUser && this.canDeleteSelf && !this.deleteSaving;
+  }
+
+  canExportReceipts(): boolean {
+    return !!this.currentUser && !this.exportSaving;
   }
 
   deleteAccountTooltip(): string | null {
@@ -187,7 +194,7 @@ export class AccountComponent implements OnInit {
       return;
     }
 
-    const shouldDelete = window.confirm(this.translationService.translate('account.delete.confirm'));
+    const shouldDelete = globalThis.confirm(this.translationService.translate('account.delete.confirm'));
     if (!shouldDelete) {
       return;
     }
@@ -206,5 +213,63 @@ export class AccountComponent implements OnInit {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  downloadReceiptExport(): void {
+    if (!this.currentUser || this.exportSaving) {
+      return;
+    }
+
+    this.exportSaving = true;
+    this.exportErrorKey = null;
+
+    this.receiptService.exportReceipts().subscribe({
+      next: (response) => {
+        if (!response.body || response.body.size === 0) {
+          this.exportErrorKey = 'account.errors.exportFailed';
+          this.exportSaving = false;
+          this.cdr.detectChanges();
+          return;
+        }
+
+        const filename = this.getFilenameFromContentDisposition(response.headers.get('content-disposition'))
+          ?? `receipts-${this.currentUser?.id ?? 'export'}.zip`;
+
+        const fileUrl = URL.createObjectURL(response.body);
+        const anchor = document.createElement('a');
+        anchor.href = fileUrl;
+        anchor.download = filename;
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        URL.revokeObjectURL(fileUrl);
+
+        this.exportSaving = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.exportErrorKey = 'account.errors.exportFailed';
+        this.exportSaving = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  private getFilenameFromContentDisposition(contentDisposition: string | null): string | null {
+    if (!contentDisposition) {
+      return null;
+    }
+
+    const filenameStarMatch = /filename\*=UTF-8''([^;]+)/i.exec(contentDisposition);
+    if (filenameStarMatch?.[1]) {
+      return decodeURIComponent(filenameStarMatch[1]).replaceAll(/['"]/g, '').trim();
+    }
+
+    const filenameMatch = /filename="?([^";]+)"?/i.exec(contentDisposition);
+    if (filenameMatch?.[1]) {
+      return filenameMatch[1].trim();
+    }
+
+    return null;
   }
 }

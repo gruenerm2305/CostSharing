@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
 import { environment } from '../../../environments/environment';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
 export interface Receipt {
@@ -88,5 +88,12 @@ export class ReceiptService {
 
   getShareLink(id: string): Observable<{ shareToken: string; shareUrl: string }> {
     return this.http.get<{ shareToken: string; shareUrl: string }>(`${this.apiUrl}/${id}/share-link`);
+  }
+
+  exportReceipts(): Observable<HttpResponse<Blob>> {
+    return this.http.get(`${this.apiUrl}/export`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
   }
 }

@@ -295,7 +295,7 @@ export class ReceiptsService {
   async getStatistics(userId: string, startDate?: string, endDate?: string) {
     const query = this.receiptsRepository.createQueryBuilder('receipt')
       .leftJoinAndSelect('receipt.items', 'items')
-      .leftJoinAndSelect('items.category', 'category')
+      .leftJoinAndSelect('receipt.category', 'category')
       .where('receipt.userId = :userId', { userId });
 
     if (startDate) {
