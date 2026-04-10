@@ -24,7 +24,6 @@ export class ReceiptCaptureComponent {
   constructor(
     private readonly receiptService: ReceiptService,
     private readonly router: Router,
-    private readonly translationService: TranslationService
   ) {}
 
   onFileSelected(event: Event): void {
@@ -60,14 +59,14 @@ export class ReceiptCaptureComponent {
     // Validate file type
     const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
     if (!allowedTypes.includes(file.type)) {
-      this.error = this.translationService.translate('receipts.capture.errors.invalidFileType');
+      this.error = 'receipts.capture.errors.invalidFileType';
       return;
     }
 
     // Validate file size (10MB)
     const maxSize = 10 * 1024 * 1024;
     if (file.size > maxSize) {
-      this.error = this.translationService.translate('receipts.capture.errors.fileTooLarge');
+      this.error = 'receipts.capture.errors.fileTooLarge';
       return;
     }
 
@@ -97,7 +96,7 @@ export class ReceiptCaptureComponent {
         console.log('Receipt uploaded successfully:', receipt);
         
         if (!receipt?.id) {
-          this.error = this.translationService.translate('receipts.capture.errors.invalidResponse');
+          this.error = 'receipts.capture.errors.invalidResponse';
           this.uploading = false;
           return;
         }
@@ -109,14 +108,14 @@ export class ReceiptCaptureComponent {
           },
           (err) => {
             console.error('Navigation error:', err);
-            this.error = this.translationService.translate('receipts.capture.errors.navigationFailed');
+            this.error = 'receipts.capture.errors.navigationFailed';
             this.uploading = false;
           }
         );
       },
       error: (err) => {
         console.error('Upload error:', err);
-        this.error = err.error?.message || this.translationService.translate('receipts.capture.errors.uploadFailed');
+        this.error = 'receipts.capture.errors.uploadFailed';
         this.uploading = false;
       }
     });
