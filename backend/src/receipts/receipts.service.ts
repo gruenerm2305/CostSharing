@@ -11,6 +11,7 @@ import { CategoriesService } from '../categories/categories.service';
 import { ReceiptClaimsService } from './receipt-claims.service';
 import { buildReceiptStatistics } from './receipts-statistics';
 import * as fs from 'node:fs/promises';
+import AdmZip from 'adm-zip';
 
 @Injectable()
 export class ReceiptsService {
@@ -317,6 +318,91 @@ export class ReceiptsService {
     const receipts = await query.getMany();
 
     return buildReceiptStatistics(receipts);
+  }
+
+  async exportReceiptsZip(userId: string): Promise<Buffer> {
+    const receipts = await this.receiptsRepository.find({
+      where: { userId },
+      relations: ['items', 'items.category'],
+      order: { date: 'DESC' },
+    });
+
+    const receiptsWithItems = receipts.filter((receipt) => receipt.items && receipt.items.length > 0);
+
+    const zip = new AdmZip();
+
+    receiptsWithItems.forEach((receipt) => {
+      const csvContent = this.buildReceiptCsv(receipt);
+      const dateStr = this.formatDate(receipt.date);
+      const fileName = `receipt-${dateStr}-${receipt.id}.csv`;
+      zip.addFile(fileName, Buffer.from(csvContent, 'utf8'));
+    });
+
+    return zip.toBuffer();
+  }
+
+  private buildReceiptCsv(receipt: Receipt): string {
+    const header = [
+      'receiptId',
+      'receiptDate',
+      'merchant',
+      'itemName',
+      'quantity',
+      'unitPrice',
+      'totalPrice',
+      'categoryName',
+    ];
+
+    const rows = [header.join(';')];
+    const dateStr = this.formatDate(receipt.date);
+
+    receipt.items.forEach((item) => {
+      const row = [
+        receipt.id,
+        dateStr,
+        receipt.merchant || '',
+        item.name || '',
+        this.formatNumber(item.quantity, 3),
+        this.formatNumber(item.unitPrice, 2),
+        this.formatNumber(item.totalPrice, 2),
+        item.category?.name || 'Unkategorisiert',
+      ].map(this.escapeCsvValue);
+
+      rows.push(row.join(';'));
+    });
+
+    return rows.join('\n');
+  }
+
+  private formatDate(value: Date | string): string {
+    const date = value instanceof Date ? value : new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return '';
+    }
+
+    return date.toISOString().split('T')[0];
+  }
+
+  private formatNumber(value: number | string | null | undefined, decimals: number): string {
+    if (value === null || value === undefined) {
+      return '';
+    }
+
+    const numeric = Number(value);
+    if (Number.isNaN(numeric)) {
+      return '';
+    }
+
+    return numeric.toFixed(decimals).replace('.', ',');
+  }
+
+  private escapeCsvValue(value: string): string {
+    const needsQuotes = /[;"\n\r]/.test(value);
+    if (!needsQuotes) {
+      return value;
+    }
+
+    return `"${value.replace(/"/g, '""')}"`;
   }
 
   private getErrorMessage(error: unknown): string {

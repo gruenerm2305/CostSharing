@@ -12,6 +12,8 @@ import {
   UploadedFile,
   BadRequestException,
   Query,
+  Res,
+  StreamableFile,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiConsumes, ApiBody, ApiQuery } from '@nestjs/swagger';
@@ -84,6 +86,20 @@ export class ReceiptsController {
       startDate,
       endDate,
     );
+  }
+
+  @Get('export')
+  @ApiOperation({ summary: 'Export receipts as ZIP of CSV files' })
+  async exportReceipts(@Request() req, @Res({ passthrough: true }) res) {
+    const zipBuffer = await this.receiptsService.exportReceiptsZip(req.user.userId);
+    const fileName = `Receipts-${req.user.userId}.zip`;
+
+    res.set({
+      'Content-Type': 'application/zip',
+      'Content-Disposition': `attachment; filename="${fileName}"`,
+    });
+
+    return new StreamableFile(zipBuffer);
   }
 
   @Get(':id')
