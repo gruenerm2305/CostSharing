@@ -274,7 +274,7 @@ export class ReceiptsService {
       await this.receiptsRepository.save(receipt);
     }
 
-    const shareUrl = `${process.env.FRONTEND_URL || 'http://localhost:4200'}/share/${receipt.shareToken}`;
+    const shareUrl = `${process.env.FRONTEND_URL}/receipt/splitting/shared/${receipt.shareToken}`;
     return { shareToken: receipt.shareToken, shareUrl };
   }
 

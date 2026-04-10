@@ -41,15 +41,13 @@ export class AuthService {
     };
   }
 
-  async register(username: string, password: string, firstName?: string, lastName?: string) {
+  async register(username: string, password: string, firstName?: string, lastName?: string): Promise<void> {
     const existingUser = await this.usersService.findByUsername(username);
     
     if (existingUser) {
       throw new ConflictException('User with this username already exists');
     }
 
-    const user = await this.usersService.create(username, password, firstName, lastName);
-    
-    return this.login(user);
+    await this.usersService.create(username, password, firstName, lastName);
   }
 }

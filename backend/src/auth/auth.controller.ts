@@ -15,12 +15,13 @@ export class AuthController {
   @ApiResponse({ status: 201, description: 'User successfully registered' })
   @ApiResponse({ status: 409, description: 'User already exists' })
   async register(@Body() registerDto: RegisterDto) {
-    return this.authService.register(
+    await this.authService.register(
       registerDto.username,
       registerDto.password,
       registerDto.firstName,
       registerDto.lastName,
     );
+    return { success: true };
   }
 
   @UseGuards(LocalAuthGuard)

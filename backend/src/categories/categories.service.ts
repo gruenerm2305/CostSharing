@@ -27,9 +27,9 @@ export class CategoriesService {
     private readonly receiptItemsRepository: Repository<ReceiptItem>,
     private readonly configService: ConfigService,
   ) {
-    this.apiKey = this.configService.get<string>('OPENROUTER_API_KEY');
-    this.model = this.configService.get<string>('OPENROUTER_MODEL') || 'anthropic/claude-3-5-sonnet-20241022';
-    this.baseUrl = this.configService.get<string>('OPENROUTER_BASE_URL') || 'https://openrouter.ai/api/v1';
+    this.apiKey = this.configService.get<string>('GEMINI_API_KEY');
+    this.model = this.configService.get<string>('GEMINI_MODEL') || 'gemma-4-31b-it';
+    this.baseUrl = this.configService.get<string>('GEMINI_BASE_URL') || 'https://generativelanguage.googleapis.com/v1beta';
   }
 
   async create(userId: string, name: string, color?: string, icon?: string): Promise<Category> {
@@ -110,7 +110,8 @@ export class CategoriesService {
         .map((cat) => `- ${cat.name} (ID: ${cat.id})`)
         .join('\n');
 
-      const prompt = `Du bist ein Kategorisierungs-System. Der Benutzer hat folgende Kategorien definiert:
+      const prompt = `Du bist ein Kategorisierungs-System. Antworte nur mit dem XML <mapping>...</mapping>, kein Markdown, kein Text davor oder danach.
+    Der Benutzer hat folgende Kategorien definiert:
 ${categoriesText}
 
 Ordne den folgenden Artikel einer passenden Kategorie zu:
@@ -126,29 +127,29 @@ Antworte AUSSCHLIESSLICH im folgenden XML-Format:
 
 Wenn keine Kategorie passt (confidence < 0.5), lasse categoryId leer.`;
 
-      const response = await axios.post(
-        `${this.baseUrl}/chat/completions`,
-        {
-          model: this.model,
-          messages: [
+      const url = `${this.baseUrl}/models/${this.model}:generateContent?key=${this.apiKey}`;
+
+      const response = await axios.post(url, {
+        systemInstruction: {
+          parts: [
             {
-              role: 'user',
-              content: prompt,
+              text: 'Gib ausschliesslich das XML <mapping>...</mapping> zurueck. Kein Markdown, keine Erklaerungen, kein Text davor oder danach.',
             },
           ],
-          max_tokens: 500,
         },
-        {
-          headers: {
-            'Authorization': `Bearer ${this.apiKey}`,
-            'Content-Type': 'application/json',
-            'HTTP-Referer': 'http://localhost:3000',
-            'X-Title': 'Cost-Tracking App',
-          },
+        contents: [
+          { role: 'user', parts: [{ text: prompt }] },
+        ],
+        generationConfig: {
+          temperature: 0,
+          maxOutputTokens: 500,
         },
-      );
+      });
 
-      const xmlContent = response.data.choices[0].message.content;
+      const xmlContent = response.data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!xmlContent) {
+        throw new BadRequestException('Empty response from Gemini');
+      }
 
       const result = await this.parseCategoryMapping(xmlContent);
 
@@ -183,9 +184,10 @@ Wenn keine Kategorie passt (confidence < 0.5), lasse categoryId leer.`;
 
   private async parseCategoryMapping(xmlContent: string): Promise<CategoryMappingResult> {
     try {
-      const xmlRegex = /<mapping>[\s\S]*<\/mapping>/;
-      const xmlMatch = xmlRegex.exec(xmlContent);
-      const cleanXml = xmlMatch ? xmlMatch[0] : xmlContent;
+      const xmlMatches = xmlContent.match(/<mapping>[\s\S]*?<\/mapping>/g);
+      const cleanXml = xmlMatches && xmlMatches.length > 0
+        ? xmlMatches[xmlMatches.length - 1]
+        : xmlContent;
 
       const parsed = await parseStringPromise(cleanXml);
       const mapping = parsed.mapping;

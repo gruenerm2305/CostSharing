@@ -103,9 +103,10 @@ export class ReceiptCaptureComponent {
         }
 
         // Navigate to editor for review/editing
-        this.router.navigate(['/receipts', receipt.id, 'edit']).then(
+        this.router.navigate(['/receipts', receipt.id, 'editor']).then(
           () => {
             console.log('Navigation to editor successful');
+            this.uploading = false;
           },
           (err) => {
             console.error('Navigation error:', err);

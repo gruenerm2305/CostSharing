@@ -38,7 +38,10 @@ export class UsersService implements OnModuleInit {
   }
 
   async findById(id: string): Promise<User> {
-    const user = await this.usersRepository.findOne({ where: { id } });
+    const user = await this.usersRepository.findOne({
+      where: { id },
+      select: ['id', 'username', 'firstName', 'lastName', 'role', 'createdAt', 'updatedAt'],
+    });
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
@@ -49,13 +52,9 @@ export class UsersService implements OnModuleInit {
     return bcrypt.compare(password, user.password);
   }
 
-  async findAll(): Promise<User[]> {
-    return this.usersRepository.find();
-  }
-
-  async findAllUserSummaries(): Promise<Array<Pick<User, 'id' | 'username' | 'role'>>> {
+  async findAllUserSummaries(): Promise<Array<Pick<User, 'id' | 'username' | 'firstName' | 'lastName' | 'role' | 'createdAt' | 'updatedAt'>>> {
     return this.usersRepository.find({
-      select: ['id', 'username', 'role'],
+      select: ['id', 'username', 'firstName', 'lastName', 'role', 'createdAt', 'updatedAt'],
       order: { username: 'ASC' },
     });
   }
@@ -88,6 +87,45 @@ export class UsersService implements OnModuleInit {
     const user = await this.findById(id);
     user.role = role;
     await this.usersRepository.save(user);
+  }
+
+  getRolePermissions(role: UserRole) {
+    if (role === UserRole.Owner) {
+      return {
+        role,
+        canListUsers: true,
+        deletableRoles: [UserRole.Admin, UserRole.User],
+        assignableRoles: [UserRole.Admin, UserRole.User],
+        assignableTargetRoles: [UserRole.Admin, UserRole.User],
+        canDeleteSelf: false,
+        canDeleteAdmin: true,
+        canDeleteUser: true,
+      };
+    }
+
+    if (role === UserRole.Admin) {
+      return {
+        role,
+        canListUsers: true,
+        deletableRoles: [UserRole.User],
+        assignableRoles: [UserRole.Admin],
+        assignableTargetRoles: [UserRole.User],
+        canDeleteSelf: true,
+        canDeleteAdmin: false,
+        canDeleteUser: true,
+      };
+    }
+
+    return {
+      role,
+      canListUsers: false,
+      deletableRoles: [],
+      assignableRoles: [],
+      assignableTargetRoles: [],
+      canDeleteSelf: true,
+      canDeleteAdmin: false,
+      canDeleteUser: false,
+    };
   }
 
   private async ensureOwnerRole(): Promise<void> {
