@@ -112,7 +112,7 @@
     "buttons": {
       "newReceipt": "+ New Receipt",
       "captureNow": "Capture now",
-      "makePrivate": "Private",
+      "makePrivate": "Make private",
       "splitCost": "Split cost",
       "remove": "Remove"
     },

@@ -13,7 +13,7 @@ import { TranslationService } from '../../../core/i18n/translation.service';
 import { createTranslationServiceMock } from '../../../testing/mockServices/translationService.mock';
 import { mock } from 'node:test';
 
-describe('CostSplittingComponent - loadReceipt', () => {
+describe('splitting.component', () => {
   let component: CostSplittingComponent;
   let fixture: ComponentFixture<CostSplittingComponent>;
   let mockReceiptService: jasmine.SpyObj<ReceiptService>;
@@ -37,6 +37,8 @@ describe('CostSplittingComponent - loadReceipt', () => {
 
 
   beforeEach(async () => {
+    spyOn(globalThis, 'confirm').and.returnValue(true);
+
     mockReceiptService = jasmine.createSpyObj('ReceiptService', ['getById', 'getShareLink']);
     mockSplittingService = jasmine.createSpyObj('SplittingService', ['revokeShare']);
     mockAuthService = jasmine.createSpyObj('AuthService', ['getCurrentUser']);

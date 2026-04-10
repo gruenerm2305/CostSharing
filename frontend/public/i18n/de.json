@@ -112,7 +112,7 @@
     "buttons": {
       "newReceipt": "+ Neuer Beleg",
       "captureNow": "Jetzt erfassen",
-      "makePrivate": "Privat",
+      "makePrivate": "Privat machen",
       "splitCost": "Kosten teilen",
       "remove": "Entfernen"
     },
