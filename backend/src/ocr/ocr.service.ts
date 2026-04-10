@@ -67,6 +67,7 @@ export class OcrService {
         generationConfig: {
           temperature: 0,
           maxOutputTokens: 4000,
+          thinkingConfig: this.getThinkingConfig(),
         },
       });
 
@@ -236,9 +237,18 @@ KRITISCHE REGELN:
 6. KEINE Markdown Code-Bloecke (kein \`\`\`xml)
 7. KEINE Escape-Sequenzen wie \\n - nutze normale Zeilenumbrueche
 8. Ende deine Antwort mit </receipt> - KEIN Text danach
+9. Sollte kein Datum erkannbar sein fülle das aktuelle Datum ein.
 
 FALSCH: \`\`\`xml<receipt>...</receipt>\`\`\`
 RICHTIG: <receipt>...</receipt>`;
+  }
+
+  private getThinkingConfig(): { thinkingLevel: 'minimal' } | undefined {
+    if (this.model.startsWith('gemma-4')) {
+      return { thinkingLevel: 'minimal' };
+    }
+
+    return undefined;
   }
 
   private getErrorMessage(error: unknown): string {

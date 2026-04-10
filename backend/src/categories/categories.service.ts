@@ -101,7 +101,7 @@ export class CategoriesService {
       if (userCategories.length === 0) {
         this.logger.log('No categories defined by user, returning uncategorized');
         return {
-          confidence: 1.0,
+          confidence: 1,
           reasoning: 'No categories defined by user',
         };
       }
@@ -141,8 +141,9 @@ Wenn keine Kategorie passt (confidence < 0.5), lasse categoryId leer.`;
           { role: 'user', parts: [{ text: prompt }] },
         ],
         generationConfig: {
-          temperature: 0,
+          temperature: 0.7,
           maxOutputTokens: 500,
+          thinkingConfig: this.getThinkingConfig(),
         },
       });
 
@@ -204,6 +205,13 @@ Wenn keine Kategorie passt (confidence < 0.5), lasse categoryId leer.`;
         reasoning: 'Failed to parse AI response',
       };
     }
+  }
+
+  private getThinkingConfig(): { thinkingLevel: 'minimal' } | undefined {
+    if (this.model.startsWith('gemma-4')){
+      return { thinkingLevel: 'minimal' };
+    }
+    return undefined;
   }
 
   private getErrorMessage(error: unknown): string {
