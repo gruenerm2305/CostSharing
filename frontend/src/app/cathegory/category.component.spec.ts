@@ -56,8 +56,8 @@ describe('category.component', () => {
         fixture = TestBed.createComponent(CategoryComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
-        component.createCategory();
 
+        component.createCategory();
         expect(component.categoryNameErrorMessage).toBe('categories.validation.nameRequired');
     });
 
@@ -67,6 +67,7 @@ describe('category.component', () => {
         fixture = TestBed.createComponent(CategoryComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
+
         component.newCategory = newCategory;
         component.createCategory();
         expect(mockCategoryService.create).toHaveBeenCalledWith(newCategory);
