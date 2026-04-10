@@ -4,6 +4,9 @@ import { AuthService, User, UserRole } from '../core/services/auth.service';
 import { UserAdminService } from '../core/services/user-admin.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
+import { TranslationService } from '../core/i18n/translation.service';
+import { createTranslationServiceMock } from '../testing/mockServices/translationService.mock';
 
 describe('account.component', () => {
     let component: AccountComponent;
@@ -12,6 +15,8 @@ describe('account.component', () => {
     let mockAuthService: jasmine.SpyObj<AuthService>;
     let mockUserAdminService: jasmine.SpyObj<UserAdminService>;
     let mockChangeDetectorRef: jasmine.SpyObj<ChangeDetectorRef>;
+    let mockRouter: jasmine.SpyObj<Router>;
+    let mockTranslationService: jasmine.SpyObj<TranslationService>;
     let clipboardWriteTextSpy: jasmine.Spy;
     const baseUser = {
         id: '123',
@@ -29,9 +34,24 @@ describe('account.component', () => {
     }
 
     beforeEach(async () => {
-        mockAuthService = jasmine.createSpyObj('AuthService', ['getCurrentUser', 'setCurrentUser']);
-        mockUserAdminService = jasmine.createSpyObj('UserAdminService', ['updateUsername', 'updatePassword']);
+        mockAuthService = jasmine.createSpyObj('AuthService', ['getCurrentUser', 'setCurrentUser', 'logout']);
+        mockUserAdminService = jasmine.createSpyObj('UserAdminService', ['getMyPermissions', 'updateUsername', 'updatePassword', 'deleteUser']);
         mockChangeDetectorRef = jasmine.createSpyObj('ChangeDetectorRef', ['detectChanges']);
+        mockRouter = jasmine.createSpyObj('Router', ['navigate']);
+        mockRouter.navigate.and.returnValue(Promise.resolve(true));
+        mockTranslationService = createTranslationServiceMock();
+        mockUserAdminService.getMyPermissions.and.returnValue(
+            of({
+                role: UserRole.USER,
+                canListUsers: false,
+                deletableRoles: [],
+                assignableRoles: [],
+                assignableTargetRoles: [],
+                canDeleteSelf: true,
+                canDeleteAdmin: false,
+                canDeleteUser: false,
+            }),
+        );
 
         const clipboardMock = jasmine.createSpyObj('clipboard', ['writeText']);
         clipboardMock.writeText.and.returnValue(Promise.resolve());
@@ -43,7 +63,9 @@ describe('account.component', () => {
             providers: [
                 { provide: AuthService, useValue: mockAuthService },
                 { provide: UserAdminService, useValue: mockUserAdminService },
-                { provide: ChangeDetectorRef, useValue: mockChangeDetectorRef }
+                { provide: ChangeDetectorRef, useValue: mockChangeDetectorRef },
+                { provide: Router, useValue: mockRouter },
+                { provide: TranslationService, useValue: mockTranslationService }
             ]
         }).compileComponents();
 
@@ -139,5 +161,51 @@ describe('account.component', () => {
             expect(component.confirmPassword).toBe('');
         });
      });
+
+    describe('delete own account', () => {
+        it('should delete own account and redirect to login', () => {
+            createComponentWithUser();
+            mockUserAdminService.deleteUser.and.returnValue(of(void 0));
+            spyOn(window, 'confirm').and.returnValue(true);
+
+            component.deleteOwnAccount();
+
+            expect(mockUserAdminService.deleteUser).toHaveBeenCalledWith(baseUser.id);
+            expect(mockAuthService.logout).toHaveBeenCalled();
+            expect(mockRouter.navigate).toHaveBeenCalledWith(['/login']);
+        });
+
+        it('should not delete when user cancels confirmation', () => {
+            createComponentWithUser();
+            spyOn(window, 'confirm').and.returnValue(false);
+
+            component.deleteOwnAccount();
+
+            expect(mockUserAdminService.deleteUser).not.toHaveBeenCalled();
+            expect(mockAuthService.logout).not.toHaveBeenCalled();
+        });
+
+        it('should not allow owner account self-deletion', () => {
+            mockUserAdminService.getMyPermissions.and.returnValue(
+                of({
+                    role: UserRole.OWNER,
+                    canListUsers: true,
+                    deletableRoles: [UserRole.ADMIN, UserRole.USER],
+                    assignableRoles: [UserRole.ADMIN, UserRole.USER],
+                    assignableTargetRoles: [UserRole.ADMIN, UserRole.USER],
+                    canDeleteSelf: false,
+                    canDeleteAdmin: true,
+                    canDeleteUser: true,
+                }),
+            );
+            createComponentWithUser({ ...baseUser, role: UserRole.OWNER });
+
+            expect(component.canDeleteOwnAccount()).toBeFalse();
+            component.deleteOwnAccount();
+
+            expect(mockUserAdminService.deleteUser).not.toHaveBeenCalled();
+            expect(mockAuthService.logout).not.toHaveBeenCalled();
+        });
+    });
 
 });

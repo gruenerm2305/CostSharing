@@ -4,11 +4,26 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { User, UserRole } from './auth.service';
 
+export interface UserPermissions {
+  role: UserRole;
+  canListUsers: boolean;
+  deletableRoles: UserRole[];
+  assignableRoles: UserRole[];
+  assignableTargetRoles: UserRole[];
+  canDeleteSelf: boolean;
+  canDeleteAdmin: boolean;
+  canDeleteUser: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class UserAdminService {
   constructor(private readonly http: HttpClient) {}
+
+  getMyPermissions(): Observable<UserPermissions> {
+    return this.http.get<UserPermissions>(`${environment.apiUrl}/users/me/permissions`);
+  }
 
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${environment.apiUrl}/users`);
