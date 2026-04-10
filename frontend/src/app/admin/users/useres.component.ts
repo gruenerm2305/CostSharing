@@ -1,10 +1,11 @@
 import { ChangeDetectorRef, Component, HostListener, OnInit } from "@angular/core";
 import { AuthService, User, UserRole } from "../../core/services/auth.service";
-import { UserAdminService } from "../../core/services/user-admin.service";
+import { UserAdminService, UserPermissions } from "../../core/services/user-admin.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { CommonModule } from "@angular/common";
 import { TranslatePipe } from "../../core/i18n/translate.pipe";
 import { TranslationService } from "../../core/i18n/translation.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-user-management',
@@ -17,19 +18,45 @@ export class UserManagementComponent implements OnInit {
   isLoading = false;
   openRoleMenuUserId: string | null = null;
   readonly userRole = UserRole;
-  readonly ownerRoleOptions: UserRole[] = [UserRole.USER, UserRole.ADMIN, UserRole.OWNER];
-  readonly adminRoleOptions: UserRole[] = [UserRole.ADMIN];
+  permissions: UserPermissions | null = null;
 
   constructor(
     private readonly userAdminService: UserAdminService,
     private readonly authService: AuthService,
     private readonly snackBar: MatSnackBar,
     private readonly cdr: ChangeDetectorRef,
-    private readonly translationService: TranslationService
+    private readonly translationService: TranslationService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
-    this.loadUsers();
+    this.loadPermissions();
+  }
+
+  loadPermissions(): void {
+    this.isLoading = true;
+    this.userAdminService.getMyPermissions().subscribe({
+      next: (permissions) => {
+        this.permissions = permissions;
+
+        if (permissions.canListUsers) {
+          this.loadUsers();
+          return;
+        }
+
+        this.users = [];
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.isLoading = false;
+        this.snackBar.open(
+          this.translationService.translate('admin.users.errors.loadFailed'),
+          this.translationService.translate('common.buttons.close'),
+          { duration: 3000 }
+        );
+      },
+    });
   }
 
   loadUsers(): void {
@@ -52,37 +79,27 @@ export class UserManagementComponent implements OnInit {
   }
 
   canManageRoles(): boolean {
-    return this.authService.hasAnyRole([UserRole.OWNER, UserRole.ADMIN]);
-  }
-
-  canEditRole(user: User): boolean {
-    const currentUser = this.authService.getCurrentUser();
-    if (!currentUser || !this.canManageRoles()) {
+    if (!this.permissions) {
       return false;
     }
 
-    if (currentUser.role === UserRole.OWNER) {
-      return true;
+    return this.permissions.assignableRoles.length > 0 && this.permissions.assignableTargetRoles.length > 0;
+  }
+
+  canEditRole(user: User): boolean {
+    if (!this.permissions || !this.canManageRoles()) {
+      return false;
     }
 
-    return user.role === UserRole.USER;
+    return this.permissions.assignableTargetRoles.includes(user.role);
   }
 
   roleOptionsFor(user: User): UserRole[] {
-    const currentUser = this.authService.getCurrentUser();
-    if (!currentUser) {
+    if (!this.permissions || !this.canEditRole(user)) {
       return [];
     }
 
-    if (currentUser.role === UserRole.OWNER) {
-      return this.ownerRoleOptions;
-    }
-
-    if (currentUser.role === UserRole.ADMIN && user.role === UserRole.USER) {
-      return this.adminRoleOptions;
-    }
-
-    return [];
+    return this.permissions.assignableRoles;
   }
 
   isRoleMenuOpen(userId: string): boolean {
@@ -158,21 +175,42 @@ export class UserManagementComponent implements OnInit {
   }
 
   canDelete(user: User): boolean {
+    if (!this.permissions) {
+      return false;
+    }
+
     const currentUser = this.authService.getCurrentUser();
     if (!currentUser) {
       return false;
     }
 
-    if (currentUser.id === user.id || user.role === UserRole.OWNER) {
-      return false;
+    if (currentUser.id === user.id) {
+      return this.permissions.canDeleteSelf;
     }
 
-    return currentUser.role === UserRole.ADMIN || currentUser.role === UserRole.OWNER;
+    if (user.role === UserRole.ADMIN) {
+      return this.permissions.canDeleteAdmin;
+    }
+
+    if (user.role === UserRole.USER) {
+      return this.permissions.canDeleteUser;
+    }
+
+    return this.permissions.deletableRoles.includes(user.role);
   }
 
   deleteUser(user: User): void {
+    const currentUser = this.authService.getCurrentUser();
+    const isSelfDelete = !!currentUser && currentUser.id === user.id;
+
     this.userAdminService.deleteUser(user.id).subscribe({
       next: () => {
+        if (isSelfDelete) {
+          this.authService.logout();
+          this.router.navigate(['/login']);
+          return;
+        }
+
         this.users = this.users.filter((candidate) => candidate.id !== user.id);
         this.cdr.detectChanges();
         this.snackBar.open(

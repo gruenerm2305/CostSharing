@@ -74,6 +74,25 @@
             <div class="alert alert-success inline-alert">{{ passwordSuccessKey | t }}</div>
           }
         </div>
+
+        <div class="danger-zone">
+          <h3>{{ 'account.delete.title' | t }}</h3>
+          <p>{{ 'account.delete.description' | t }}</p>
+          <span class="delete-button-wrap" [attr.title]="deleteAccountTooltip() || null">
+            <button
+              class="btn btn-danger"
+              type="button"
+              (click)="deleteOwnAccount()"
+              [disabled]="!canDeleteOwnAccount()"
+            >
+              {{ deleteSaving ? ('account.buttons.deletingAccount' | t) : ('account.buttons.deleteAccount' | t) }}
+            </button>
+          </span>
+
+          @if (deleteErrorKey) {
+            <div class="alert alert-error inline-alert">{{ deleteErrorKey | t }}</div>
+          }
+        </div>
       </div>
 </section>
 }

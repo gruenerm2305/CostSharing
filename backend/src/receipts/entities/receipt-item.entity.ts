@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { Receipt } from './receipt.entity';
 import { Category } from '../../categories/entities/category.entity';
+import { User } from '../../users/entities/user.entity';
 
 @Entity('receipt_items')
 export class ReceiptItem {
@@ -35,7 +36,7 @@ export class ReceiptItem {
   @Column({ nullable: true })
   categoryId: string;
 
-  @ManyToOne(() => Category, { nullable: true })
+  @ManyToOne(() => Category, { nullable: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'categoryId' })
   category: Category;
 
@@ -54,4 +55,8 @@ export class ReceiptItem {
 
   @Column({ nullable: true })
   assignedToUserId: string;
+
+  @ManyToOne(() => User, { nullable: true, onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'assignedToUserId' })
+  assignedToUser: User;
 }

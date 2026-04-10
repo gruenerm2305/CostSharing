@@ -1,7 +1,9 @@
-import { Component, ChangeDetectorRef } from "@angular/core";
-import { AuthService, User } from "../core/services/auth.service";
+import { Component, ChangeDetectorRef, OnInit } from "@angular/core";
+import { AuthService, User, UserRole } from "../core/services/auth.service";
 import { TranslatePipe } from "../core/i18n/translate.pipe";
 import { UserAdminService } from "../core/services/user-admin.service";
+import { Router } from "@angular/router";
+import { TranslationService } from "../core/i18n/translation.service";
 
 
 @Component({
@@ -10,7 +12,7 @@ import { UserAdminService } from "../core/services/user-admin.service";
     templateUrl: './account.html',
     styleUrl: './account.scss'
 })
-export class AccountComponent {
+export class AccountComponent implements OnInit {
   currentUser: User | null;
   usernameDraft = '';
   newPassword = '';
@@ -18,19 +20,46 @@ export class AccountComponent {
 
   usernameSaving = false;
   passwordSaving = false;
+  deleteSaving = false;
 
   usernameErrorKey: string | null = null;
   passwordErrorKey: string | null = null;
+  deleteErrorKey: string | null = null;
   usernameSuccessKey: string | null = null;
   passwordSuccessKey: string | null = null;
+  canDeleteSelf = false;
 
   constructor(
     private readonly authService: AuthService,
     private readonly userAdminService: UserAdminService,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    private readonly router: Router,
+    private readonly translationService: TranslationService
   ) {
     this.currentUser = this.authService.getCurrentUser();
     this.usernameDraft = this.currentUser?.username ?? '';
+  }
+
+  ngOnInit(): void {
+    this.loadDeletePermission();
+  }
+
+  private loadDeletePermission(): void {
+    if (!this.currentUser) {
+      this.canDeleteSelf = false;
+      return;
+    }
+
+    this.userAdminService.getMyPermissions().subscribe({
+      next: (permissions) => {
+        this.canDeleteSelf = permissions.canDeleteSelf;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.canDeleteSelf = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   getDisplayName(user: User): string {
@@ -59,6 +88,18 @@ export class AccountComponent {
       && this.confirmPassword.length > 0
       && !this.passwordSaving
     );
+  }
+
+  canDeleteOwnAccount(): boolean {
+    return !!this.currentUser && this.canDeleteSelf && !this.deleteSaving;
+  }
+
+  deleteAccountTooltip(): string | null {
+    if (this.currentUser?.role === UserRole.OWNER && !this.canDeleteSelf) {
+      return this.translationService.translate('account.delete.ownerDisabledTooltip');
+    }
+
+    return null;
   }
 
   saveUsername(): void {
@@ -137,6 +178,32 @@ export class AccountComponent {
       error: () => {
         this.passwordErrorKey = 'account.errors.passwordSaveFailed';
         this.passwordSaving = false;
+      }
+    });
+  }
+
+  deleteOwnAccount(): void {
+    if (!this.currentUser || !this.canDeleteSelf || this.deleteSaving) {
+      return;
+    }
+
+    const shouldDelete = window.confirm(this.translationService.translate('account.delete.confirm'));
+    if (!shouldDelete) {
+      return;
+    }
+
+    this.deleteSaving = true;
+    this.deleteErrorKey = null;
+
+    this.userAdminService.deleteUser(this.currentUser.id).subscribe({
+      next: () => {
+        this.authService.logout();
+        this.router.navigate(['/login']);
+      },
+      error: () => {
+        this.deleteErrorKey = 'account.errors.deleteAccountFailed';
+        this.deleteSaving = false;
+        this.cdr.detectChanges();
       }
     });
   }

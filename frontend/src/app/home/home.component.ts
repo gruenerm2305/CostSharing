@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
 
   viewReceipt(receipt: Receipt): void {
     if (receipt.shareToken) {
-      this.router.navigate(['/share', receipt.shareToken]);
+      this.router.navigate(['/receipt/splitting/shared/', receipt.shareToken]);
     } else if (receipt.isShared || receipt.isParticipant) {
       this.router.navigate(['/receipts', receipt.id, 'split']);
     } else {

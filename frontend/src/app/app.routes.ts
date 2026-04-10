@@ -19,7 +19,7 @@ export const appRoutes: Routes = [
     { path: 'receipts/:id/editor', loadComponent: () => import('./receipt/editor/receipt-editor.component').then((m) => m.ReceiptEditorComponent), canActivate: [AuthGuard] },
     { path: 'receipts/list' , loadComponent: () => import('./receipt/list/receipt-list.component').then((m) => m.ReceiptListComponent), canActivate: [AuthGuard] },
     { path: 'receipts/:id/split', loadComponent: () => import('./receipt/splitting/split/spliting.component').then((m) => m.CostSplittingComponent), canActivate: [AuthGuard] },
-    { path: 'share/:shareToken', loadComponent: () => import('./receipt/splitting/shared/shared.component').then((m) => m.SharedReceiptComponent), canActivate: [AuthGuard] },
+    { path: 'receipt/splitting/shared/:shareToken', loadComponent: () => import('./receipt/splitting/shared/shared.component').then((m) => m.SharedReceiptComponent), canActivate: [AuthGuard] },
     { path: 'dashboard', loadComponent: () => import('./dashboard/dashboard.component').then((m) => m.DashboardComponent), canActivate: [AuthGuard] },
     { path: 'categories', loadComponent: () => import('./cathegory/category.component').then((m) => m.CategoryComponent), canActivate: [AuthGuard] },
     { path: 'account', loadComponent: () => import('./account/account.component').then((m) => m.AccountComponent), canActivate: [AuthGuard] },

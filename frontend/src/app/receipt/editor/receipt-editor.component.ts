@@ -66,6 +66,7 @@ export class ReceiptEditorComponent implements OnInit {
   loadCategories(): void {
     this.categoryService.getAll().subscribe(categories => {
       this.categories = categories;
+      this.cdr.detectChanges();
     });
   }
 
@@ -188,9 +189,7 @@ export class ReceiptEditorComponent implements OnInit {
   }
 
   removeItem(index: number): void {
-    if (confirm(this.translationService.translate('receipts.editor.confirmations.deleteItem'))) {
-      this.items.removeAt(index);
-    }
+    this.items.removeAt(index);
   }
 
   recalculateItemTotal(index: number): void {

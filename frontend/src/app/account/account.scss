@@ -88,6 +88,44 @@
       margin-top: 6px;
     }
 
+    .danger-zone {
+      margin-top: 22px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      padding-top: 18px;
+    }
+
+    .danger-zone h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: #ffdce6;
+    }
+
+    .danger-zone p {
+      margin: 0 0 12px;
+      color: #c5ccdf;
+      font-size: 13px;
+    }
+
+    .delete-button-wrap {
+      display: inline-flex;
+    }
+
+    .delete-button-wrap .btn-danger:disabled {
+      pointer-events: none;
+    }
+
+    .danger-zone .btn-danger:disabled {
+      background: rgba(67, 72, 90, 0.75);
+      border-color: rgba(246, 247, 255, 0.16);
+      color: rgba(245, 247, 255, 0.62);
+      cursor: not-allowed;
+      filter: none;
+      transform: none;
+      box-shadow: none;
+    }
+
     .inline-alert {
       margin-top: 10px;
       margin-bottom: 8px;

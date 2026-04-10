@@ -71,7 +71,7 @@ export class ReceiptListComponent implements OnInit {
 
   editReceipt(receipt: any): void {
     if (receipt.shareToken) {
-      this.router.navigate(['/share', receipt.shareToken]);
+      this.router.navigate(['receipt/splitting/shared/', receipt.shareToken]);
       return;
     }
     if (receipt.isShared || receipt.isParticipant) {

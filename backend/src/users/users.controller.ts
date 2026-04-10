@@ -42,8 +42,17 @@ export class UsersController {
     const requester = await this.usersService.findById(req.user.userId);
     const targetUser = await this.usersService.findById(id);
 
+    // Every authenticated user except Owner may delete their own account.
+    if (targetUser.id === requester.id) {
+      if (requester.role === UserRole.Owner) {
+        throw new ForbiddenException('Owner account cannot be deleted');
+      }
+      await this.usersService.removeById(id);
+      return { success: true };
+    }
+
     if (requester.role === UserRole.Owner) {
-      if (targetUser.role === UserRole.Owner && targetUser.id !== requester.id) {
+      if (targetUser.role === UserRole.Owner) {
         throw new ForbiddenException('Owners cannot delete other owners');
       }
     } else if (requester.role === UserRole.Admin) {
@@ -51,9 +60,7 @@ export class UsersController {
         throw new ForbiddenException('Admins can only delete users');
       }
     } else {
-      if (targetUser.id !== requester.id) {
-        throw new ForbiddenException('Users can only delete their own account');
-      }
+      throw new ForbiddenException('Users can only delete their own account');
     }
 
     await this.usersService.removeById(id);

@@ -1,5 +1,4 @@
-import { ComponentFixture } from '@angular/core/testing';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UserManagementComponent } from './useres.component';
 import { UserAdminService } from '../../core/services/user-admin.service';
 import { AuthService, UserRole } from '../../core/services/auth.service';
@@ -8,6 +7,7 @@ import { ChangeDetectorRef, ElementRef } from '@angular/core';
 import { TranslationService } from '../../core/i18n/translation.service';
 import { createTranslationServiceMock } from '../../testing/mockServices/translationService.mock';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
 describe('users.component', () => {
     let component: UserManagementComponent;
@@ -19,19 +19,34 @@ describe('users.component', () => {
     let mockCdr: jasmine.SpyObj<ChangeDetectorRef>;
     let mockElementRef: jasmine.SpyObj<ElementRef<HTMLElement>>;
     let mockTranslationService: jasmine.SpyObj<TranslationService>;
+    let mockRouter: jasmine.SpyObj<Router>;
     
 
     beforeEach(async () => {
-        mockUserAdminService = jasmine.createSpyObj('UserAdminService', ['getAllUsers', 'updateUserRole', 'deleteUser']);
-        mockAuthService = jasmine.createSpyObj('AuthService', ['getCurrentUser', 'hasAnyRole', 'getUserDisplayName']);
+        mockUserAdminService = jasmine.createSpyObj('UserAdminService', ['getMyPermissions', 'getAllUsers', 'updateUserRole', 'deleteUser']);
+        mockAuthService = jasmine.createSpyObj('AuthService', ['getCurrentUser', 'getUserDisplayName', 'logout']);
         mockSnackBar = jasmine.createSpyObj('MatSnackBar', ['open']);
         mockCdr = jasmine.createSpyObj('ChangeDetectorRef', ['detectChanges']);
         mockElementRef = jasmine.createSpyObj('ElementRef', ['nativeElement']);
         mockTranslationService = createTranslationServiceMock();
-        mockAuthService.hasAnyRole.and.returnValue(false);
+        mockRouter = jasmine.createSpyObj('Router', ['navigate']);
+        mockRouter.navigate.and.returnValue(Promise.resolve(true));
         mockAuthService.getCurrentUser.and.returnValue(null);
         mockAuthService.getUserDisplayName.and.callFake((user) =>
             `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim() || user.username,
+        );
+        mockUserAdminService.getAllUsers.and.returnValue(of([]));
+        mockUserAdminService.getMyPermissions.and.returnValue(
+            of({
+                role: UserRole.OWNER,
+                canListUsers: true,
+                deletableRoles: [UserRole.ADMIN, UserRole.USER],
+                assignableRoles: [UserRole.ADMIN, UserRole.USER],
+                assignableTargetRoles: [UserRole.ADMIN, UserRole.USER],
+                canDeleteSelf: false,
+                canDeleteAdmin: true,
+                canDeleteUser: true,
+            }),
         );
 
         await TestBed.configureTestingModule({
@@ -42,7 +57,8 @@ describe('users.component', () => {
                 { provide: MatSnackBar, useValue: mockSnackBar },
                 { provide: ChangeDetectorRef, useValue: mockCdr },
                 { provide: ElementRef, useValue: mockElementRef },
-                { provide: TranslationService, useValue: mockTranslationService }
+                { provide: TranslationService, useValue: mockTranslationService },
+                { provide: Router, useValue: mockRouter }
             ]
         }).compileComponents();
     });
@@ -61,6 +77,21 @@ describe('users.component', () => {
 
         const userRows = fixture.nativeElement.querySelectorAll('article.list-row');
         expect(userRows.length).toBe(mockUsers.length);
+    });
+
+    it('should logout and redirect when deleting the current user', () => {
+        const selfUser = { id: '1', username: 'self', firstName: 'Self', lastName: 'User', role: UserRole.ADMIN };
+        mockAuthService.getCurrentUser.and.returnValue(selfUser);
+        mockUserAdminService.deleteUser.and.returnValue(of(void 0));
+
+        fixture = TestBed.createComponent(UserManagementComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+
+        component.deleteUser(selfUser);
+
+        expect(mockAuthService.logout).toHaveBeenCalled();
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['/login']);
     });
 
 

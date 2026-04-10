@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { ReceiptItem } from './receipt-item.entity';
+import { Category } from '../../categories/entities/category.entity';
 
 @Entity('receipts')
 export class Receipt {
@@ -19,7 +20,7 @@ export class Receipt {
   @Column()
   userId: string;
 
-  @ManyToOne(() => User, (user) => user.receipts)
+  @ManyToOne(() => User, (user) => user.receipts, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
   user: User;
 
@@ -31,6 +32,10 @@ export class Receipt {
 
   @Column({ nullable: true })
   categoryId: string;
+
+  @ManyToOne(() => Category, { nullable: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'categoryId' })
+  category: Category;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   totalAmount: number;

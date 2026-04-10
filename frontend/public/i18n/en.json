@@ -436,7 +436,15 @@
       "saveUsername": "Save Username",
       "savingUsername": "Saving username...",
       "savePassword": "Save Password",
-      "savingPassword": "Saving password..."
+      "savingPassword": "Saving password...",
+      "deleteAccount": "Delete Account",
+      "deletingAccount": "Deleting account..."
+    },
+    "delete": {
+      "title": "Danger Zone",
+      "description": "Delete your account permanently. This action cannot be undone.",
+      "confirm": "Are you sure you want to delete your account?",
+      "ownerDisabledTooltip": "The Owner account cannot delete its own account."
     },
     "messages": {
       "usernameSaved": "Username updated successfully.",
@@ -449,7 +457,8 @@
       "passwordRequired": "Please fill in both password fields.",
       "passwordTooShort": "Password must be longer than or equal to 6 characters.",
       "passwordMismatch": "Both password fields must match.",
-      "passwordSaveFailed": "Could not update password."
+      "passwordSaveFailed": "Could not update password.",
+      "deleteAccountFailed": "Could not delete your account."
     }
   }
 }

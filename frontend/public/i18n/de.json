@@ -436,7 +436,15 @@
       "saveUsername": "Benutzernamen speichern",
       "savingUsername": "Benutzername wird gespeichert...",
       "savePassword": "Passwort speichern",
-      "savingPassword": "Passwort wird gespeichert..."
+      "savingPassword": "Passwort wird gespeichert...",
+      "deleteAccount": "Konto löschen",
+      "deletingAccount": "Konto wird gelöscht..."
+    },
+    "delete": {
+      "title": "Gefahrenbereich",
+      "description": "Löschen Sie Ihr Konto dauerhaft. Diese Aktion kann nicht rückgängig gemacht werden.",
+      "confirm": "Möchten Sie Ihr Konto wirklich löschen?",
+      "ownerDisabledTooltip": "Das Owner-Konto kann das eigene Konto nicht löschen."
     },
     "messages": {
       "usernameSaved": "Benutzername erfolgreich aktualisiert.",
@@ -449,7 +457,8 @@
       "passwordRequired": "Bitte beide Passwortfelder ausfüllen.",
       "passwordTooShort": "Passwort muss länger als 6 Zeichen sein.",
       "passwordMismatch": "Beide Passwortfelder müssen übereinstimmen.",
-      "passwordSaveFailed": "Passwort konnte nicht aktualisiert werden."
+      "passwordSaveFailed": "Passwort konnte nicht aktualisiert werden.",
+      "deleteAccountFailed": "Ihr Konto konnte nicht gelöscht werden."
     }
   }
 }

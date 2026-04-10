@@ -5,7 +5,6 @@ import { filter } from "rxjs";
 import { CommonModule } from "@angular/common";
 import { LanguagePreference, TranslationService } from './core/i18n/translation.service';
 import { TranslatePipe } from './core/i18n/translate.pipe';
-import { signal } from '@angular/core';
 
 @Component({
   selector: 'app-root',
