@@ -108,39 +108,25 @@
         color: #ffffff;
       }
 
-      .role-select-shell {
-        position: relative;
+      .role-dropdown {
         width: 150px;
         z-index: 1;
       }
 
-      .role-select-shell.open {
+      .role-dropdown.open {
         z-index: 9999;
       }
 
       .role-trigger {
-        width: 100%;
-        min-height: 40px;
-        padding: 0 38px 0 12px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
         border-radius: 999px;
-        border: 1px solid #798aff;
-        background: #1c2138;
-        color: #f7f8ff;
-        cursor: pointer;
+        grid-template-columns: 20px 1fr 18px;
+        min-height: 40px;
       }
 
       .role-trigger:disabled {
         opacity: 0.72;
         cursor: not-allowed;
-      }
-
-      .role-trigger:focus-visible {
-        outline: none;
-        box-shadow: 0 0 0 3px #6c63ff;
+        transform: none;
       }
 
       .role-chip {
@@ -164,35 +150,12 @@
         color: #ffccdb;
       }
 
-      .role-caret {
-        position: absolute;
-        right: 14px;
-        top: 50%;
-        width: 8px;
-        height: 8px;
-        border-right: 2px solid #eef1ff;
-        border-bottom: 2px solid #eef1ff;
-        transform: translateY(-62%) rotate(45deg);
-        pointer-events: none;
-        opacity: 0.9;
-      }
-
-      .role-select-shell.open .role-trigger {
-        border-color: rgba(121, 160, 255, 0.7);
-        background: linear-gradient(135deg, rgba(98, 91, 255, 0.32), rgba(22, 27, 44, 0.98));
-      }
-
       .role-menu {
-        position: absolute;
-        top: calc(100% + 8px);
-        left: 0;
+        top: calc(100% + 6px);
         z-index: 9999;
         width: 100%;
-        padding: 8px;
-        border-radius: 20px;
-        border: 1px solid #5f6bd6;
-        background: #111625;
-        box-shadow: 0 16px 36px #00000066;
+        max-height: 220px;
+        overflow-y: auto;
       }
 
       .role-option {
@@ -201,22 +164,10 @@
         align-items: center;
         justify-content: space-between;
         gap: 12px;
-        padding: 10px 12px;
-        border: 0;
-        border-radius: 14px;
-        background: transparent;
-        color: #edf1ff;
-        cursor: pointer;
-        font-size: 13px;
-        text-align: left;
+        padding-right: 10px;
       }
 
-      .role-option:hover {
-        background: #262d4a;
-      }
-
-      .role-option.selected {
-        background: transparent;
+      .role-option.active {
         font-weight: 700;
       }
 
@@ -229,7 +180,7 @@
         flex: none;
       }
 
-      .role-option.selected .option-dot {
+      .role-option.active .option-dot {
         background: #7f8cff;
         box-shadow: 0 0 0 3px #4855c2;
       }

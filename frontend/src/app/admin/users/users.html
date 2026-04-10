@@ -27,25 +27,26 @@
 
           <div class="role-col">
             <ng-container *ngIf="canManageRoles(); else staticRole">
-              <div class="role-select-shell" [class.open]="isRoleMenuOpen(user.id)">
+              <div class="language-dropdown role-dropdown" [class.open]="isRoleMenuOpen(user.id)">
                 <button
                   type="button"
-                  class="role-trigger"
+                  class="language-trigger role-trigger"
                   [disabled]="!canEditRole(user)"
                   [attr.aria-expanded]="isRoleMenuOpen(user.id)"
                   [attr.aria-label]="roleTriggerAriaLabel(displayName(user))"
                   (click)="toggleRoleMenu(user.id)"
                 >
-                  <span class="role-chip" [attr.data-tone]="roleTone(user.role)">{{ roleLabel(user.role) }}</span>
-                  <span class="role-caret"></span>
+                  <span class="material-symbols-outlined language-icon">admin_panel_settings</span>
+                  <span class="language-current role-chip" [attr.data-tone]="roleTone(user.role)">{{ roleLabel(user.role) }}</span>
+                  <span class="material-symbols-outlined language-chevron">expand_more</span>
                 </button>
 
-                <div class="role-menu" *ngIf="isRoleMenuOpen(user.id)">
+                <div class="language-menu role-menu" *ngIf="isRoleMenuOpen(user.id)">
                   <button
                     *ngFor="let role of roleOptionsFor(user)"
                     type="button"
-                    class="role-option"
-                    [class.selected]="user.role === role"
+                    class="language-option role-option"
+                    [class.active]="user.role === role"
                     (click)="selectRole(user, role)"
                   >
                     <span>{{ roleLabel(role) }}</span>

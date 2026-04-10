@@ -52,7 +52,7 @@ export class HomeComponent implements OnInit {
     } else if (receipt.isShared || receipt.isParticipant) {
       this.router.navigate(['/receipts', receipt.id, 'split']);
     } else {
-      this.router.navigate(['/receipts', receipt.id, 'edit']);
+      this.router.navigate(['/receipts', receipt.id, 'editor']);
     }
   }
 }

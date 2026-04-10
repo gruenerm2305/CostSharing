@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, HostListener, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Receipt, ReceiptItem, ReceiptService } from "../../core/services/receipt.service";
@@ -36,6 +36,7 @@ export class ReceiptEditorComponent implements OnInit {
   submitAttempted = false;
   formError: string | null = null;
   displayedColumns: string[] = ['name', 'quantity', 'unitPrice', 'totalPrice', 'actions'];
+  isCategoryMenuOpen = false;
 
   constructor(
     private readonly location: Location,
@@ -342,5 +343,42 @@ export class ReceiptEditorComponent implements OnInit {
 
   cancel(): void {
     this.location.back();
+  }
+
+  toggleCategoryMenu(event: MouseEvent): void {
+    event.stopPropagation();
+    if (this.isReadOnly) {
+      return;
+    }
+
+    this.isCategoryMenuOpen = !this.isCategoryMenuOpen;
+  }
+
+  selectCategory(categoryId: string | null): void {
+    if (this.isReadOnly || !this.receiptForm) {
+      return;
+    }
+
+    this.receiptForm.get('categoryId')?.setValue(categoryId ?? '');
+    this.receiptForm.get('categoryId')?.markAsDirty();
+    this.isCategoryMenuOpen = false;
+  }
+
+  selectedCategoryLabel(): string {
+    const selectedCategoryId = this.receiptForm?.get('categoryId')?.value as string | undefined;
+    if (!selectedCategoryId) {
+      return this.translationService.translate('receipts.editor.options.none');
+    }
+
+    const selectedCategory = this.categories.find((category) => category.id === selectedCategoryId);
+    return selectedCategory?.name ?? this.translationService.translate('receipts.editor.options.none');
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement | null;
+    if (!target?.closest('.category-dropdown')) {
+      this.isCategoryMenuOpen = false;
+    }
   }
 }

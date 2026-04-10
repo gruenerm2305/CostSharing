@@ -53,10 +53,39 @@
 
       <div class="form-group">
         <label class="form-label">{{ 'receipts.editor.labels.category' | t }}</label>
-        <select class="form-control" formControlName="categoryId">
-          <option value="">{{ 'receipts.editor.options.none' | t }}</option>
-          <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
-        </select>
+        <div class="language-dropdown category-dropdown" [class.open]="isCategoryMenuOpen" [class.disabled]="isReadOnly">
+          <button
+            type="button"
+            class="language-trigger"
+            (click)="toggleCategoryMenu($event)"
+            [attr.aria-expanded]="isCategoryMenuOpen"
+            [disabled]="isReadOnly"
+          >
+            <span class="material-symbols-outlined language-icon">category</span>
+            <span class="language-current">{{ selectedCategoryLabel() }}</span>
+            <span class="material-symbols-outlined language-chevron">expand_more</span>
+          </button>
+
+          <div class="language-menu" *ngIf="isCategoryMenuOpen">
+            <button
+              type="button"
+              class="language-option"
+              [class.active]="!receiptForm.get('categoryId')?.value"
+              (click)="selectCategory(null)"
+            >
+              {{ 'receipts.editor.options.none' | t }}
+            </button>
+            <button
+              *ngFor="let cat of categories"
+              type="button"
+              class="language-option"
+              [class.active]="receiptForm.get('categoryId')?.value === cat.id"
+              (click)="selectCategory(cat.id)"
+            >
+              {{ cat.name }}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
