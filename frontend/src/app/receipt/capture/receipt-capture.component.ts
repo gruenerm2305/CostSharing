@@ -1,9 +1,8 @@
-import { Component, ElementRef, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from "@angular/core";
 import { ReceiptService } from "../../core/services/receipt.service";
 import { Router, RouterLink } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { TranslatePipe } from "../../core/i18n/translate.pipe";
-import { TranslationService } from "../../core/i18n/translation.service";
 
 @Component({
     selector: 'app-receipt-capture',
@@ -24,6 +23,7 @@ export class ReceiptCaptureComponent {
   constructor(
     private readonly receiptService: ReceiptService,
     private readonly router: Router,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   onFileSelected(event: Event): void {
@@ -75,13 +75,16 @@ export class ReceiptCaptureComponent {
 
     // Create preview for images
     if (file.type.startsWith('image/')) {
+      this.previewUrl = null;
       const reader = new FileReader();
       reader.onload = (e) => {
         this.previewUrl = e.target?.result as string;
+        this.cdr.detectChanges();
       };
       reader.readAsDataURL(file);
     } else {
       this.previewUrl = null;
+      this.cdr.detectChanges();
     }
   }
 
@@ -106,11 +109,13 @@ export class ReceiptCaptureComponent {
           () => {
             console.log('Navigation to editor successful');
             this.uploading = false;
+            this.cdr.detectChanges()
           },
           (err) => {
             console.error('Navigation error:', err);
             this.error = 'receipts.capture.errors.navigationFailed';
             this.uploading = false;
+            this.cdr.detectChanges();
           }
         );
       },
@@ -118,6 +123,7 @@ export class ReceiptCaptureComponent {
         console.error('Upload error:', err);
         this.error = 'receipts.capture.errors.uploadFailed';
         this.uploading = false;
+        this.cdr.detectChanges();
       }
     });
   }

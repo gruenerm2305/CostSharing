@@ -3,20 +3,24 @@ import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
 import { parseStringPromise } from 'xml2js';
 
+export interface OcrCategoryOption {
+  id: string;
+  name: string;
+}
+
 export interface OcrResult {
   date?: string;
   merchant?: string;
+  categoryId?: string;
   items: Array<{
     name: string;
     quantity: number;
     unitPrice: number;
     totalPrice: number;
-    confidence?: number;
   }>;
   totalAmount?: number;
   taxAmount?: number;
   rawXml: string;
-  confidence: number;
   needsReview: boolean;
   extractionErrors?: string[];
 }
@@ -34,11 +38,15 @@ export class OcrService {
     this.baseUrl = this.configService.get<string>('GEMINI_BASE_URL') || 'https://generativelanguage.googleapis.com/v1beta';
   }
 
-  async processReceipt(imageBuffer: Buffer, mimeType: string): Promise<OcrResult> {
+  async processReceipt(
+    imageBuffer: Buffer,
+    mimeType: string,
+    availableCategories: OcrCategoryOption[] = [],
+  ): Promise<OcrResult> {
     try {
       const base64Image = imageBuffer.toString('base64');
 
-      const prompt = this.getOcrPrompt();
+      const prompt = this.getOcrPrompt(availableCategories);
 
       const url = `${this.baseUrl}/models/${this.model}:generateContent?key=${this.apiKey}`;
 
@@ -65,8 +73,9 @@ export class OcrService {
           },
         ],
         generationConfig: {
-          temperature: 0,
+          temperature: 0.7,
           maxOutputTokens: 4000,
+          thinkingConfig: this.getThinkingConfig(),
         },
       });
 
@@ -77,13 +86,19 @@ export class OcrService {
       }
 
       const ocrResult = await this.parseXmlResponse(xmlContent);
+      const categoryId = this.getValidatedCategoryId(ocrResult.categoryId, availableCategories);
+      const hasInvalidCategory = Boolean(ocrResult.categoryId && !categoryId);
 
-      const needsReview = this.performConfidenceCheck(ocrResult);
+      if (hasInvalidCategory) {
+        this.logger.warn(`OCR returned invalid categoryId: ${ocrResult.categoryId}`);
+      }
+
+      const needsReview = this.performReviewCheck(ocrResult, hasInvalidCategory);
 
       return {
         items: ocrResult.items || [],
-        confidence: ocrResult.confidence || 0,
         ...ocrResult,
+        categoryId,
         rawXml: xmlContent,
         needsReview,
       };
@@ -130,7 +145,6 @@ export class OcrService {
           quantity: Number.parseFloat(item.quantity?.[0] || '1'),
           unitPrice: Number.parseFloat(item.unitPrice?.[0] || '0'),
           totalPrice: Number.parseFloat(item.totalPrice?.[0] || '0'),
-          confidence: Number.parseFloat(item.confidence?.[0] || '0.5'),
         };
         this.logger.debug(`Parsed item: ${parsedItem.name} - ${parsedItem.quantity} x ${parsedItem.unitPrice}`);
         return parsedItem;
@@ -141,10 +155,10 @@ export class OcrService {
       const result = {
         date: dateStr,
         merchant: receipt.merchant?.[0] || 'Unknown',
+        categoryId: receipt.categoryId?.[0]?.trim() || undefined,
         items,
         totalAmount: Number.parseFloat(receipt.totalAmount?.[0] || '0'),
         taxAmount: receipt.taxAmount?.[0] ? Number.parseFloat(receipt.taxAmount[0]) : undefined,
-        confidence: Number.parseFloat(receipt.confidence?.[0] || '0.5'),
       };
 
       this.logger.debug(`OCR Result: ${result.items.length} items, total: ${result.totalAmount}`);
@@ -166,16 +180,8 @@ export class OcrService {
     return date instanceof Date && !Number.isNaN(date.getTime());
   }
 
-  private performConfidenceCheck(result: Partial<OcrResult>): boolean {
-    if (result.confidence < 0.7) {
-      return true;
-    }
-
-    const hasLowConfidenceItems = result.items?.some(
-      (item) => item.confidence && item.confidence < 0.7
-    );
-
-    if (hasLowConfidenceItems) {
+  private performReviewCheck(result: Partial<OcrResult>, hasInvalidCategory = false): boolean {
+    if (hasInvalidCategory) {
       return true;
     }
 
@@ -186,7 +192,9 @@ export class OcrService {
     return false;
   }
 
-  private getOcrPrompt(): string {
+  private getOcrPrompt(availableCategories: OcrCategoryOption[]): string {
+    const categoriesSection = this.getCategoriesPromptSection(availableCategories);
+
     return `
     Du bist ein OCR-System fuer Kassenbelege. Antworte NUR mit dem XML-Block <receipt>...</receipt>.
     Kein Markdown, keine Erklaerungen, keine Listen, kein Text davor oder danach.
@@ -196,14 +204,17 @@ Extrahiere die folgenden Informationen aus dem Belegbild:
 
 1. DATUM (erforderlich): Das Kaufdatum im Format YYYY-MM-DD (z.B. 2024-01-15)
 2. HÄNDLER (erforderlich): Name des Geschäfts oder Unternehmens
-3. ARTIKEL (erforderlich): Vollständige Liste aller Artikel mit:
+3. KATEGORIE-ID (optional): Genau eine Kategorie-ID aus der bereitgestellten Liste oder leer
+4. ARTIKEL (erforderlich): Vollständige Liste aller Artikel mit:
    - Artikelname
    - Menge (numerisch, z.B. 1.0 oder 2.5)
    - Einzelpreis (in Euro, z.B. 9.99)
    - Gesamtpreis pro Artikel (Menge × Einzelpreis)
-   - Konfidenz (0.0-1.0, wobei 1.0 = 100% sicher)
-4. GESAMTSUMME (erforderlich): Die Endsumme des Belegs
-5. MEHRWERTSTEUER (optional): Der Steuerbetrag, falls angegeben
+5. GESAMTSUMME (erforderlich): Die Endsumme des Belegs
+6. MEHRWERTSTEUER (optional): Der Steuerbetrag, falls angegeben
+
+VERFUEGBARE KATEGORIEN:
+${categoriesSection}
 
 RUECKGABEFORMAT:
 Gib NUR das reine XML zurueck. KEIN Markdown, KEINE Code-Bloecke, KEINE zusaetzlichen Erklaerungen.
@@ -213,32 +224,67 @@ XML-STRUKTUR (genau so verwenden):
 <receipt>
   <date>YYYY-MM-DD</date>
   <merchant>Genauer Händlername</merchant>
+  <categoryId>UUID aus Liste oder leer</categoryId>
   <items>
     <item>
       <name>Artikelname</name>
       <quantity>1.0</quantity>
       <unitPrice>9.99</unitPrice>
       <totalPrice>9.99</totalPrice>
-      <confidence>0.95</confidence>
     </item>
   </items>
   <totalAmount>9.99</totalAmount>
   <taxAmount>1.59</taxAmount>
-  <confidence>0.9</confidence>
 </receipt>
 
 KRITISCHE REGELN:
 1. Beginne deine Antwort direkt mit <receipt> - KEIN Text davor
 2. DATUM MUSS im Format YYYY-MM-DD sein (z.B. 2024-12-08)
 3. Alle Zahlen mit Punkt als Dezimaltrennzeichen (9.99 nicht 9,99)
-4. Konfidenz zwischen 0.0 und 1.0
+4. categoryId darf NUR eine ID aus VERFUEGBARE KATEGORIEN sein, sonst leer lassen
 5. Sonderzeichen als XML-Entities: & wird zu &amp; , < wird zu &lt; , > wird zu &gt;
 6. KEINE Markdown Code-Bloecke (kein \`\`\`xml)
 7. KEINE Escape-Sequenzen wie \\n - nutze normale Zeilenumbrueche
 8. Ende deine Antwort mit </receipt> - KEIN Text danach
+9. Sollte kein Datum erkannbar sein fülle -- ein.
 
 FALSCH: \`\`\`xml<receipt>...</receipt>\`\`\`
 RICHTIG: <receipt>...</receipt>`;
+  }
+
+  private getCategoriesPromptSection(availableCategories: OcrCategoryOption[]): string {
+    if (availableCategories.length === 0) {
+      return '- Keine Kategorien vorhanden. categoryId leer lassen.';
+    }
+
+    return availableCategories
+      .map((category) => `- ${category.id}: ${category.name}`)
+      .join('\n');
+  }
+
+  private getValidatedCategoryId(
+    categoryId: string | undefined,
+    availableCategories: OcrCategoryOption[],
+  ): string | undefined {
+    const trimmedCategoryId = categoryId?.trim();
+    if (!trimmedCategoryId) {
+      return undefined;
+    }
+
+    const validCategoryIds = new Set(availableCategories.map((category) => category.id));
+    if (!validCategoryIds.has(trimmedCategoryId)) {
+      return undefined;
+    }
+
+    return trimmedCategoryId;
+  }
+
+  private getThinkingConfig(): { thinkingLevel: 'minimal' } | undefined {
+    if (this.model.startsWith('gemma-4')) {
+      return { thinkingLevel: 'minimal' };
+    }
+
+    return undefined;
   }
 
   private getErrorMessage(error: unknown): string {
