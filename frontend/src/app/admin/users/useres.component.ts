@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, HostListener, OnInit } from "@angular/core";
 import { AuthService, User, UserRole } from "../../core/services/auth.service";
 import { UserAdminService } from "../../core/services/user-admin.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -25,7 +25,6 @@ export class UserManagementComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly snackBar: MatSnackBar,
     private readonly cdr: ChangeDetectorRef,
-    private readonly elementRef: ElementRef<HTMLElement>,
     private readonly translationService: TranslationService
   ) {}
 
@@ -233,9 +232,8 @@ export class UserManagementComponent implements OnInit {
 
   @HostListener('document:click', ['$event'])
   handleDocumentClick(event: MouseEvent): void {
-    const target = event.target as Node | null;
-
-    if (!target || this.elementRef.nativeElement.contains(target)) {
+    const target = event.target as HTMLElement | null;
+    if (target?.closest('.role-dropdown')) {
       return;
     }
 

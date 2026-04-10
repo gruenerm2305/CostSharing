@@ -132,6 +132,7 @@ export class AccountComponent {
         this.confirmPassword = '';
         this.passwordSuccessKey = 'account.messages.passwordSaved';
         this.passwordSaving = false;
+        this.cdr.detectChanges();
       },
       error: () => {
         this.passwordErrorKey = 'account.errors.passwordSaveFailed';

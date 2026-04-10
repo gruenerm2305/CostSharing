@@ -204,20 +204,6 @@
   pointer-events: none;
 }
 
-.grid-cell select.form-control,
-.form-row select.form-control {
-  appearance: none;
-  padding-right: 34px;
-  background-image:
-    linear-gradient(45deg, transparent 50%, #b8bfd8 50%),
-    linear-gradient(135deg, #b8bfd8 50%, transparent 50%);
-  background-position:
-    calc(100% - 18px) calc(50% - 3px),
-    calc(100% - 12px) calc(50% - 3px);
-  background-size: 6px 6px, 6px 6px;
-  background-repeat: no-repeat;
-}
-
 .grid-cell input[type='number'] {
   color-scheme: dark;
 }
@@ -280,6 +266,21 @@
 
 .form-group {
   position: relative; /* Essential for the absolute-positioned .field-error to align */
+}
+
+.category-dropdown .language-menu {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.category-dropdown.disabled .language-trigger {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.category-dropdown.disabled .language-trigger:hover {
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 @media (max-width: 768px) {

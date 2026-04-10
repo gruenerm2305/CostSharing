@@ -55,20 +55,18 @@ export class RegisterComponent {
 
       this.authService.register(username, password, firstName, lastName).subscribe({
         next: () => {
-          this.successMessage = this.translationService.translate('auth.registerSuccess');
+          this.successMessage = 'auth.registerSuccess';
           this.loading = false;
-          setTimeout(() => {
-            this.router.navigate(['/login']);
-          }, 2000);
+          this.router.navigate(['/login']);
         },
         error: (err) => {
           console.error('Registration error:', err);
           if (err.status === 409) {
-             this.error = this.translationService.translate('auth.errors.registerConflict');
+             this.error = 'auth.errors.registerConflict';
            } else if (err.error?.message) {
              this.error = Array.isArray(err.error.message) ? err.error.message.join(', ') : err.error.message;
           } else {
-             this.error = this.translationService.translate('auth.errors.registerFailed');
+             this.error = 'auth.errors.registerFailed';
           }
           this.loading = false;
         }

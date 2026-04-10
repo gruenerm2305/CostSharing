@@ -1,12 +1,26 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { ReceiptService } from '../core/services/receipt.service';
-import { Chart, registerables, ChartConfiguration, ChartData, ChartType } from 'chart.js';
+import {
+  ArcElement,
+  BarController,
+  BarElement,
+  CategoryScale,
+  Chart,
+  ChartConfiguration,
+  ChartData,
+  ChartType,
+  Legend,
+  LinearScale,
+  PieController,
+  Title,
+  Tooltip,
+} from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { TranslatePipe } from '../core/i18n/translate.pipe';
 import { TranslationService } from '../core/i18n/translation.service';
 
-Chart.register(...registerables); 
+Chart.register(PieController, BarController, ArcElement, BarElement, CategoryScale, LinearScale, Tooltip, Legend, Title);
 
 @Component({
   selector: 'app-dashboard',

@@ -1,38 +1,26 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './auth/login/login.component';
-import { HomeComponent } from './home/home.component';
-import { RegisterComponent } from './auth/register/component.register';
-import { ReceiptCaptureComponent } from './receipt/capture/receipt-capture.component';
-import { ReceiptEditorComponent } from './receipt/editor/receipt-editor.component';
-import { ReceiptListComponent } from './receipt/list/receipt-list.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { CategoryComponent } from './cathegory/category.component';
-import { AccountComponent } from './account/account.component';
-import { CostSplittingComponent } from './receipt/splitting/split/spliting.component';
-import { SharedReceiptComponent } from './receipt/splitting/shared/shared.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { UserRole } from './core/services/auth.service';
 import { roleGuard } from './core/guards/role.guard';
-import { UserManagementComponent } from './admin/users/useres.component';
 
 export const appRoutes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
+    { path: 'login', loadComponent: () => import('./auth/login/login.component').then((m) => m.LoginComponent) },
+    { path: 'register', loadComponent: () => import('./auth/register/component.register').then((m) => m.RegisterComponent) },
     {
         path: 'admin',
-        component: UserManagementComponent,
+        loadComponent: () => import('./admin/users/useres.component').then((m) => m.UserManagementComponent),
         canActivate: [AuthGuard, roleGuard],
         data: { roles: [UserRole.ADMIN, UserRole.OWNER] },
     },
-    { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-    { path: 'receipts/capture', component: ReceiptCaptureComponent, canActivate: [AuthGuard] },
-    { path: 'receipts/editor', component: ReceiptEditorComponent, canActivate: [AuthGuard] },
-    { path: 'receipts/:id/editor', component: ReceiptEditorComponent, canActivate: [AuthGuard] },
-    { path: 'receipts/list' , component: ReceiptListComponent, canActivate: [AuthGuard] },
-    { path: 'receipts/:id/split', component: CostSplittingComponent, canActivate: [AuthGuard] },
-    { path: 'share/:shareToken', component: SharedReceiptComponent, canActivate: [AuthGuard] },
-    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-    { path: 'categories', component: CategoryComponent, canActivate: [AuthGuard] },
-    { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
+    { path: 'home', loadComponent: () => import('./home/home.component').then((m) => m.HomeComponent), canActivate: [AuthGuard] },
+    { path: 'receipts/capture', loadComponent: () => import('./receipt/capture/receipt-capture.component').then((m) => m.ReceiptCaptureComponent), canActivate: [AuthGuard] },
+    { path: 'receipts/editor', loadComponent: () => import('./receipt/editor/receipt-editor.component').then((m) => m.ReceiptEditorComponent), canActivate: [AuthGuard] },
+    { path: 'receipts/:id/editor', loadComponent: () => import('./receipt/editor/receipt-editor.component').then((m) => m.ReceiptEditorComponent), canActivate: [AuthGuard] },
+    { path: 'receipts/list' , loadComponent: () => import('./receipt/list/receipt-list.component').then((m) => m.ReceiptListComponent), canActivate: [AuthGuard] },
+    { path: 'receipts/:id/split', loadComponent: () => import('./receipt/splitting/split/spliting.component').then((m) => m.CostSplittingComponent), canActivate: [AuthGuard] },
+    { path: 'share/:shareToken', loadComponent: () => import('./receipt/splitting/shared/shared.component').then((m) => m.SharedReceiptComponent), canActivate: [AuthGuard] },
+    { path: 'dashboard', loadComponent: () => import('./dashboard/dashboard.component').then((m) => m.DashboardComponent), canActivate: [AuthGuard] },
+    { path: 'categories', loadComponent: () => import('./cathegory/category.component').then((m) => m.CategoryComponent), canActivate: [AuthGuard] },
+    { path: 'account', loadComponent: () => import('./account/account.component').then((m) => m.AccountComponent), canActivate: [AuthGuard] },
 ];

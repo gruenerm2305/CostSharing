@@ -20,7 +20,7 @@
       "ok": "OK",
       "close": "Close",
       "apply": "Apply",
-      "backArrow": "<- Back"
+      "backArrow": "Back"
     }
   },
   "sidebar": {
@@ -112,7 +112,7 @@
     "buttons": {
       "newReceipt": "+ New Receipt",
       "captureNow": "Capture now",
-      "makePrivate": "Private",
+      "makePrivate": "Make private",
       "splitCost": "Split cost",
       "remove": "Remove"
     },
@@ -233,7 +233,7 @@
     "invite": {
       "title": "Invite users",
       "tipLabel": "Tip:",
-      "tip1": "Your friends can find their user ID in the dashboard.",
+      "tip1": "Your friends can find their user ID in the account section.",
       "tip2": "You can also send the share link directly. The user will be added automatically after claiming an item.",
       "label": "User ID to invite",
       "placeholder": "e.g. 550e8400-e29b-41d4-a716-446655440000",
