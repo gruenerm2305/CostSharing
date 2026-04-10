@@ -63,7 +63,10 @@ export class UsersController {
   @Patch(':id/username') 
   @ApiOperation({ summary: 'Update username by id' })
   @ApiParam({ name: 'id', type: String })
-  async updateUsername(@Param('id') id: string, @Body() body: UpdateUsernameDto) {
+  async updateUsername(@Request() req, @Param('id') id: string, @Body() body: UpdateUsernameDto) {
+    if (id !== req.user.userId) {
+      throw new ForbiddenException('Users can only update their own username');
+    }
     await this.usersService.updateUsernameById(id, body.username);
     return { success: true };
   }
@@ -71,7 +74,10 @@ export class UsersController {
   @Patch(':id/password') 
   @ApiOperation({ summary: 'Update password by id' })
   @ApiParam({ name: 'id', type: String })
-  async updatePassword(@Param('id') id: string, @Body() body: UpdatePasswordDto) {
+  async updatePassword(@Request() req, @Param('id') id: string, @Body() body: UpdatePasswordDto) {
+    if (id !== req.user.userId) {
+      throw new ForbiddenException('Users can only update their own password');
+    }
     await this.usersService.updatePasswordById(id, body.password);
     return { success: true };
   }
