@@ -39,9 +39,9 @@ export class ItemClaim {
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   amount: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt: Date;
 }

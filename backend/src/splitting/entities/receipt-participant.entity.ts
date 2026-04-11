@@ -25,9 +25,9 @@ export class ReceiptParticipant {
   @Column({ type: 'varchar', length: 20, default: 'participant' })
   role: 'owner' | 'participant';
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt: Date;
 }

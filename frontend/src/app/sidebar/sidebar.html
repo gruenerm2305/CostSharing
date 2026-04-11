@@ -22,7 +22,7 @@
             <span class="material-symbols-outlined">dashboard</span>
             <span>{{ 'sidebar.dashboard' | t }}</span>
           </a>
-          <a routerLink="/categories" routerLinkActive="active-link">
+          <a routerLink="/categories" routerLinkActive="active-link" >
             <span class="material-symbols-outlined">category</span>
             <span>{{ 'sidebar.categories' | t }}</span>
           </a>
@@ -70,7 +70,7 @@
             </div>
           </div>
 
-          <button class="link-btn" (click)="logout()">
+          <button class="link-btn" (click)="logout()" data-testid="sidebar-logout">
             <span class="material-symbols-outlined">logout</span>
             <span>{{ 'sidebar.logout' | t }}</span>
           </button>

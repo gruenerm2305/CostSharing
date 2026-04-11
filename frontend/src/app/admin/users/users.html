@@ -33,11 +33,11 @@
                   class="language-trigger role-trigger"
                   [disabled]="!canEditRole(user)"
                   [attr.aria-expanded]="isRoleMenuOpen(user.id)"
-                  [attr.aria-label]="roleTriggerAriaLabel(displayName(user))"
+                  [attr.aria-label]="('admin.users.aria.changeRoleFor' | t) + ' ' + displayName(user)"
                   (click)="toggleRoleMenu(user.id)"
                 >
                   <span class="material-symbols-outlined language-icon">admin_panel_settings</span>
-                  <span class="language-current role-chip" [attr.data-tone]="roleTone(user.role)">{{ roleLabel(user.role) }}</span>
+                  <span class="language-current role-chip" [attr.data-tone]="roleTone(user.role)">{{ roleLabelKey(user.role) | t }}</span>
                   <span class="material-symbols-outlined language-chevron">expand_more</span>
                 </button>
 
@@ -49,19 +49,26 @@
                     [class.active]="user.role === role"
                     (click)="selectRole(user, role)"
                   >
-                    <span>{{ roleLabel(role) }}</span>
+                    <span>{{ roleLabelKey(role) | t }}</span>
                     <span class="option-dot"></span>
                   </button>
                 </div>
               </div>
             </ng-container>
             <ng-template #staticRole>
-              <span class="role-pill">{{ roleLabel(user.role) }}</span>
+              <span class="role-pill">{{ roleLabelKey(user.role) | t }}</span>
             </ng-template>
           </div>
 
           <div class="meta-cell">
-            {{ relativeTime(user.updatedAt ?? user.createdAt) }}
+            <ng-container *ngIf="relativeTime(user.createdAt) as time">
+              <ng-container *ngIf="time.amount !== null; else unknownTime">
+                {{ time.amount }} {{ time.key | t }}
+              </ng-container>
+              <ng-template #unknownTime>
+                {{ time.key | t }}
+              </ng-template>
+            </ng-container>
           </div>
 
           <div class="actions-col">
