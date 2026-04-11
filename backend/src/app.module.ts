@@ -19,6 +19,9 @@ import { SplittingModule } from './splitting/splitting.module';
       autoLoadEntities: true,
       synchronize: process.env.NODE_ENV === 'development',
       logging: process.env.NODE_ENV === 'development',
+      extra: {
+        options: '-c timezone=UTC',
+      },
     }),
     UsersModule,
     AuthModule,

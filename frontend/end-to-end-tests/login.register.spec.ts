@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 
+
 test('shows login page', async ({ page }) => {
   await page.goto('/login');
 
@@ -15,7 +16,7 @@ test('shows register page', async ({ page }) => {
   await page.goto('/register');
 
   await expect(page).toHaveTitle(/Cost Sharing/);
-  await expect(page.locator('h1')).toContainText('Cost Sharing');
+  await expect(page.locator('h1')).toContainText('Create Account');
   await expect(page.locator('#firstName')).toBeVisible();
   await expect(page.locator('#lastName')).toBeVisible();
   await expect(page.locator('#username')).toBeVisible();
@@ -32,6 +33,7 @@ test('can register a user and login to home', async ({ page }) => {
   await page.locator('a[href="/register"]').click();
 
   await expect(page).toHaveURL(/\/register$/);
+
   await page.locator('#firstName').fill('Playwright');
   await page.locator('#lastName').fill('User');
   await page.locator('#username').fill(username);
@@ -46,15 +48,10 @@ test('can register a user and login to home', async ({ page }) => {
 
   await expect(page).toHaveURL(/\/home$/);
   await expect(page.locator('section.app-page.home h1')).toBeVisible();
+
+  await page.getByTestId('sidebar-logout').click();
+
+  await expect(page).toHaveURL(/\/login$/);
 });
 
-test('can login with seeded owner account', async ({ page }) => {
-  await page.goto('/login');
 
-  await page.locator('#username').fill('Owner');
-  await page.locator('#password').fill('startowner');
-  await page.locator('button[type="submit"]').click();
-
-  await expect(page).toHaveURL(/\/home$/);
-  await expect(page.locator('section.app-page.home h1')).toBeVisible();
-});

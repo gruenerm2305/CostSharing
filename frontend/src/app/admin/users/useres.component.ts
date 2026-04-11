@@ -50,11 +50,7 @@ export class UserManagementComponent implements OnInit {
       },
       error: () => {
         this.isLoading = false;
-        this.snackBar.open(
-          this.translationService.translate('admin.users.errors.loadFailed'),
-          this.translationService.translate('common.buttons.close'),
-          { duration: 3000 }
-        );
+        this.showSnackBarMessage('admin.users.errors.loadFailed', 3000);
       },
     });
   }
@@ -69,11 +65,7 @@ export class UserManagementComponent implements OnInit {
       },
       error: () => {
         this.isLoading = false;
-        this.snackBar.open(
-          this.translationService.translate('admin.users.errors.loadFailed'),
-          this.translationService.translate('common.buttons.close'),
-          { duration: 3000 }
-        );
+        this.showSnackBarMessage('admin.users.errors.loadFailed', 3000);
       },
     });
   }
@@ -131,36 +123,24 @@ export class UserManagementComponent implements OnInit {
           candidate.id === updatedUser.id ? updatedUser : candidate,
         );
         this.loadUsers();
-        this.snackBar.open(
-          this.translationService.translate('admin.users.messages.roleUpdated'),
-          this.translationService.translate('common.buttons.close'),
-          { duration: 1800 }
-        );
+        this.showSnackBarMessage('admin.users.messages.roleUpdated', 1800);
       },
       error: () => {
-        this.snackBar.open(
-          this.translationService.translate('admin.users.errors.updateRoleFailed'),
-          this.translationService.translate('common.buttons.close'),
-          { duration: 2500 }
-        );
+        this.showSnackBarMessage('admin.users.errors.updateRoleFailed', 2500);
         this.loadUsers();
       },
     });
   }
 
-  roleLabel(role: UserRole): string {
+  roleLabelKey(role: UserRole): string {
     switch (role) {
       case UserRole.OWNER:
-        return this.translationService.translate('admin.roles.owner');
+        return 'admin.roles.owner';
       case UserRole.ADMIN:
-        return this.translationService.translate('admin.roles.admin');
+        return 'admin.roles.admin';
       default:
-        return this.translationService.translate('admin.roles.user');
+        return 'admin.roles.user';
     }
-  }
-
-  roleTriggerAriaLabel(displayName: string): string {
-    return `${this.translationService.translate('admin.users.aria.changeRoleFor')} ${displayName}`;
   }
 
   roleTone(role: UserRole): string {
@@ -213,18 +193,10 @@ export class UserManagementComponent implements OnInit {
 
         this.users = this.users.filter((candidate) => candidate.id !== user.id);
         this.cdr.detectChanges();
-        this.snackBar.open(
-          this.translationService.translate('admin.users.messages.userDeleted'),
-          this.translationService.translate('common.buttons.close'),
-          { duration: 1800 }
-        );
+        this.showSnackBarMessage('admin.users.messages.userDeleted', 1800);
       },
       error: () => {
-        this.snackBar.open(
-          this.translationService.translate('admin.users.errors.deleteFailed'),
-          this.translationService.translate('common.buttons.close'),
-          { duration: 2500 }
-        );
+        this.showSnackBarMessage('admin.users.errors.deleteFailed', 2500);
       },
     });
   }
@@ -243,11 +215,10 @@ export class UserManagementComponent implements OnInit {
     return name.slice(0, 2).toUpperCase();
   }
 
-  relativeTime(value?: string | Date): string {
+  relativeTime(value?: string | Date): { amount: number | null; key: string } {
     if (!value) {
-      return this.translationService.translate('admin.users.time.unknown');
+      return { amount: null, key: 'admin.users.time.unknown' };
     }
-
     const date = new Date(value);
     const diffMs = Date.now() - date.getTime();
     const minute = 60 * 1000;
@@ -256,16 +227,24 @@ export class UserManagementComponent implements OnInit {
 
     if (diffMs < hour) {
       const minutes = Math.max(1, Math.floor(diffMs / minute));
-      return `${minutes} ${this.translationService.translate('admin.users.time.minAgo')}`;
+      return { amount: minutes, key: 'admin.users.time.minAgo' };
     }
 
     if (diffMs < day) {
       const hours = Math.floor(diffMs / hour);
-      return `${hours} ${this.translationService.translate('admin.users.time.hoursAgo')}`;
+      return { amount: hours, key: 'admin.users.time.hoursAgo' };
     }
 
     const days = Math.floor(diffMs / day);
-    return `${days} ${this.translationService.translate('admin.users.time.daysAgo')}`;
+    return { amount: days, key: 'admin.users.time.daysAgo' };
+  }
+
+  private showSnackBarMessage(messageKey: string, duration: number): void {
+    this.snackBar.open(
+      this.translationService.translate(messageKey),
+      this.translationService.translate('common.buttons.close'),
+      { duration },
+    );
   }
 
   @HostListener('document:click', ['$event'])

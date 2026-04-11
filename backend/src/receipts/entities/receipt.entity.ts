@@ -61,9 +61,9 @@ export class Receipt {
   @OneToMany(() => ReceiptItem, (item) => item.receipt, { cascade: true, eager: true })
   items: ReceiptItem[];
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt: Date;
 }

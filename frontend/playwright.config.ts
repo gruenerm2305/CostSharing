@@ -73,7 +73,7 @@ export default defineConfig({
   /* Start backend and frontend automatically before tests. */
   webServer: [
     {
-      command: 'docker compose -f ../backend/DatabaseDocker/docker-compose.yml up -d && npm --prefix ../backend run start:dev',
+      command: 'docker compose -f ../backend/DatabaseDocker/docker-compose.yml up -d && npm --prefix ../backend run start',
       url: 'http://localhost:3000/api/docs',
       reuseExistingServer: !process.env.CI,
       timeout: 240000,
