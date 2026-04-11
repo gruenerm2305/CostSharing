@@ -11,6 +11,7 @@ import { SplittingModule } from './splitting/splitting.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: ['.env', '.env.example'],
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',

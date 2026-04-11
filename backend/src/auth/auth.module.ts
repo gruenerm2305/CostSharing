@@ -19,7 +19,7 @@ import { LocalStrategy } from './strategies/local.strategy';
         const expiresIn = configService.get<string>('JWT_EXPIRATION') ?? '7d';
 
         return {
-          secret: configService.get<string>('JWT_SECRET'),
+          secret: configService.get<string>('JWT_SECRET') ?? 'dev-jwt-secret',
           signOptions: {
             expiresIn: expiresIn as StringValue,
           },

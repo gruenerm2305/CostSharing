@@ -7,6 +7,21 @@ test('shows login page', async ({ page }) => {
   await expect(page.locator('h1')).toContainText('Cost Sharing');
   await expect(page.locator('#username')).toBeVisible();
   await expect(page.locator('#password')).toBeVisible();
+  await expect(page.locator('button[type="submit"]')).toBeVisible();
+  await expect(page.locator('a[href="/register"]')).toBeVisible();
+});
+
+test('shows register page', async ({ page }) => {
+  await page.goto('/register');
+
+  await expect(page).toHaveTitle(/Cost Sharing/);
+  await expect(page.locator('h1')).toContainText('Cost Sharing');
+  await expect(page.locator('#firstName')).toBeVisible();
+  await expect(page.locator('#lastName')).toBeVisible();
+  await expect(page.locator('#username')).toBeVisible();
+  await expect(page.locator('#password')).toBeVisible();
+  await expect(page.locator('button[type="submit"]')).toBeVisible();
+  await expect(page.locator('a[href="/login"]')).toBeVisible();
 });
 
 test('can register a user and login to home', async ({ page }) => {
