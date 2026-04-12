@@ -66,9 +66,6 @@ jobs:
     name: Playwright E2E tests
     timeout-minutes: 60
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -78,22 +75,44 @@ jobs:
         with:
           node-version: 24
           cache: npm
-          cache-dependency-path: |
-            backend/package-lock.json
-            frontend/package-lock.json
-
-      - name: Install backend dependencies
-        working-directory: backend
-        run: npm ci
+          cache-dependency-path: frontend/package-lock.json
 
       - name: Install frontend dependencies
+        working-directory: frontend
         run: npm ci
 
       - name: Install Playwright Browsers
+        working-directory: frontend
         run: npx playwright install --with-deps
 
+      - name: Start app stack with Docker Compose
+        run: docker compose -f docker-compose.dev.yml up -d --build
+
+      - name: Wait for backend and frontend
+        shell: bash
+        run: |
+          set -euo pipefail
+          for i in {1..60}; do
+            if curl -fsS http://localhost:3000/api/docs >/dev/null && curl -fsS http://localhost:4200/login >/dev/null; then
+              echo "Services are ready"
+              exit 0
+            fi
+            echo "Waiting for services... ($i/60)"
+            sleep 5
+          done
+          echo "Timed out waiting for services"
+          docker compose -f docker-compose.dev.yml logs
+          exit 1
+
       - name: Run Playwright tests
+        working-directory: frontend
+        env:
+          PW_USE_DOCKER_COMPOSE: 'true'
         run: npm run test:e2e
+
+      - name: Stop app stack
+        if: always()
+        run: docker compose -f docker-compose.dev.yml down -v
 
       - name: Upload Report
         uses: actions/upload-artifact@v4

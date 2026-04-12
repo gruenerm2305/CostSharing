@@ -70,19 +70,21 @@ export default defineConfig({
     // },
   ],
 
-  /* Start backend and frontend automatically before tests. */
-  webServer: [
-    {
-      command: 'docker compose -f ../backend/DatabaseDocker/docker-compose.yml up -d && npm --prefix ../backend run start',
-      url: 'http://localhost:3000/api/docs',
-      reuseExistingServer: !process.env.CI,
-      timeout: 240000,
-    },
-    {
-      command: 'npm run start',
-      url: 'http://localhost:4200/login',
-      reuseExistingServer: !process.env.CI,
-      timeout: 120000,
-    },
-  ],
+  // In CI we can provide services externally (for example via docker compose).
+  webServer: process.env.PW_USE_DOCKER_COMPOSE === 'true'
+    ? undefined
+    : [
+        {
+          command: 'docker compose -f ../backend/DatabaseDocker/docker-compose.yml up -d && npm --prefix ../backend run start',
+          url: 'http://localhost:3000/api/docs',
+          reuseExistingServer: !process.env.CI,
+          timeout: 240000,
+        },
+        {
+          command: 'npm run start',
+          url: 'http://localhost:4200/login',
+          reuseExistingServer: !process.env.CI,
+          timeout: 120000,
+        },
+      ],
 });
