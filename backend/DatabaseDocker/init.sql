@@ -1,5 +1,7 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
+SET TIME ZONE 'UTC';
+
 CREATE TABLE IF NOT EXISTS users (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   username varchar NOT NULL UNIQUE,

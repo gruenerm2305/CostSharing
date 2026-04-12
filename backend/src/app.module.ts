@@ -11,6 +11,7 @@ import { SplittingModule } from './splitting/splitting.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: ['.env', '.env.example'],
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -18,6 +19,9 @@ import { SplittingModule } from './splitting/splitting.module';
       autoLoadEntities: true,
       synchronize: process.env.NODE_ENV === 'development',
       logging: process.env.NODE_ENV === 'development',
+      extra: {
+        options: '-c timezone=UTC',
+      },
     }),
     UsersModule,
     AuthModule,
