@@ -27,11 +27,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    env_file:
-      - path: ./backend/.env
-        required: false
-      - path: ./backend/.env.example
-        required: true
     environment:
       DATABASE_URL: postgresql://costtracking_user:hello@db:5432/costtracking
       NODE_ENV: development
