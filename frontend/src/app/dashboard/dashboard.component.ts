@@ -77,6 +77,7 @@ export class DashboardComponent implements OnInit {
 
   public totalAmount: number = 0;
   public receiptCount: number = 0;
+  public hasData: boolean = true;
   
   public startDate: string | null = null;
   public endDate: string | null = null;
@@ -96,6 +97,7 @@ export class DashboardComponent implements OnInit {
       next: (data) => {
         this.totalAmount = data.totalAmount;
         this.receiptCount = data.receiptCount;
+        this.hasData = this.receiptCount > 0;
 
         const categoryNames = Object.keys(data.byCategory);
         const categoryAmounts = Object.values(data.byCategory) as number[];

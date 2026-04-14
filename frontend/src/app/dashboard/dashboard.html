@@ -20,18 +20,27 @@
   </div>
 
   <div class="charts-grid">
-    <article class="card chart-card">
+    <article class="card chart-card" *ngIf="hasData">
       <h3>{{ 'dashboard.charts.distributionTitle' | t }}</h3>
       <div class="chart-wrapper">
         <canvas baseChart [data]="pieChartData" [type]="pieChartType" [options]="pieChartOptions"> </canvas>
       </div>
     </article>
 
-    <article class="card chart-card">
+    <article class="card chart-card" *ngIf="hasData">
       <h3>{{ 'dashboard.charts.historyTitle' | t }}</h3>
       <div class="chart-wrapper">
         <canvas baseChart [data]="barChartData" [type]="barChartType" [options]="barChartOptions"> </canvas>
       </div>
     </article>
+
+    <div class="empty-state" *ngIf="!hasData">
+      <article class="card empty-state-card">
+        <div class="empty-state-content">
+          <h3>{{ 'dashboard.empty.title' | t }}</h3>
+          <p>{{ 'dashboard.empty.description' | t }}</p>
+        </div>
+      </article>
+    </div>
   </div>
 </section>
