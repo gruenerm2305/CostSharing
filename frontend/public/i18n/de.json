@@ -339,7 +339,7 @@
     }
   },
   "admin": {
-    "label": "Admin Panel",
+    "label": "Admin-Bereich",
     "roles": {
       "owner": "OWNER",
       "admin": "ADMIN",
