@@ -115,7 +115,7 @@ jobs:
         run: docker compose -f docker-compose.dev.yml down -v
 
       - name: Upload Report
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
