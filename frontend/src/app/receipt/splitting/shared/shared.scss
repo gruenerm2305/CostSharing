@@ -213,14 +213,14 @@
 
 .sticky-footer {
   position: fixed;
-  left: 0;
+  left: 240px;
   right: 0;
   bottom: 0;
   background: rgba(12, 14, 22, 0.92);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
   padding: 14px 22px;
-  z-index: 80;
+  z-index: 15;
 }
 
 .footer-content {
@@ -309,6 +309,10 @@
 }
 
 @media (max-width: 900px) {
+  .sticky-footer {
+    left: 0;
+  }
+
   .container {
     padding: 16px;
     padding-bottom: 170px;
