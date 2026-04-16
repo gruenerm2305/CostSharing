@@ -114,7 +114,7 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  border: 2px solid #10131b;
+  border: none;
   margin-left: -7px;
   color: white;
   font-size: 10px;
@@ -184,10 +184,13 @@
 }
 
 .claimed-other-badge {
+  display: inline-flex;
+  align-items: center;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.16);
   color: #bcc2d8;
   padding: 5px 10px;
+  line-height: 1;
   font-size: 11px;
   text-transform: uppercase;
 }
