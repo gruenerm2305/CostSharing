@@ -2,13 +2,13 @@ import { Component, HostListener, signal, WritableSignal } from "@angular/core";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import { AuthService } from "../../core/services/auth.service";
 import { Router, RouterLink } from "@angular/router";
-import { CommonModule } from "@angular/common";
+
 import { LanguagePreference, TranslationService } from '../../core/i18n/translation.service';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 
 @Component({
   selector: 'app-login',
-    imports: [ReactiveFormsModule, CommonModule, RouterLink, TranslatePipe],
+    imports: [ReactiveFormsModule, RouterLink, TranslatePipe],
   templateUrl: 'login.html',
   styleUrl: 'login.scss'
 })

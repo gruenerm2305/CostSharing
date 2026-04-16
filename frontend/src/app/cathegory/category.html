@@ -1,54 +1,60 @@
 <section class="app-page categories-page">
-      <div class="grid-wrap">
-        <section class="left-col">
-          <header>
-            <h1>{{ 'categories.title' | t }}</h1>
-            <p>{{ 'categories.subtitle' | t }}</p>
-          </header>
+  <div class="grid-wrap">
+    <section class="left-col">
+      <header>
+        <h1>{{ 'categories.title' | t }}</h1>
+        <p>{{ 'categories.subtitle' | t }}</p>
+      </header>
 
-          <div class="panel form-card">
-            <div class="form-group category-name-group">
-              <label class="form-label" for="category-name">{{ 'categories.labels.categoryName' | t }}</label>
-              <input
-                id="category-name"
-                type="text"
-                class="form-control"
-                [class.validation-error]="errorInCategoryNameDetected"
-                [(ngModel)]="newCategory.name"
-                (ngModelChange)="onCategoryNameChange()"
-                [placeholder]="'categories.placeholders.categoryName' | t"
-              />
-              <small class="field-error" *ngIf="errorInCategoryNameDetected">{{ categoryNameErrorMessage | t}}</small>
-            </div>
+      <div class="panel form-card">
+        <div class="form-group category-name-group">
+          <label class="form-label" for="category-name">{{ 'categories.labels.categoryName' | t }}</label>
+          <input
+            id="category-name"
+            type="text"
+            class="form-control"
+            [class.validation-error]="errorInCategoryNameDetected"
+            [(ngModel)]="newCategory.name"
+            (ngModelChange)="onCategoryNameChange()"
+            [placeholder]="'categories.placeholders.categoryName' | t"
+            />
+            @if (errorInCategoryNameDetected) {
+              <small class="field-error">{{ categoryNameErrorMessage | t}}</small>
+            }
+          </div>
 
-            <div class="form-group">
-              <div class="form-label">{{ 'categories.labels.paletteTitle' | t }}</div>
-              <div class="palette">
+          <div class="form-group">
+            <div class="form-label">{{ 'categories.labels.paletteTitle' | t }}</div>
+            <div class="palette">
+              @for (color of colorPalette; track color) {
                 <button
-                  *ngFor="let color of colorPalette"
                   type="button"
                   class="swatch"
                   [class.selected]="newCategory.color === color"
                   [style.background]="color"
                   (click)="newCategory.color = color"
                 ></button>
-              </div>
+              }
             </div>
-
-            <button class="btn btn-primary create" (click)="createCategory()">
-              {{ 'categories.buttons.createCategory' | t }}
-            </button>
           </div>
-        </section>
 
-        <section class="right-col">
-          <h2>{{ 'categories.labels.yourCategories' | t }}</h2>
+          <button class="btn btn-primary create" (click)="createCategory()">
+            {{ 'categories.buttons.createCategory' | t }}
+          </button>
+        </div>
+      </section>
 
-          <div *ngIf="categories.length === 0" class="empty-state panel">
+      <section class="right-col">
+        <h2>{{ 'categories.labels.yourCategories' | t }}</h2>
+
+        @if (categories.length === 0) {
+          <div class="empty-state panel">
             {{ 'categories.emptyState' | t }}
           </div>
+        }
 
-          <div class="category-row panel" *ngFor="let category of categories">
+        @for (category of categories; track category) {
+          <div class="category-row panel">
             <div class="item-left">
               <span class="dot" [style.background-color]="category.color || '#6d5dfc'"></span>
               <strong>{{ category.name }}</strong>
@@ -62,10 +68,12 @@
               </button>
             </div>
           </div>
-        </section>
-      </div>
+        }
+      </section>
+    </div>
 
-      <div *ngIf="editingCategory as editingCategoryModel" class="modal">
+    @if (editingCategory; as editingCategoryModel) {
+      <div class="modal">
         <div class="modal-content">
           <h3>{{ 'categories.modal.editTitle' | t }}</h3>
           <div class="form-group">
@@ -75,14 +83,15 @@
           <div class="form-group">
             <div class="form-label">{{ 'categories.labels.color' | t }}</div>
             <div class="palette">
-              <button
-                *ngFor="let color of colorPalette"
-                type="button"
-                class="swatch"
-                [class.selected]="editingCategoryModel.color === color"
-                [style.background]="color"
-                (click)="editingCategoryModel.color = color"
-              ></button>
+              @for (color of colorPalette; track color) {
+                <button
+                  type="button"
+                  class="swatch"
+                  [class.selected]="editingCategoryModel.color === color"
+                  [style.background]="color"
+                  (click)="editingCategoryModel.color = color"
+                ></button>
+              }
             </div>
           </div>
           <div class="modal-actions">
@@ -91,4 +100,5 @@
           </div>
         </div>
       </div>
-    </section>
+    }
+  </section>

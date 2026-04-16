@@ -1,66 +1,95 @@
 <section class="app-page receipts-page">
-      <div class="header">
-        <h1>{{ 'receipts.title' | t }}</h1>
-        <button class="btn btn-primary" routerLink="/receipts/capture">{{ 'receipts.buttons.newReceipt' | t }}</button>
-      </div>
+  <div class="header">
+    <h1>{{ 'receipts.title' | t }}</h1>
+    <button class="btn btn-primary" routerLink="/receipts/capture">{{ 'receipts.buttons.newReceipt' | t }}</button>
+  </div>
 
-      <div class="search panel">
-        <span class="material-symbols-outlined">search</span>
-        <input type="text" [placeholder]="'receipts.search.placeholder' | t" [(ngModel)]="searchTerm" (input)="applyFilters()" />
-      </div>
+  <div class="search panel">
+    <span class="material-symbols-outlined">search</span>
+    <input type="text" [placeholder]="'receipts.search.placeholder' | t" [(ngModel)]="searchTerm" (input)="applyFilters()" />
+  </div>
 
-      <div *ngIf="loading" class="spinner"></div>
+  @if (loading) {
+    <div class="spinner"></div>
+  }
 
-      <div *ngIf="backendUnreachable" class="error-state">
-        <p class="error-message">{{ 'receipts.errors.connectionFailed' | t }}</p>
-        <button class="btn btn-primary" (click)="loadReceipts()">{{ 'common.buttons.retry' | t }}</button>
-      </div>
+  @if (backendUnreachable) {
+    <div class="error-state">
+      <p class="error-message">{{ 'receipts.errors.connectionFailed' | t }}</p>
+      <button class="btn btn-primary" (click)="loadReceipts()">{{ 'common.buttons.retry' | t }}</button>
+    </div>
+  }
 
-      <div *ngIf="!loading && !backendUnreachable && receipts.length === 0" class="empty-state">
-        <p>{{ 'receipts.emptyState.noReceipts' | t }}</p>
-        <button class="btn btn-primary" routerLink="/receipts/capture">{{ 'receipts.buttons.captureNow' | t }}</button>
-      </div>
+  @if (!loading && !backendUnreachable && receipts.length === 0) {
+    <div class="empty-state">
+      <p>{{ 'receipts.emptyState.noReceipts' | t }}</p>
+      <button class="btn btn-primary" routerLink="/receipts/capture">{{ 'receipts.buttons.captureNow' | t }}</button>
+    </div>
+  }
 
-      <div class="receipts-list panel" *ngIf="!loading && !backendUnreachable && filteredReceipts.length > 0">
-        <div *ngFor="let receipt of filteredReceipts" class="receipt-row" (click)="editReceipt(receipt)" (keydown.enter)="editReceipt(receipt)" (keydown.space)="$event.preventDefault(); editReceipt(receipt)">
+  @if (!loading && !backendUnreachable && filteredReceipts.length > 0) {
+    <div class="receipts-list panel">
+      @for (receipt of filteredReceipts; track receipt) {
+        <div class="receipt-row" (click)="editReceipt(receipt)" (keydown.enter)="editReceipt(receipt)" (keydown.space)="$event.preventDefault(); editReceipt(receipt)">
           <div class="left">
             <h3>{{ receipt.merchant }}</h3>
             <p>{{ receipt.date | date:'dd.MM.yyyy' }} · {{ receipt.items.length || 0 }} {{ 'receipts.labels.items' | t }}</p>
           </div>
-
           <div class="middle">
-            <span *ngIf="receipt.myTotal !== undefined && (receipt.isParticipant || receipt.showMyTotal); else totalAmount">
-              {{ receipt.myTotal | currency:'EUR' }}
-              <small>{{ 'receipts.labels.myShare' | t }}</small>
-            </span>
-            <ng-template #totalAmount>{{ receipt.totalAmount | currency:'EUR' }}</ng-template>
+            @if (receipt.myTotal !== undefined && (receipt.isParticipant || receipt.showMyTotal)) {
+              <span>
+                {{ receipt.myTotal | currency:'EUR' }}
+                <small>{{ 'receipts.labels.myShare' | t }}</small>
+              </span>
+            } @else {
+              {{ receipt.totalAmount | currency:'EUR' }}
+            }
           </div>
-
           <div class="badges">
-            <span *ngIf="receipt.sharedWith && receipt.sharedWith.length > 0" class="badge share">{{ 'receipts.badges.sharedWith' | t }} {{ receipt.sharedWith.length }}</span>
-            <span *ngIf="receipt.isParticipant" class="badge participant">{{ 'receipts.badges.participant' | t }}</span>
-            <span *ngIf="!receipt.isParticipant && receipt.isShared" class="badge owner">{{ 'receipts.badges.owner' | t }}</span>
+            @if (receipt.sharedWith && receipt.sharedWith.length > 0) {
+              <span class="badge share">{{ 'receipts.badges.sharedWith' | t }} {{ receipt.sharedWith.length }}</span>
+            }
+            @if (receipt.isParticipant) {
+              <span class="badge participant">{{ 'receipts.badges.participant' | t }}</span>
+            }
+            @if (!receipt.isParticipant && receipt.isShared) {
+              <span class="badge owner">{{ 'receipts.badges.owner' | t }}</span>
+            }
           </div>
-
           <div class="receipt-actions">
-            <div class="action-wrapper" *ngIf="!receipt.isParticipant">
-              <button *ngIf="!receipt.isShared" class="btn btn-sm btn-secondary" (click)="$event.stopPropagation(); editReceipt(receipt)">{{ 'common.buttons.edit' | t }}</button>
-              <button *ngIf="receipt.isShared" class="btn btn-sm btn-warning" (click)="$event.stopPropagation(); revokeShare(receipt)">{{ 'receipts.buttons.makePrivate' | t }}</button>
-            </div>
-
-            <div class="action-wrapper" *ngIf="!receipt.isParticipant" [title]="getShareTooltip(receipt)">
-              <button class="btn btn-sm btn-primary" (click)="$event.stopPropagation(); openCostSplitting(receipt.id)">{{ 'receipts.buttons.splitCost' | t }}</button>
-            </div>
-
-            <button *ngIf="receipt.isParticipant" class="btn btn-sm btn-danger" [title]="'receipts.tooltips.removeAndRelease' | t" (click)="$event.stopPropagation(); leaveReceipt(receipt)">
-              {{ 'receipts.buttons.remove' | t }}
-            </button>
+            @if (!receipt.isParticipant) {
+              <div class="action-wrapper">
+                @if (!receipt.isShared) {
+                  <button class="btn btn-sm btn-secondary" (click)="$event.stopPropagation(); editReceipt(receipt)">{{ 'common.buttons.edit' | t }}</button>
+                }
+                @if (receipt.isShared) {
+                  <button class="btn btn-sm btn-warning" (click)="$event.stopPropagation(); revokeShare(receipt)">{{ 'receipts.buttons.makePrivate' | t }}</button>
+                }
+              </div>
+            }
+            @if (!receipt.isParticipant) {
+              <div class="action-wrapper" [title]="getShareTooltip(receipt)">
+                <button class="btn btn-sm btn-primary" (click)="$event.stopPropagation(); openCostSplitting(receipt.id)">{{ 'receipts.buttons.splitCost' | t }}</button>
+              </div>
+            }
+            @if (receipt.isParticipant) {
+              <button class="btn btn-sm btn-danger" [title]="'receipts.tooltips.removeAndRelease' | t" (click)="$event.stopPropagation(); leaveReceipt(receipt)">
+                {{ 'receipts.buttons.remove' | t }}
+              </button>
+            }
           </div>
-
-          <div class="info-text" *ngIf="isEditDisabled(receipt)">
-            <small *ngIf="!receipt.isParticipant">{{ 'receipts.info.makePrivateToEdit' | t }}</small>
-            <small *ngIf="receipt.isParticipant">{{ 'receipts.info.sharedByOther' | t }}</small>
-          </div>
+          @if (isEditDisabled(receipt)) {
+            <div class="info-text">
+              @if (!receipt.isParticipant) {
+                <small>{{ 'receipts.info.makePrivateToEdit' | t }}</small>
+              }
+              @if (receipt.isParticipant) {
+                <small>{{ 'receipts.info.sharedByOther' | t }}</small>
+              }
+            </div>
+          }
         </div>
-      </div>
-    </section>
+      }
+    </div>
+  }
+</section>

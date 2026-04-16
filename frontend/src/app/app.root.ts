@@ -2,13 +2,13 @@ import { Component, HostListener } from "@angular/core";
 import { AuthService, UserRole } from './core/services/auth.service';
 import { NavigationEnd, Router, RouterLink, RouterModule} from "@angular/router";
 import { filter } from "rxjs";
-import { CommonModule } from "@angular/common";
+
 import { LanguagePreference, TranslationService } from './core/i18n/translation.service';
 import { TranslatePipe } from './core/i18n/translate.pipe';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterModule, RouterLink, TranslatePipe],
+  imports: [RouterModule, RouterLink, TranslatePipe],
   standalone: true,
   templateUrl: 'sidebar/sidebar.html',
   styleUrl: 'sidebar/sidebar.scss'

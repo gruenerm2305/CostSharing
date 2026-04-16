@@ -1,166 +1,184 @@
 <section class="app-page editor-page">
-  <div *ngIf="isReadOnly" class="alert alert-warning">
-    {{ 'receipts.editor.readOnlyWarning' | t }}
-  </div>
-
-  <div *ngIf="loading" class="spinner"></div>
-
-  <form *ngIf="receiptForm" [formGroup]="receiptForm" (ngSubmit)="saveReceipt()" class="panel editor-shell">
-    <div class="top-head">
-      <div>
-        <h1>{{ 'receipts.editor.title' | t }}</h1>
-        <p>{{ 'receipts.editor.subtitle' | t }}</p>
-      </div>
-      <div class="head-icon">
-        <span class="material-symbols-outlined">stylus_note</span>
-      </div>
+  @if (isReadOnly) {
+    <div class="alert alert-warning">
+      {{ 'receipts.editor.readOnlyWarning' | t }}
     </div>
+  }
 
-    <div *ngIf="formError" class="alert alert-error">
-      {{ formError }}
-    </div>
+  @if (loading) {
+    <div class="spinner"></div>
+  }
 
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">{{ 'receipts.editor.labels.date' | t }}</label>
-        <div class="date-field material-date">
-          <mat-form-field appearance="outline" class="date-picker-field">
+  @if (receiptForm) {
+    <form [formGroup]="receiptForm" (ngSubmit)="saveReceipt()" class="panel editor-shell">
+      <div class="top-head">
+        <div>
+          <h1>{{ 'receipts.editor.title' | t }}</h1>
+          <p>{{ 'receipts.editor.subtitle' | t }}</p>
+        </div>
+        <div class="head-icon">
+          <span class="material-symbols-outlined">stylus_note</span>
+        </div>
+      </div>
+      @if (formError) {
+        <div class="alert alert-error">
+          {{ formError }}
+        </div>
+      }
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">{{ 'receipts.editor.labels.date' | t }}</label>
+          <div class="date-field material-date">
+            <mat-form-field appearance="outline" class="date-picker-field">
+              <input
+                matInput
+                [matDatepicker]="picker"
+                formControlName="date"
+                [class.validation-error]="hasValidationError('date') || isFieldInvalid('date')"
+                readonly
+                />
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker xPosition="end" yPosition="below" panelClass="ledger-datepicker"></mat-datepicker>
+              </mat-form-field>
+            </div>
+            @if (isFieldInvalid('date')) {
+              <small class="field-error">{{ 'receipts.editor.validation.dateRequired' | t }}</small>
+            }
+          </div>
+          <div class="form-group">
+            <label class="form-label">{{ 'receipts.editor.labels.merchant' | t }}</label>
             <input
-              matInput
-              [matDatepicker]="picker"
-              formControlName="date"
-              [class.validation-error]="hasValidationError('date') || isFieldInvalid('date')"
-              readonly
-            />
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker xPosition="end" yPosition="below" panelClass="ledger-datepicker"></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <small class="field-error" *ngIf="isFieldInvalid('date')">{{ 'receipts.editor.validation.dateRequired' | t }}</small>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">{{ 'receipts.editor.labels.merchant' | t }}</label>
-        <input 
-          type="text" 
-          class="form-control" 
-          formControlName="merchant" 
-          [class.validation-error]="isFieldInvalid('merchant')"
-          [class.needs-review]="(receipt?.confidence || 0) < 0.7" 
-        />
-        <small class="field-error" *ngIf="isFieldInvalid('merchant')">{{ 'receipts.editor.validation.merchantRequired' | t }}</small>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">{{ 'receipts.editor.labels.category' | t }}</label>
-        <div class="language-dropdown category-dropdown" [class.open]="isCategoryMenuOpen" [class.disabled]="isReadOnly">
-          <button
-            type="button"
-            class="language-trigger"
-            (click)="toggleCategoryMenu($event)"
-            [attr.aria-expanded]="isCategoryMenuOpen"
-            [disabled]="isReadOnly"
-          >
-            <span class="material-symbols-outlined language-icon">category</span>
-            <span class="language-current">{{ selectedCategoryLabel() }}</span>
-            <span class="material-symbols-outlined language-chevron">expand_more</span>
-          </button>
-
-          <div class="language-menu" *ngIf="isCategoryMenuOpen">
-            <button
-              type="button"
-              class="language-option"
-              [class.active]="!receiptForm.get('categoryId')?.value"
-              (click)="selectCategory(null)"
-            >
-              {{ 'receipts.editor.options.none' | t }}
-            </button>
-            <button
-              *ngFor="let cat of categories"
-              type="button"
-              class="language-option"
-              [class.active]="receiptForm.get('categoryId')?.value === cat.id"
-              (click)="selectCategory(cat.id)"
-            >
-              {{ cat.name }}
-            </button>
+              type="text"
+              class="form-control"
+              formControlName="merchant"
+              [class.validation-error]="isFieldInvalid('merchant')"
+              [class.needs-review]="(receipt?.confidence || 0) < 0.7"
+              />
+              @if (isFieldInvalid('merchant')) {
+                <small class="field-error">{{ 'receipts.editor.validation.merchantRequired' | t }}</small>
+              }
+            </div>
+            <div class="form-group">
+              <label class="form-label">{{ 'receipts.editor.labels.category' | t }}</label>
+              <div class="language-dropdown category-dropdown" [class.open]="isCategoryMenuOpen" [class.disabled]="isReadOnly">
+                <button
+                  type="button"
+                  class="language-trigger"
+                  (click)="toggleCategoryMenu($event)"
+                  [attr.aria-expanded]="isCategoryMenuOpen"
+                  [disabled]="isReadOnly"
+                  >
+                  <span class="material-symbols-outlined language-icon">category</span>
+                  <span class="language-current">{{ selectedCategoryLabel() }}</span>
+                  <span class="material-symbols-outlined language-chevron">expand_more</span>
+                </button>
+                @if (isCategoryMenuOpen) {
+                  <div class="language-menu">
+                    <button
+                      type="button"
+                      class="language-option"
+                      [class.active]="!receiptForm.get('categoryId')?.value"
+                      (click)="selectCategory(null)"
+                      >
+                      {{ 'receipts.editor.options.none' | t }}
+                    </button>
+                    @for (cat of categories; track cat) {
+                      <button
+                        type="button"
+                        class="language-option"
+                        [class.active]="receiptForm.get('categoryId')?.value === cat.id"
+                        (click)="selectCategory(cat.id)"
+                        >
+                        {{ cat.name }}
+                      </button>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="items-head">
-      <h2>{{ 'receipts.editor.labels.items' | t }}</h2>
-      <button class="btn btn-secondary" type="button" (click)="addItem()">{{ 'receipts.editor.buttons.addItem' | t }}</button>
-    </div>
-
-    <div formArrayName="items" class="items-wrap">
-      <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="item-row" [class.needs-review]="getItemNeedsReview(i)">
-        
-        <div class="grid-cell name">
-          <label class="form-label">{{ 'receipts.editor.labels.itemName' | t }}</label>
-          <input 
-            class="form-control" 
-            formControlName="name" 
-            [placeholder]="'receipts.editor.placeholders.itemName' | t"
-            [class.validation-error]="isItemFieldInvalid(i, 'name')"
-          />
-          <div class="error-wrapper">
-            <small class="field-error" *ngIf="isItemFieldInvalid(i, 'name')">{{ 'receipts.editor.validation.itemNameRequired' | t }}</small>
+          <div class="items-head">
+            <h2>{{ 'receipts.editor.labels.items' | t }}</h2>
+            <button class="btn btn-secondary" type="button" (click)="addItem()">{{ 'receipts.editor.buttons.addItem' | t }}</button>
           </div>
-        </div>
-
-        <div class="grid-cell">
-          <label class="form-label">{{ 'receipts.editor.labels.quantity' | t }}</label>
-          <input 
-            class="form-control" 
-            type="number" 
-            formControlName="quantity" 
-            step="1"
-            (input)="roundValue(i)" />
-          <div class="error-wrapper">
-            <small class="field-error" *ngIf="isItemFieldInvalid(i, 'quantity')">{{ 'receipts.editor.validation.quantityRequired' | t }}</small>
-          </div>
-        </div>
-
-        <div class="grid-cell">
-          <label class="form-label">{{ 'receipts.editor.labels.unitPrice' | t }}</label>
-          <input class="form-control" type="number" formControlName="unitPrice" step="0.01" />
-          <div class="error-wrapper">
-            <small class="field-error" *ngIf="isItemFieldInvalid(i, 'unitPrice')">{{ 'receipts.editor.validation.unitPriceInvalid' | t }}</small>
-          </div>
-        </div>
-
-        <div class="grid-cell">
-          <label class="form-label">{{ 'receipts.editor.labels.total' | t }}</label>
-          <input class="form-control" [value]="((item.get('totalPrice')?.value || 0) | number:'1.2-2') + ' €'" readonly />
-          <div class="error-wrapper"></div>
-        </div>
-
-        <div class="grid-cell action-cell">
-          <label class="form-label spacer-label">&nbsp;</label>
-          <button type="button" class="btn btn-danger btn-sm remove" (click)="removeItem(i)">{{ 'receipts.editor.buttons.deleteItem' | t }}</button>
-          <div class="error-wrapper"></div>
-        </div>
-      </div>
-    </div>
-
-    <div *ngIf="items && items.length === 0" class="empty-items">
-      {{ 'receipts.editor.emptyItems' | t }}
-    </div>
-
-    <div class="total-row">
-      <span>{{ 'receipts.editor.labels.totalAmount' | t }}</span>
-      <strong>{{ calculateItemsTotal() | number:'1.2-2' }}€</strong>
-    </div>
-
-    <div class="form-actions">
-      <button *ngIf="!isReadOnly" class="btn btn-secondary" type="button" (click)="cancel()">{{ 'common.buttons.cancel' | t }}</button>
-      <button *ngIf="!isReadOnly" class="btn btn-primary" type="submit" [disabled]="saving">
-        {{ saving ? ('receipts.editor.buttons.saving' | t) : ('receipts.editor.buttons.save' | t) }}
-      </button>
-      <button *ngIf="isReadOnly" class="btn btn-secondary" type="button" (click)="cancel()">{{ 'common.buttons.back' | t }}</button>
-      <button *ngIf="!isReadOnly && receipt" class="btn btn-danger" type="button" (click)="deleteReceipt()">{{ 'common.buttons.delete' | t }}</button>
-    </div>
-  </form>
-</section>
+          <div formArrayName="items" class="items-wrap">
+            @for (item of items.controls; track item; let i = $index) {
+              <div [formGroupName]="i" class="item-row" [class.needs-review]="getItemNeedsReview(i)">
+                <div class="grid-cell name">
+                  <label class="form-label">{{ 'receipts.editor.labels.itemName' | t }}</label>
+                  <input
+                    class="form-control"
+                    formControlName="name"
+                    [placeholder]="'receipts.editor.placeholders.itemName' | t"
+                    [class.validation-error]="isItemFieldInvalid(i, 'name')"
+                    />
+                    <div class="error-wrapper">
+                      @if (isItemFieldInvalid(i, 'name')) {
+                        <small class="field-error">{{ 'receipts.editor.validation.itemNameRequired' | t }}</small>
+                      }
+                    </div>
+                  </div>
+                  <div class="grid-cell">
+                    <label class="form-label">{{ 'receipts.editor.labels.quantity' | t }}</label>
+                    <input
+                      class="form-control"
+                      type="number"
+                      formControlName="quantity"
+                      step="1"
+                      (input)="roundValue(i)" />
+                      <div class="error-wrapper">
+                        @if (isItemFieldInvalid(i, 'quantity')) {
+                          <small class="field-error">{{ 'receipts.editor.validation.quantityRequired' | t }}</small>
+                        }
+                      </div>
+                    </div>
+                    <div class="grid-cell">
+                      <label class="form-label">{{ 'receipts.editor.labels.unitPrice' | t }}</label>
+                      <input class="form-control" type="number" formControlName="unitPrice" step="0.01" />
+                      <div class="error-wrapper">
+                        @if (isItemFieldInvalid(i, 'unitPrice')) {
+                          <small class="field-error">{{ 'receipts.editor.validation.unitPriceInvalid' | t }}</small>
+                        }
+                      </div>
+                    </div>
+                    <div class="grid-cell">
+                      <label class="form-label">{{ 'receipts.editor.labels.total' | t }}</label>
+                      <input class="form-control" [value]="((item.get('totalPrice')?.value || 0) | number:'1.2-2') + ' €'" readonly />
+                      <div class="error-wrapper"></div>
+                    </div>
+                    <div class="grid-cell action-cell">
+                      <label class="form-label spacer-label">&nbsp;</label>
+                      <button type="button" class="btn btn-danger btn-sm remove" (click)="removeItem(i)">{{ 'receipts.editor.buttons.deleteItem' | t }}</button>
+                      <div class="error-wrapper"></div>
+                    </div>
+                  </div>
+                }
+              </div>
+              @if (items && items.length === 0) {
+                <div class="empty-items">
+                  {{ 'receipts.editor.emptyItems' | t }}
+                </div>
+              }
+              <div class="total-row">
+                <span>{{ 'receipts.editor.labels.totalAmount' | t }}</span>
+                <strong>{{ calculateItemsTotal() | number:'1.2-2' }}€</strong>
+              </div>
+              <div class="form-actions">
+                @if (!isReadOnly) {
+                  <button class="btn btn-secondary" type="button" (click)="cancel()">{{ 'common.buttons.cancel' | t }}</button>
+                }
+                @if (!isReadOnly) {
+                  <button class="btn btn-primary" type="submit" [disabled]="saving">
+                    {{ saving ? ('receipts.editor.buttons.saving' | t) : ('receipts.editor.buttons.save' | t) }}
+                  </button>
+                }
+                @if (isReadOnly) {
+                  <button class="btn btn-secondary" type="button" (click)="cancel()">{{ 'common.buttons.back' | t }}</button>
+                }
+                @if (!isReadOnly && receipt) {
+                  <button class="btn btn-danger" type="button" (click)="deleteReceipt()">{{ 'common.buttons.delete' | t }}</button>
+                }
+              </div>
+            </form>
+          }
+        </section>
