@@ -22,7 +22,7 @@
       </div>
 
       <div class="receipts-list panel" *ngIf="!loading && !backendUnreachable && filteredReceipts.length > 0">
-        <div *ngFor="let receipt of filteredReceipts" class="receipt-row" (click)="editReceipt(receipt)">
+        <div *ngFor="let receipt of filteredReceipts" class="receipt-row" (click)="editReceipt(receipt)" (keydown.enter)="editReceipt(receipt)" (keydown.space)="$event.preventDefault(); editReceipt(receipt)">
           <div class="left">
             <h3>{{ receipt.merchant }}</h3>
             <p>{{ receipt.date | date:'dd.MM.yyyy' }} · {{ receipt.items.length || 0 }} {{ 'receipts.labels.items' | t }}</p>
@@ -42,17 +42,17 @@
             <span *ngIf="!receipt.isParticipant && receipt.isShared" class="badge owner">{{ 'receipts.badges.owner' | t }}</span>
           </div>
 
-          <div class="receipt-actions" (click)="$event.stopPropagation()">
+          <div class="receipt-actions">
             <div class="action-wrapper" *ngIf="!receipt.isParticipant">
-              <button *ngIf="!receipt.isShared" class="btn btn-sm btn-secondary" (click)="editReceipt(receipt)">{{ 'common.buttons.edit' | t }}</button>
-              <button *ngIf="receipt.isShared" class="btn btn-sm btn-warning" (click)="revokeShare(receipt)">{{ 'receipts.buttons.makePrivate' | t }}</button>
+              <button *ngIf="!receipt.isShared" class="btn btn-sm btn-secondary" (click)="$event.stopPropagation(); editReceipt(receipt)">{{ 'common.buttons.edit' | t }}</button>
+              <button *ngIf="receipt.isShared" class="btn btn-sm btn-warning" (click)="$event.stopPropagation(); revokeShare(receipt)">{{ 'receipts.buttons.makePrivate' | t }}</button>
             </div>
 
             <div class="action-wrapper" *ngIf="!receipt.isParticipant" [title]="getShareTooltip(receipt)">
-              <button class="btn btn-sm btn-primary" (click)="openCostSplitting(receipt.id)">{{ 'receipts.buttons.splitCost' | t }}</button>
+              <button class="btn btn-sm btn-primary" (click)="$event.stopPropagation(); openCostSplitting(receipt.id)">{{ 'receipts.buttons.splitCost' | t }}</button>
             </div>
 
-            <button *ngIf="receipt.isParticipant" class="btn btn-sm btn-danger" [title]="'receipts.tooltips.removeAndRelease' | t" (click)="leaveReceipt(receipt)">
+            <button *ngIf="receipt.isParticipant" class="btn btn-sm btn-danger" [title]="'receipts.tooltips.removeAndRelease' | t" (click)="$event.stopPropagation(); leaveReceipt(receipt)">
               {{ 'receipts.buttons.remove' | t }}
             </button>
           </div>
