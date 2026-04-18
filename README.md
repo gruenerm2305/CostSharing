@@ -71,6 +71,7 @@ cd CostSharing
 ### 2) Datenbankpasswort festlegen
 
 Definiere den Datenbanknutzernamen und das Passwort in der Docker-Compose-Datei `docker-compose.yml` oder nutze die Standardwerte.
+Gib die entsprechenden Datenbankzugangsdaten in der Backend-.env-Datei innerhalb der `DATABASE_URL` an das Backend weiter.
 
 
 ### 3) Umgebungsdatei anlegen
@@ -82,10 +83,10 @@ Copy-Item backend/.env.example backend/.env
 ```
 
 Wichtige Werte in `backend/.env`:
-- `DATABASE_URL` für die PostgreSQL-Verbindung (mit Datenbankzugangsdaten: nur bei Installation ohne Docker-Compose nötig)
+- `DATABASE_URL` für die PostgreSQL-Verbindung (mit Datenbankzugangsdaten, die in der Docker-Compose-Datei festgelegt sind)
 - `JWT_SECRET` als geheimer Signierschlüssel
 - `JWT_EXPIRATION` für die Token-Laufzeit
-- `NODE_ENV` für den Betriebsmodus (production/development)
+- `NODE_ENV` für den Betriebsmodus (`production`/`development`) für die Installation ohne Docker-Compose
 - `FRONTEND_URL` für CORS und Redirects (nur bei Installation ohne Docker-Compose nötig)
 - `PORT` für den Backend-Port (nur bei Installation ohne Docker-Compose nötig)
 - `DB_SYNCHRONIZE` (`true`/`false`) für Schema-Synchronisierung
