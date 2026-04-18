@@ -1,10 +1,9 @@
 import { ChangeDetectorRef } from "@angular/core";
 import { CategoryService } from "../core/services/category.service";
 import { TranslationService } from "../core/i18n/translation.service";
-import { ComponentFixture } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { CategoryComponent } from "./category.component";
 import { createTranslationServiceMock } from "../testing/mockServices/translationService.mock";
-import { TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
 
 describe('category.component', () => {

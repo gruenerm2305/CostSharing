@@ -2,9 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { Category, CategoryService } from "../core/services/category.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
-
 import { TranslatePipe } from "../core/i18n/translate.pipe";
-import { TranslationService } from "../core/i18n/translation.service";
 
 @Component({
     selector: 'app-category',
