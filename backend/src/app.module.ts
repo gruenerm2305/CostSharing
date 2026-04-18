@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
@@ -7,21 +7,27 @@ import { CategoriesModule } from './categories/categories.module';
 import { ReceiptsModule } from './receipts/receipts.module';
 import { OcrModule } from './ocr/ocr.module';
 import { SplittingModule } from './splitting/splitting.module';
+
+const parseBoolean = (value?: string): boolean => value?.toLowerCase() === 'true';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env', '.env.example'],
     }),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      url: process.env.DATABASE_URL,
-      autoLoadEntities: true,
-      synchronize: process.env.NODE_ENV === 'development',
-      logging: process.env.NODE_ENV === 'development',
-      extra: {
-        options: '-c timezone=UTC',
-      },
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        url: configService.getOrThrow<string>('DATABASE_URL'),
+        autoLoadEntities: true,
+        synchronize: parseBoolean(configService.get<string>('DB_SYNCHRONIZE')),
+        logging: parseBoolean(configService.get<string>('DB_LOGGING')),
+        extra: {
+          options: '-c timezone=UTC',
+        },
+      }),
     }),
     UsersModule,
     AuthModule,

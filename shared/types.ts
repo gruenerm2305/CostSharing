@@ -26,7 +26,6 @@ export interface ReceiptItem {
   quantity: number;
   unitPrice: number;
   totalPrice: number;
-  categoryId?: string;
   confidence?: number; 
   needsReview?: boolean;
 }

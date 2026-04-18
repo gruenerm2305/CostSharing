@@ -23,11 +23,6 @@ export class ReceiptItemDto {
   @ApiProperty({ example: 4.98 })
   @IsNumber()
   totalPrice: number;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  categoryId?: string;
 }
 
 export class CreateReceiptDto {

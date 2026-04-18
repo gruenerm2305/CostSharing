@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, In } from 'typeorm';
+import { Repository, In, Brackets } from 'typeorm';
 import { randomUUID } from 'node:crypto';
 import { Receipt } from './entities/receipt.entity';
 import { ReceiptItem } from './entities/receipt-item.entity';
 import { ReceiptParticipant } from '../splitting/entities/receipt-participant.entity';
+import { ItemClaim } from '../splitting/entities/item-claim.entity';
 import { OcrService } from '../ocr/ocr.service';
 import { ValidationService } from '../validation/validation.service';
 import { CategoriesService } from '../categories/categories.service';
@@ -24,6 +25,8 @@ export class ReceiptsService {
     private readonly receiptItemsRepository: Repository<ReceiptItem>,
     @InjectRepository(ReceiptParticipant)
     private readonly participantsRepository: Repository<ReceiptParticipant>,
+    @InjectRepository(ItemClaim)
+    private readonly itemClaimsRepository: Repository<ItemClaim>,
     private readonly ocrService: OcrService,
     private readonly validationService: ValidationService,
     private readonly categoriesService: CategoriesService,
@@ -109,7 +112,6 @@ export class ReceiptsService {
         quantity: number;
         unitPrice: number;
         totalPrice: number;
-        categoryId?: string;
       }>;
     },
   ): Promise<Receipt> {
@@ -172,7 +174,7 @@ export class ReceiptsService {
   async findOne(id: string, userId: string): Promise<Receipt> {
     const receipt = await this.receiptsRepository.findOne({
       where: { id, userId },
-      relations: ['items', 'items.category'],
+      relations: ['items', 'category'],
     });
 
     if (!receipt) {
@@ -199,7 +201,6 @@ export class ReceiptsService {
         quantity: number;
         unitPrice: number;
         totalPrice: number;
-        categoryId?: string;
       }>;
     },
   ): Promise<Receipt> {
@@ -293,10 +294,25 @@ export class ReceiptsService {
   }
 
   async getStatistics(userId: string, startDate?: string, endDate?: string) {
+    const participations = await this.participantsRepository.find({
+      where: { userId },
+      select: ['receiptId'],
+    });
+
+    const sharedReceiptIds = participations.map((participation) => participation.receiptId);
+
     const query = this.receiptsRepository.createQueryBuilder('receipt')
       .leftJoinAndSelect('receipt.items', 'items')
       .leftJoinAndSelect('receipt.category', 'category')
-      .where('receipt.userId = :userId', { userId });
+      .where(
+        new Brackets((qb) => {
+          qb.where('receipt.userId = :userId', { userId });
+
+          if (sharedReceiptIds.length > 0) {
+            qb.orWhere('receipt.id IN (:...sharedReceiptIds)', { sharedReceiptIds });
+          }
+        }),
+      );
 
     if (startDate) {
       query.andWhere('receipt.date >= :startDate', { startDate });
@@ -306,14 +322,90 @@ export class ReceiptsService {
     }
 
     const receipts = await query.getMany();
+    const receiptIds = receipts.map((receipt) => receipt.id);
+    const claims = receiptIds.length > 0
+      ? await this.itemClaimsRepository.find({
+          where: { receiptId: In(receiptIds) },
+          select: ['receiptId', 'itemId', 'claimerUserId', 'amount'],
+        })
+      : [];
 
-    return buildReceiptStatistics(receipts);
+    const userScopedReceipts = this.toUserScopedReceipts(receipts, userId, claims);
+
+    return buildReceiptStatistics(userScopedReceipts);
+  }
+
+  private toUserScopedReceipts(receipts: Receipt[], userId: string, claims: ItemClaim[]): Receipt[] {
+    const claimsByReceiptItem = new Map<string, ItemClaim[]>();
+    const claimsByReceipt = new Map<string, ItemClaim[]>();
+
+    claims.forEach((claim) => {
+      const itemKey = `${claim.receiptId}:${claim.itemId}`;
+      const byItem = claimsByReceiptItem.get(itemKey) || [];
+      byItem.push(claim);
+      claimsByReceiptItem.set(itemKey, byItem);
+
+      const byReceipt = claimsByReceipt.get(claim.receiptId) || [];
+      byReceipt.push(claim);
+      claimsByReceipt.set(claim.receiptId, byReceipt);
+    });
+
+    return receipts
+      .map((receipt) => {
+        const receiptClaims = claimsByReceipt.get(receipt.id) || [];
+
+        const otherClaimsOnReceipt = receiptClaims
+          .filter((claim) => claim.claimerUserId !== userId)
+          .reduce((sum, claim) => sum + (Number(claim.amount) || 0), 0);
+
+        const myClaimsOnReceipt = receiptClaims
+          .filter((claim) => claim.claimerUserId === userId)
+          .reduce((sum, claim) => sum + (Number(claim.amount) || 0), 0);
+
+        const myTotalAmount = receipt.userId === userId
+          ? Math.max((Number(receipt.totalAmount) || 0) - otherClaimsOnReceipt, 0)
+          : Math.max(myClaimsOnReceipt, 0);
+
+        const userItems = (receipt.items || []).map((item: any) => {
+          const itemAmount = Number(item.totalPrice) || 0;
+          const itemKey = `${receipt.id}:${item.id}`;
+          const itemClaims = claimsByReceiptItem.get(itemKey) || [];
+
+          const otherClaimsOnItem = itemClaims
+            .filter((claim) => claim.claimerUserId !== userId)
+            .reduce((sum, claim) => sum + (Number(claim.amount) || 0), 0);
+
+          const myClaimsOnItem = itemClaims
+            .filter((claim) => claim.claimerUserId === userId)
+            .reduce((sum, claim) => sum + (Number(claim.amount) || 0), 0);
+
+          const myItemAmount = receipt.userId === userId
+            ? Math.max(itemAmount - otherClaimsOnItem, 0)
+            : Math.max(myClaimsOnItem, 0);
+
+          return {
+            ...item,
+            totalPrice: this.roundMoney(myItemAmount),
+          };
+        });
+
+        return {
+          ...receipt,
+          totalAmount: this.roundMoney(myTotalAmount),
+          items: userItems,
+        } as Receipt;
+      })
+      .filter((receipt) => (Number(receipt.totalAmount) || 0) > 0);
+  }
+
+  private roundMoney(value: number): number {
+    return Math.round((value + Number.EPSILON) * 100) / 100;
   }
 
   async exportReceiptsZip(userId: string): Promise<Buffer> {
     const receipts = await this.receiptsRepository.find({
       where: { userId },
-      relations: ['items', 'items.category'],
+      relations: ['items', 'category'],
       order: { date: 'DESC' },
     });
 
@@ -355,7 +447,7 @@ export class ReceiptsService {
         this.formatNumber(item.quantity, 3),
         this.formatNumber(item.unitPrice, 2),
         this.formatNumber(item.totalPrice, 2),
-        item.category?.name || 'Unkategorisiert',
+        receipt.category?.name || 'Unkategorisiert',
       ].map(this.escapeCsvValue);
 
       rows.push(row.join(';'));
