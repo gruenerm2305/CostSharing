@@ -13,7 +13,7 @@ services:
     networks:
       - costsharing-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d "]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -28,10 +28,12 @@ services:
     env_file:
       - ./backend/.env
     environment:
-      DATABASE_URL: postgresql://costtracking_user:hello@postgres:5432/costtracking
+      DATABASE_URL: postgresql://$${POSTGRES_USER}:$${POSTGRES_PASSWORD}@postgres:5432/$${POSTGRES_DB}
       NODE_ENV: production
+      DB_SYNCHRONIZE: "true"
+      DB_LOGGING: "false"
       PORT: 3000
-      FRONTEND_URL: http://localhost
+      FRONTEND_URL: http://localhost:4200
     depends_on:
       postgres:
         condition: service_healthy

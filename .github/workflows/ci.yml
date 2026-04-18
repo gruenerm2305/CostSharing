@@ -86,7 +86,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Start app stack with Docker Compose
-        run: docker compose -f docker-compose.dev.yml up -d --build
+        run: docker compose -f docker-compose.pipeline.yml up -d --build
 
       - name: Wait for backend and frontend
         shell: bash
@@ -101,7 +101,7 @@ jobs:
             sleep 5
           done
           echo "Timed out waiting for services"
-          docker compose -f docker-compose.dev.yml logs
+          docker compose -f docker-compose.depipelinev.yml logs
           exit 1
 
       - name: Run Playwright tests
@@ -112,7 +112,7 @@ jobs:
 
       - name: Stop app stack
         if: always()
-        run: docker compose -f docker-compose.dev.yml down -v
+        run: docker compose -f docker-compose.pipeline.yml down -v
 
       - name: Upload Report
         uses: actions/upload-artifact@v7

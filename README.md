@@ -68,8 +68,12 @@ Empfehlung:
 git clone https://github.com/gruenerm2305/CostSharing.git
 cd CostSharing
 ```
+### 2) Datenbankpasswort festlegen
 
-### 2) Umgebungsdatei anlegen
+Definiere den Datenbanknutzernamen und das Passwort in der Docker-Compose-Datei `docker-compose.yml` oder nutze die Standardwerte.
+
+
+### 3) Umgebungsdatei anlegen
 
 Kopiere die Backend-Vorlage nach `backend/.env`:
 
@@ -78,12 +82,14 @@ Copy-Item backend/.env.example backend/.env
 ```
 
 Wichtige Werte in `backend/.env`:
-
-- `DATABASE_URL` für die PostgreSQL-Verbindung
+- `DATABASE_URL` für die PostgreSQL-Verbindung (mit Datenbankzugangsdaten: nur bei Installation ohne Docker-Compose nötig)
 - `JWT_SECRET` als geheimer Signierschlüssel
 - `JWT_EXPIRATION` für die Token-Laufzeit
-- `FRONTEND_URL` für CORS und Redirects
-- `PORT` für den Backend-Port
+- `NODE_ENV` für den Betriebsmodus (production/development)
+- `FRONTEND_URL` für CORS und Redirects (nur bei Installation ohne Docker-Compose nötig)
+- `PORT` für den Backend-Port (nur bei Installation ohne Docker-Compose nötig)
+- `DB_SYNCHRONIZE` (`true`/`false`) für Schema-Synchronisierung
+- `DB_LOGGING` (`true`/`false`) für SQL-Logging
 
 Für OCR-Funktionen erwartet das Backend zusätzlich diese Umgebungsvariablen:
 

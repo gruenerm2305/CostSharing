@@ -25,13 +25,13 @@ services:
       dockerfile: Dockerfile.dev
     container_name: costsharing-backend-dev
     restart: unless-stopped
-    env_file:
-      - ./backend/.env
     environment:
       DATABASE_URL: postgresql://$${POSTGRES_USER}:$${POSTGRES_PASSWORD}@postgres:5432/$${POSTGRES_DB}
       NODE_ENV: development
       DB_SYNCHRONIZE: "true"
       DB_LOGGING: "false"
+      JWT_SECRET: dev-jwt-secret
+      JWT_EXPIRATION: 7d
       PORT: 3000
       FRONTEND_URL: http://localhost:4200
     depends_on:
