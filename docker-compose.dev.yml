@@ -25,8 +25,6 @@ services:
       dockerfile: Dockerfile.dev
     container_name: costsharing-backend-dev
     restart: unless-stopped
-    env_file:
-      - ./backend/.env
     environment:
       DATABASE_URL: postgresql://costtracking_user:hello@postgres:5432/costtracking
       NODE_ENV: development
