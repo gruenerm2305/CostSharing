@@ -1,62 +1,63 @@
 <div class="app-shell" [class.public-shell]="!showNavigation()">
-      <aside class="side-nav" *ngIf="showNavigation()">
-        <div class="brand-box">
-          <h1>{{ 'common.appName' | t }}</h1>
-          <p>{{ getUserRoleKey() | t }}</p>
-        </div>
-
-        <nav class="menu-list" aria-label="Main navigation">
-          <a routerLink="/home" routerLinkActive="active-link">
-            <span class="material-symbols-outlined">home</span>
-            <span>{{ 'sidebar.home' | t }}</span>
-          </a>
-          <a routerLink="receipts/list" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
-            <span class="material-symbols-outlined">receipt_long</span>
-            <span>{{ 'sidebar.receipts' | t }}</span>
-          </a>
-          <a routerLink="/receipts/capture" routerLinkActive="active-link">
-            <span class="material-symbols-outlined">add_circle</span>
-            <span>{{ 'sidebar.capture' | t }}</span>
-          </a>
-          <a routerLink="/dashboard" routerLinkActive="active-link">
-            <span class="material-symbols-outlined">dashboard</span>
-            <span>{{ 'sidebar.dashboard' | t }}</span>
-          </a>
-          <a routerLink="/categories" routerLinkActive="active-link" >
-            <span class="material-symbols-outlined">category</span>
-            <span>{{ 'sidebar.categories' | t }}</span>
-          </a>
-          <a routerLink="/account" routerLinkActive="active-link">
-            <span class="material-symbols-outlined">person</span>
-            <span>{{ 'sidebar.account' | t }}</span>
-          </a>
-           <a *ngIf="canAccessAdminPanel()" routerLink="/admin" routerLinkActive="active-link">
+  @if (showNavigation()) {
+    <aside class="side-nav">
+      <div class="brand-box">
+        <h1>{{ 'common.appName' | t }}</h1>
+        <p>{{ getUserRoleKey() | t }}</p>
+      </div>
+      <nav class="menu-list" aria-label="Main navigation">
+        <a routerLink="/home" routerLinkActive="active-link">
+          <span class="material-symbols-outlined">home</span>
+          <span>{{ 'sidebar.home' | t }}</span>
+        </a>
+        <a routerLink="receipts/list" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+          <span class="material-symbols-outlined">receipt_long</span>
+          <span>{{ 'sidebar.receipts' | t }}</span>
+        </a>
+        <a routerLink="/receipts/capture" routerLinkActive="active-link">
+          <span class="material-symbols-outlined">add_circle</span>
+          <span>{{ 'sidebar.capture' | t }}</span>
+        </a>
+        <a routerLink="/dashboard" routerLinkActive="active-link">
+          <span class="material-symbols-outlined">dashboard</span>
+          <span>{{ 'sidebar.dashboard' | t }}</span>
+        </a>
+        <a routerLink="/categories" routerLinkActive="active-link" >
+          <span class="material-symbols-outlined">category</span>
+          <span>{{ 'sidebar.categories' | t }}</span>
+        </a>
+        <a routerLink="/account" routerLinkActive="active-link">
+          <span class="material-symbols-outlined">person</span>
+          <span>{{ 'sidebar.account' | t }}</span>
+        </a>
+        @if (canAccessAdminPanel()) {
+          <a routerLink="/admin" routerLinkActive="active-link">
             <span class="material-symbols-outlined">admin_panel_settings</span>
             <span>{{ 'sidebar.adminPanel' | t }}</span>
           </a>
-        </nav>
-
-        <div class="side-footer">
-          <div class="language-dropdown menu-up" [class.open]="isSidebarLanguageMenuOpen">
-            <button
-              type="button"
-              class="language-trigger"
-              (click)="toggleSidebarLanguageMenu($event)"
-              [attr.aria-expanded]="isSidebarLanguageMenuOpen"
-              aria-haspopup="listbox"
+        }
+      </nav>
+      <div class="side-footer">
+        <div class="language-dropdown menu-up" [class.open]="isSidebarLanguageMenuOpen">
+          <button
+            type="button"
+            class="language-trigger"
+            (click)="toggleSidebarLanguageMenu($event)"
+            [attr.aria-expanded]="isSidebarLanguageMenuOpen"
+            aria-haspopup="listbox"
             >
-              <span class="material-symbols-outlined language-icon">language</span>
-              <span class="language-current">{{ selectedLanguageLabelKey() | t }}</span>
-              <span class="material-symbols-outlined language-chevron">expand_more</span>
-            </button>
-
-            <div class="language-menu" *ngIf="isSidebarLanguageMenuOpen" role="listbox" aria-label="Language selection">
+            <span class="material-symbols-outlined language-icon">language</span>
+            <span class="language-current">{{ selectedLanguageLabelKey() | t }}</span>
+            <span class="material-symbols-outlined language-chevron">expand_more</span>
+          </button>
+          @if (isSidebarLanguageMenuOpen) {
+            <div class="language-menu" role="listbox" aria-label="Language selection">
               <button
                 type="button"
                 class="language-option"
                 [class.active]="languagePreference() === 'en'"
                 (click)="onLanguagePreferenceChange('en')"
-              >
+                >
                 {{ 'common.languageEnglish' | t }}
               </button>
               <button
@@ -64,31 +65,36 @@
                 class="language-option"
                 [class.active]="languagePreference() === 'de'"
                 (click)="onLanguagePreferenceChange('de')"
-              >
+                >
                 {{ 'common.languageGerman' | t }}
               </button>
             </div>
-          </div>
-
-          <button class="link-btn" (click)="logout()" data-testid="sidebar-logout">
-            <span class="material-symbols-outlined">logout</span>
-            <span>{{ 'sidebar.logout' | t }}</span>
-          </button>
+          }
         </div>
-      </aside>
+        <button class="link-btn" (click)="logout()" data-testid="sidebar-logout">
+          <span class="material-symbols-outlined">logout</span>
+          <span>{{ 'sidebar.logout' | t }}</span>
+        </button>
+      </div>
+    </aside>
+  }
 
-      <main class="content" [class.with-nav]="showNavigation()">
-        <router-outlet></router-outlet>
-      </main>
+  <main class="content" [class.with-nav]="showNavigation()">
+    <router-outlet></router-outlet>
+  </main>
 
-      <nav class="mobile-nav" *ngIf="showNavigation()" aria-label="Mobile navigation">
-        <a routerLink="/home" routerLinkActive="active-mobile"><span class="material-symbols-outlined">home</span></a>
-        <a routerLink="/receipts/list" routerLinkActive="active-mobile" [routerLinkActiveOptions]="{ exact: true }"><span class="material-symbols-outlined">receipt_long</span></a>
-        <a routerLink="/receipts/capture" routerLinkActive="active-mobile"><span class="material-symbols-outlined">add</span></a>
-        <a routerLink="/dashboard" routerLinkActive="active-mobile"><span class="material-symbols-outlined">dashboard</span></a>
-        <a routerLink="/categories" routerLinkActive="active-mobile"><span class="material-symbols-outlined">category</span></a>
-        <a routerLink="/account" routerLinkActive="active-mobile"><span class="material-symbols-outlined">person</span></a>
-        <a *ngIf="canAccessAdminPanel()" routerLink="/admin" routerLinkActive="active-mobile"><span class="material-symbols-outlined">admin_panel_settings</span></a>
-        <button type="button" class="mobile-logout-btn" (click)="logout()" title="Logout"><span class="material-symbols-outlined">logout</span></button>
-      </nav>
-    </div>
+  @if (showNavigation()) {
+    <nav class="mobile-nav" aria-label="Mobile navigation">
+      <a routerLink="/home" routerLinkActive="active-mobile"><span class="material-symbols-outlined">home</span></a>
+      <a routerLink="/receipts/list" routerLinkActive="active-mobile" [routerLinkActiveOptions]="{ exact: true }"><span class="material-symbols-outlined">receipt_long</span></a>
+      <a routerLink="/receipts/capture" routerLinkActive="active-mobile"><span class="material-symbols-outlined">add</span></a>
+      <a routerLink="/dashboard" routerLinkActive="active-mobile"><span class="material-symbols-outlined">dashboard</span></a>
+      <a routerLink="/categories" routerLinkActive="active-mobile"><span class="material-symbols-outlined">category</span></a>
+      <a routerLink="/account" routerLinkActive="active-mobile"><span class="material-symbols-outlined">person</span></a>
+      @if (canAccessAdminPanel()) {
+        <a routerLink="/admin" routerLinkActive="active-mobile"><span class="material-symbols-outlined">admin_panel_settings</span></a>
+      }
+      <button type="button" class="mobile-logout-btn" (click)="logout()" title="Logout"><span class="material-symbols-outlined">logout</span></button>
+    </nav>
+  }
+</div>

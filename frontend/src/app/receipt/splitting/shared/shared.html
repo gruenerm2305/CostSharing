@@ -1,36 +1,41 @@
 <div class="container">
-      <div class="header">
-        <h1>{{ 'shared.receipt.title' | t }}</h1>
-        <button class="btn btn-secondary" (click)="goBack()">{{ 'common.buttons.backArrow' | t }}</button>
-      </div>
+  <div class="header">
+    <h1>{{ 'shared.receipt.title' | t }}</h1>
+    <button class="btn btn-secondary" (click)="goBack()">{{ 'common.buttons.backArrow' | t }}</button>
+  </div>
 
-      <div *ngIf="errorMessage" class="error-banner">
-        {{ errorMessage }}
-      </div>
+  @if (errorMessage) {
+    <div class="error-banner">
+      {{ errorMessage }}
+    </div>
+  }
 
-      <div *ngIf="receipt as receiptModel" class="receipt-container">
-        <!-- Receipt Header -->
-        <div class="receipt-header card">
-          <div class="header-content">
-            <h2>{{ receiptModel.merchant }}</h2>
-            <p class="date">{{ receiptModel.date | date:'dd.MM.yyyy' }}</p>
-            <p class="total-reference">
-              {{ 'shared.receipt.labels.totalAmount' | t }}: <span>{{ receiptModel.totalAmount | currency:'EUR' }}</span>
-            </p>
-          </div>
-          <div class="header-actions" *ngIf="isOwner">
+  @if (receipt; as receiptModel) {
+    <div class="receipt-container">
+      <!-- Receipt Header -->
+      <div class="receipt-header card">
+        <div class="header-content">
+          <h2>{{ receiptModel.merchant }}</h2>
+          <p class="date">{{ receiptModel.date | date:'dd.MM.yyyy' }}</p>
+          <p class="total-reference">
+            {{ 'shared.receipt.labels.totalAmount' | t }}: <span>{{ receiptModel.totalAmount | currency:'EUR' }}</span>
+          </p>
+        </div>
+        @if (isOwner) {
+          <div class="header-actions">
             <button class="btn btn-warning" (click)="revokeShare()">
               {{ 'shared.receipt.buttons.makePrivate' | t }}
             </button>
           </div>
-        </div>
-
-        <!-- Items List -->
-        <div class="items-section card">
-          <h3>{{ 'shared.receipt.labels.items' | t }}</h3>
-          <div class="items-list">
-              <div *ngFor="let item of receiptModel.items" 
-                 class="item-row" 
+        }
+      </div>
+      <!-- Items List -->
+      <div class="items-section card">
+        <h3>{{ 'shared.receipt.labels.items' | t }}</h3>
+        <div class="items-list">
+          @for (item of receiptModel.items; track item) {
+            <div
+              class="item-row"
                  [ngClass]="{ 
                    claimed: isItemClaimedByMe(item.id),
                    'claimed-other': isItemClaimed(item.id) && !isItemClaimedByMe(item.id)
@@ -43,187 +48,199 @@
                   {{ item.quantity }} × {{ item.unitPrice | currency:'EUR' }}
                 </p>
               </div>
-
               <div class="item-cost">
                 <span class="cost-label">{{ 'shared.receipt.labels.total' | t }}:</span>
                 <span class="item-price">{{ item.totalPrice | currency:'EUR' }}</span>
               </div>
-
               <div class="item-avatars">
-                <div *ngFor="let avatar of getItemAvatars(item.id)" class="avatar" [style.background-color]="avatar.color" title="{{ avatar.name }}">
-                  {{ avatar.initials }}
-                </div>
+                @for (avatar of getItemAvatars(item.id); track avatar) {
+                  <div class="avatar" [style.background-color]="avatar.color" title="{{ avatar.name }}">
+                    {{ avatar.initials }}
+                  </div>
+                }
               </div>
-
               <div class="item-action">
                 <!-- Progress Circle -->
-                 <div class="claim-progress" *ngIf="getClaimedPercentage(item) > 0">
+                @if (getClaimedPercentage(item) > 0) {
+                  <div class="claim-progress">
                     <svg viewBox="0 0 36 36" class="circular-chart">
                       <path class="circle-bg"
                         d="M18 2.0845
                           a 15.9155 15.9155 0 0 1 0 31.831
                           a 15.9155 15.9155 0 0 1 0 -31.831"
-                      />
-                      <path class="circle"
-                        [attr.stroke-dasharray]="getClaimedPercentage(item) + ', 100'"
+                        />
+                        <path class="circle"
+                          [attr.stroke-dasharray]="getClaimedPercentage(item) + ', 100'"
                         d="M18 2.0845
                           a 15.9155 15.9155 0 0 1 0 31.831
                           a 15.9155 15.9155 0 0 1 0 -31.831"
-                      />
-                    </svg>
-                    <span class="percentage-text">{{ getClaimedPercentage(item) | number:'1.0-0'}}%</span>
-                 </div>
-
-                <button 
-                  *ngIf="isAuthenticated && !isItemFullyClaimedByOthers(item) && !isItemClaimedByMe(item.id) && getClaimedPercentage(item) === 0"
-                  class="btn btn-claim" 
-                  (click)="claimItem(item)"
-                >
-                  {{ 'shared.receipt.buttons.claimAll' | t }}
-                </button>
-                
-                <button 
-                  *ngIf="isAuthenticated && !isItemFullyClaimedByOthers(item) && (isItemClaimedByMe(item.id) || getClaimedPercentage(item) > 0)"
-                  class="btn btn-claim" 
-                  [disabled]="isItemFullyClaimed(item)"
-                  [class.btn-disabled]="isItemFullyClaimed(item)"
-                  (click)="claimItem(item)"
-                >
-                  {{ 'shared.receipt.buttons.claimRest' | t }}
-                </button>
-
-                <!-- Custom -->
-                <button 
-                  *ngIf="isAuthenticated && !isItemFullyClaimedByOthers(item)"
-                  class="btn btn-secondary btn-sm" 
-                  [class.btn-disabled]="isItemFullyClaimedByOthers(item)"
-                  (click)="showCustomClaim(item)"
-                >
-                  {{ 'shared.receipt.buttons.customClaim' | t }}
-                </button>
-
-                <button 
-                  *ngIf="isAuthenticated && isItemClaimedByMe(item.id)"
-                  class="btn btn-unclaim" 
-                  (click)="removeClaim(item.id!)"
-                >
-                  {{ 'shared.receipt.buttons.unclaim' | t }}
-                </button>
-                <button 
-                  *ngIf="!isAuthenticated"
-                  class="btn btn-login" 
-                  (click)="promptLogin()"
-                >
-                  {{ 'shared.receipt.buttons.login' | t }}
-                </button>
-                <span *ngIf="isItemFullyClaimed(item) && !isItemClaimedByMe(item.id)" class="claimed-other-badge">
-                  {{ 'shared.receipt.badges.fullyAllocated' | t }}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Custom Claim Modal -->
-        <div *ngIf="customClaimItem" class="modal">
-          <div class="modal-content card">
-            <h3>{{ 'shared.receipt.customClaim.title' | t }}</h3>
-            
-            <p><strong>{{ customClaimItem.name }}</strong></p>
-            <p>{{ 'shared.receipt.labels.totalPrice' | t }}: {{ customClaimItem.totalPrice | currency:'EUR' }}</p>
-            <p class="text-info" *ngIf="customMaxPercentage < 100">
-              {{ 'shared.receipt.customClaim.availableLabel' | t }}: {{ customMaxPercentage }}% ({{ customMaxQuantity | number:'1.0-2' }} {{ 'shared.receipt.customClaim.units' | t }})
-            </p>
-            
-            <div class="claim-options">
-               <!-- Auto Split Buttons inside Dialog -->
-               <div class="auto-splits" *ngIf="customClaimItem.quantity >= 1">
-                <span class="label">{{ 'shared.receipt.customClaim.quickSelect' | t }}</span>
-                  <div class="split-buttons">
-                    <button class="btn btn-outline btn-sm" (click)="setCustomSplit(2)">1/2</button>
-                    <button class="btn btn-outline btn-sm" (click)="setCustomSplit(3)">1/3</button>
-                    <button class="btn btn-outline btn-sm" (click)="setCustomSplit(4)">1/4</button>
+                          />
+                        </svg>
+                        <span class="percentage-text">{{ getClaimedPercentage(item) | number:'1.0-0'}}%</span>
+                      </div>
+                    }
+                    @if (isAuthenticated && !isItemFullyClaimedByOthers(item) && !isItemClaimedByMe(item.id) && getClaimedPercentage(item) === 0) {
+                      <button
+                        class="btn btn-claim"
+                        (click)="claimItem(item)"
+                        >
+                        {{ 'shared.receipt.buttons.claimAll' | t }}
+                      </button>
+                    }
+                    @if (isAuthenticated && !isItemFullyClaimedByOthers(item) && (isItemClaimedByMe(item.id) || getClaimedPercentage(item) > 0)) {
+                      <button
+                        class="btn btn-claim"
+                        [disabled]="isItemFullyClaimed(item)"
+                        [class.btn-disabled]="isItemFullyClaimed(item)"
+                        (click)="claimItem(item)"
+                        >
+                        {{ 'shared.receipt.buttons.claimRest' | t }}
+                      </button>
+                    }
+                    <!-- Custom -->
+                    @if (isAuthenticated && !isItemFullyClaimedByOthers(item)) {
+                      <button
+                        class="btn btn-secondary btn-sm"
+                        [class.btn-disabled]="isItemFullyClaimedByOthers(item)"
+                        (click)="showCustomClaim(item)"
+                        >
+                        {{ 'shared.receipt.buttons.customClaim' | t }}
+                      </button>
+                    }
+                    @if (isAuthenticated && isItemClaimedByMe(item.id)) {
+                      <button
+                        class="btn btn-unclaim"
+                        (click)="removeClaim(item.id!)"
+                        >
+                        {{ 'shared.receipt.buttons.unclaim' | t }}
+                      </button>
+                    }
+                    @if (!isAuthenticated) {
+                      <button
+                        class="btn btn-login"
+                        (click)="promptLogin()"
+                        >
+                        {{ 'shared.receipt.buttons.login' | t }}
+                      </button>
+                    }
+                    @if (isItemFullyClaimed(item) && !isItemClaimedByMe(item.id)) {
+                      <span class="claimed-other-badge">
+                        {{ 'shared.receipt.badges.fullyAllocated' | t }}
+                      </span>
+                    }
                   </div>
-               </div>
-
-              <div class="form-group">
-                <label class="form-label">{{ 'shared.receipt.customClaim.labels.percentage' | t }}</label>
-                <input 
-                  type="number" 
-                  class="form-control" 
-                  [(ngModel)]="customPercentage"
-                  (ngModelChange)="updateCustomQuantityFromPercentage()"
-                  min="0"
-                  [max]="customMaxPercentage"
-                />
-              </div>
-              
-              <div class="form-group">
-                <label class="form-label">{{ 'shared.receipt.customClaim.labels.quantity' | t }}</label>
-                <input 
-                  type="number" 
-                  class="form-control" 
-                  [(ngModel)]="customQuantity"
-                  (ngModelChange)="updateCustomPercentageFromQuantity()"
-                  min="0"
-                  [max]="customMaxQuantity"
-                  step="0.01"
-                />
-                <small>{{ 'shared.receipt.customClaim.labels.of' | t }} {{ customClaimItem.quantity }}</small>
-              </div>
-
-              <div *ngIf="customError" class="alert alert-error">
-                {{ customError }}
-              </div>
-            </div>
-            
-            <div class="modal-actions">
-              <button class="btn btn-primary" (click)="submitCustomClaim()" [disabled]="!!customError">
-                {{ 'common.buttons.apply' | t }}
-              </button>
-              <button class="btn btn-secondary" (click)="cancelCustomClaim()">
-                {{ 'common.buttons.cancel' | t }}
-              </button>
+                </div>
+              }
             </div>
           </div>
-        </div>
-
-        <!-- Sticky Footer -->
-        <div class="sticky-footer">
-          <div class="footer-content">
-            <div class="total-section">
-              <div class="your-total">
-                <span class="label">{{ 'shared.receipt.footer.yourShare' | t }}</span>
-                <span class="amount">{{ myTotal | currency:'EUR' }}</span>
-              </div>
-              <div class="receipt-total">
-                <span class="label">{{ 'shared.receipt.footer.receiptTotal' | t }}</span>
-                <span class="amount">{{ receiptModel.totalAmount | currency:'EUR' }}</span>
+          <!-- Custom Claim Modal -->
+          @if (customClaimItem) {
+            <div class="modal">
+              <div class="modal-content card">
+                <h3>{{ 'shared.receipt.customClaim.title' | t }}</h3>
+                <p><strong>{{ customClaimItem.name }}</strong></p>
+                <p>{{ 'shared.receipt.labels.totalPrice' | t }}: {{ customClaimItem.totalPrice | currency:'EUR' }}</p>
+                @if (customMaxPercentage < 100) {
+                  <p class="text-info">
+                    {{ 'shared.receipt.customClaim.availableLabel' | t }}: {{ customMaxPercentage }}% ({{ customMaxQuantity | number:'1.0-2' }} {{ 'shared.receipt.customClaim.units' | t }})
+                  </p>
+                }
+                <div class="claim-options">
+                  <!-- Auto Split Buttons inside Dialog -->
+                  @if (customClaimItem.quantity >= 1) {
+                    <div class="auto-splits">
+                      <span class="label">{{ 'shared.receipt.customClaim.quickSelect' | t }}</span>
+                      <div class="split-buttons">
+                        <button class="btn btn-outline btn-sm" (click)="setCustomSplit(2)">1/2</button>
+                        <button class="btn btn-outline btn-sm" (click)="setCustomSplit(3)">1/3</button>
+                        <button class="btn btn-outline btn-sm" (click)="setCustomSplit(4)">1/4</button>
+                      </div>
+                    </div>
+                  }
+                  <div class="form-group">
+                    <label class="form-label">{{ 'shared.receipt.customClaim.labels.percentage' | t }}</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      [(ngModel)]="customPercentage"
+                      (ngModelChange)="updateCustomQuantityFromPercentage()"
+                      min="0"
+                      [max]="customMaxPercentage"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">{{ 'shared.receipt.customClaim.labels.quantity' | t }}</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        [(ngModel)]="customQuantity"
+                        (ngModelChange)="updateCustomPercentageFromQuantity()"
+                        min="0"
+                        [max]="customMaxQuantity"
+                        step="0.01"
+                        />
+                        <small>{{ 'shared.receipt.customClaim.labels.of' | t }} {{ customClaimItem.quantity }}</small>
+                      </div>
+                      @if (customError) {
+                        <div class="alert alert-error">
+                          {{ customError }}
+                        </div>
+                      }
+                    </div>
+                    <div class="modal-actions">
+                      <button class="btn btn-primary" (click)="submitCustomClaim()" [disabled]="!!customError">
+                        {{ 'common.buttons.apply' | t }}
+                      </button>
+                      <button class="btn btn-secondary" (click)="cancelCustomClaim()">
+                        {{ 'common.buttons.cancel' | t }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              }
+              <!-- Sticky Footer -->
+              <div class="sticky-footer">
+                <div class="footer-content">
+                  <div class="total-section">
+                    <div class="your-total">
+                      <span class="label">{{ 'shared.receipt.footer.yourShare' | t }}</span>
+                      <span class="amount">{{ myTotal | currency:'EUR' }}</span>
+                    </div>
+                    <div class="receipt-total">
+                      <span class="label">{{ 'shared.receipt.footer.receiptTotal' | t }}</span>
+                      <span class="amount">{{ receiptModel.totalAmount | currency:'EUR' }}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          }
+
+          @if (!receipt && !loading) {
+            <div class="error-state">
+              <p class="error-message">{{ errorMessage || ('shared.receipt.errors.loadFailed' | t) }}</p>
+              <button class="btn btn-primary" (click)="goBack()">{{ 'common.buttons.back' | t }}</button>
+            </div>
+          }
+
+          @if (loading) {
+            <div class="loading-state">
+              <p>{{ 'common.loading' | t }}</p>
+            </div>
+          }
+
+          <!-- Login Prompt Modal -->
+          @if (showLoginPrompt) {
+            <div class="modal-overlay" (click)="closeLoginPrompt()">
+              <div class="modal-content" (click)="$event.stopPropagation()">
+                <h3>{{ 'shared.receipt.loginPrompt.title' | t }}</h3>
+                <p>{{ 'shared.receipt.loginPrompt.text' | t }}</p>
+                <div class="modal-actions">
+                  <button class="btn btn-primary" (click)="navigateToLogin()">{{ 'auth.signIn' | t }}</button>
+                  <button class="btn btn-secondary" (click)="navigateToRegister()">{{ 'auth.registerButton' | t }}</button>
+                  <button class="btn btn-outline" (click)="closeLoginPrompt()">{{ 'common.buttons.cancel' | t }}</button>
+                </div>
+              </div>
+            </div>
+          }
         </div>
-      </div>
-
-      <div *ngIf="!receipt && !loading" class="error-state">
-        <p class="error-message">{{ errorMessage || ('shared.receipt.errors.loadFailed' | t) }}</p>
-        <button class="btn btn-primary" (click)="goBack()">{{ 'common.buttons.back' | t }}</button>
-      </div>
-
-      <div *ngIf="loading" class="loading-state">
-        <p>{{ 'common.loading' | t }}</p>
-      </div>
-
-      <!-- Login Prompt Modal -->
-      <div *ngIf="showLoginPrompt" class="modal-overlay" (click)="closeLoginPrompt()">
-        <div class="modal-content" (click)="$event.stopPropagation()">
-          <h3>{{ 'shared.receipt.loginPrompt.title' | t }}</h3>
-          <p>{{ 'shared.receipt.loginPrompt.text' | t }}</p>
-          <div class="modal-actions">
-            <button class="btn btn-primary" (click)="navigateToLogin()">{{ 'auth.signIn' | t }}</button>
-            <button class="btn btn-secondary" (click)="navigateToRegister()">{{ 'auth.registerButton' | t }}</button>
-            <button class="btn btn-outline" (click)="closeLoginPrompt()">{{ 'common.buttons.cancel' | t }}</button>
-          </div>
-        </div>
-      </div>
-    </div>

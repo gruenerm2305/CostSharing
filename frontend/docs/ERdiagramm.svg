@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill-opacity="1" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" width="526" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" height="250" font-family="'Dialog'" font-style="normal" stroke-linejoin="miter" font-size="12px" stroke-dashoffset="0" image-rendering="auto" style="background-color: #ffffff;">
+  <defs id="genericDefs"/>
+  <g>
+    <defs id="defs1">
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath1">
+        <path d="M0 0 L526 0 L526 250 L0 250 L0 0 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath2">
+        <path d="M-9.457 -9.1716 L1249.457 -9.1716 L1249.457 589.1716 L-9.457 589.1716 L-9.457 -9.1716 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath3">
+        <path d="M-9.457 -9.9127 L1249.457 -9.9127 L1249.457 588.4305 L-9.457 588.4305 L-9.457 -9.9127 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath4">
+        <path d="M-0 -0 L-0 24 L24 24 L24 -0 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath5">
+        <path d="M-9.457 -9.2252 L1249.457 -9.2252 L1249.457 589.118 L-9.457 589.118 L-9.457 -9.2252 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath6">
+        <path d="M0 -0 L0 24 L24 24 L24 -0 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath7">
+        <path d="M-9.457 -9.3658 L1249.457 -9.3658 L1249.457 588.9774 L-9.457 588.9774 L-9.457 -9.3658 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath8">
+        <path d="M-0 0 L-0 24 L24 24 L24 0 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath9">
+        <path d="M-9.457 -9.6783 L1249.457 -9.6783 L1249.457 588.6649 L-9.457 588.6649 L-9.457 -9.6783 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath10">
+        <path d="M-9.457 -9.2408 L1249.457 -9.2408 L1249.457 589.1024 L-9.457 589.1024 L-9.457 -9.2408 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath11">
+        <path d="M-9.457 -9.4908 L1249.457 -9.4908 L1249.457 588.8524 L-9.457 588.8524 L-9.457 -9.4908 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath12">
+        <path d="M-9.457 -9.694 L1249.457 -9.694 L1249.457 588.6492 L-9.457 588.6492 L-9.457 -9.694 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath13">
+        <path d="M-9.457 -10.0065 L1249.457 -10.0065 L1249.457 588.3367 L-9.457 588.3367 L-9.457 -10.0065 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath14">
+        <path d="M-9.457 -9.944 L1249.457 -9.944 L1249.457 588.3992 L-9.457 588.3992 L-9.457 -9.944 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath15">
+        <path d="M-9.457 -9.4127 L1249.457 -9.4127 L1249.457 588.9305 L-9.457 588.9305 L-9.457 -9.4127 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath16">
+        <path d="M0 0 L0 24 L24 24 L24 0 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath17">
+        <path d="M-9.457 -9.7252 L1249.457 -9.7252 L1249.457 588.618 L-9.457 588.618 L-9.457 -9.7252 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath18">
+        <path d="M-9.457 -10.0377 L1249.457 -10.0377 L1249.457 588.3055 L-9.457 588.3055 L-9.457 -10.0377 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath19">
+        <path d="M-9.457 -9.3502 L1249.457 -9.3502 L1249.457 588.993 L-9.457 588.993 L-9.457 -9.3502 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath20">
+        <path d="M-9.957 -9.7949 L1248.957 -9.7949 L1248.957 588.5483 L-9.957 588.5483 L-9.957 -9.7949 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath21">
+        <path d="M-9.957 -10.1074 L1248.957 -10.1074 L1248.957 588.2358 L-9.957 588.2358 L-9.957 -10.1074 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath22">
+        <path d="M-9.957 -9.4199 L1248.957 -9.4199 L1248.957 588.9233 L-9.957 588.9233 L-9.957 -9.4199 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath23">
+        <path d="M-9.457 -9.1899 L1249.457 -9.1899 L1249.457 589.1533 L-9.457 589.1533 L-9.457 -9.1899 Z"/>
+      </clipPath>
+    </defs>
+    <rect width="100%" height="100%" fill="white" stroke="none" />
+    <g fill="rgb(255,255,204)" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke="rgb(255,255,204)">
+      <rect x="796" width="175" height="163.7099" y="273.2188" clip-path="url(#clipPath2)" stroke="none"/>
+    </g>
+    <g fill="gray" stroke-miterlimit="1.45" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt" stroke="gray">
+      <rect fill="none" x="796" width="175" height="163.7099" y="273.2188" clip-path="url(#clipPath2)"/>
+      <text x="854" y="290.8434" clip-path="url(#clipPath2)" fill="black" font-family="'Inter'" stroke="none" xml:space="preserve">categories</text>
+      <line stroke-linecap="square" clip-path="url(#clipPath2)" fill="none" x1="797" x2="970" y1="297" y2="297" stroke-miterlimit="10"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,338.2077,129.4879)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M12.4 2.7 C13.3 1.8 14.9 1.8 15.8 2.7 L21.3 8.2 C22.2 9.1 22.2 10.7 21.3 11.6 L17.6 15.3 C16.7 16.2 15.1 16.2 14.2 15.3 L8.7 9.8 C7.8 8.9 7.8 7.3 8.7 6.4 Z" clip-path="url(#clipPath4)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,338.2077,129.4879)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M14 7 L17 10" clip-path="url(#clipPath4)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,338.2077,129.4879)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M9.4 10.6 L2 18 L2 21 C2 21.6 2.4 22 3 22 L7 22 L7 19 L10 19 L10 16 L12 16 L13.4 14.6" clip-path="url(#clipPath4)"/>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-weight="bold" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="822" xml:space="preserve" y="314.3974" clip-path="url(#clipPath2)" stroke="none">id</text>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="885" xml:space="preserve" y="314.3974" clip-path="url(#clipPath2)" stroke="none">uuid</text>
+      <text x="822" xml:space="preserve" y="333.7099" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">userId</text>
+      <text x="885" xml:space="preserve" y="333.7099" clip-path="url(#clipPath2)" stroke="none">uuid</text>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,400.4629,137.557)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 7 L17 7 L17 17" clip-path="url(#clipPath6)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,400.4629,137.557)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 17 L17 7" clip-path="url(#clipPath6)"/>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-weight="bold" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="822" xml:space="preserve" y="353.0224" clip-path="url(#clipPath2)" stroke="none">name</text>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="885" xml:space="preserve" y="353.0224" clip-path="url(#clipPath2)" stroke="none">varchar</text>
+      <text x="822" xml:space="preserve" y="372.3349" clip-path="url(#clipPath2)" stroke="none">color</text>
+      <text x="885" xml:space="preserve" y="372.3349" clip-path="url(#clipPath2)" stroke="none">varchar</text>
+      <text x="822" xml:space="preserve" y="391.6474" clip-path="url(#clipPath2)" stroke="none">icon</text>
+      <text x="885" xml:space="preserve" y="391.6474" clip-path="url(#clipPath2)" stroke="none">varchar</text>
+      <text x="822" xml:space="preserve" y="410.9599" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">createdAt</text>
+      <text x="885" xml:space="preserve" y="410.9599" clip-path="url(#clipPath2)" stroke="none">timestamp</text>
+      <text x="822" xml:space="preserve" y="430.2724" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">updatedAt</text>
+      <text x="885" xml:space="preserve" y="430.2724" clip-path="url(#clipPath2)" stroke="none">timestamp</text>
+    </g>
+    <g fill="rgb(255,255,204)" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke="rgb(255,255,204)">
+      <rect x="277" width="198" height="240.9599" y="143.6719" clip-path="url(#clipPath2)" stroke="none"/>
+    </g>
+    <g fill="gray" stroke-miterlimit="1.45" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt" stroke="gray">
+      <rect fill="none" x="277" width="198" height="240.9599" y="143.6719" clip-path="url(#clipPath2)"/>
+      <text x="339" y="161.2966" clip-path="url(#clipPath2)" fill="black" font-family="'Inter'" stroke="none" xml:space="preserve">receipt_items</text>
+      <line stroke-linecap="square" clip-path="url(#clipPath2)" fill="none" x1="278" x2="474" y1="168" y2="168" stroke-miterlimit="10"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,121.3589,75.3605)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M12.4 2.7 C13.3 1.8 14.9 1.8 15.8 2.7 L21.3 8.2 C22.2 9.1 22.2 10.7 21.3 11.6 L17.6 15.3 C16.7 16.2 15.1 16.2 14.2 15.3 L8.7 9.8 C7.8 8.9 7.8 7.3 8.7 6.4 Z" clip-path="url(#clipPath8)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,121.3589,75.3605)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M14 7 L17 10" clip-path="url(#clipPath8)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,121.3589,75.3605)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M9.4 10.6 L2 18 L2 21 C2 21.6 2.4 22 3 22 L7 22 L7 19 L10 19 L10 16 L12 16 L13.4 14.6" clip-path="url(#clipPath8)"/>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-weight="bold" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="303" xml:space="preserve" y="184.8505" clip-path="url(#clipPath2)" stroke="none">id</text>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="404" xml:space="preserve" y="184.8505" clip-path="url(#clipPath2)" stroke="none">uuid</text>
+      <text x="303" xml:space="preserve" y="204.163" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">receiptId</text>
+      <text x="404" xml:space="preserve" y="204.163" clip-path="url(#clipPath2)" stroke="none">uuid</text>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,193.224,83.4297)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 7 L17 7 L17 17" clip-path="url(#clipPath4)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,193.224,83.4297)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 17 L17 7" clip-path="url(#clipPath4)"/>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-weight="bold" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="303" xml:space="preserve" y="223.4755" clip-path="url(#clipPath2)" stroke="none">name</text>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="404" xml:space="preserve" y="223.4755" clip-path="url(#clipPath2)" stroke="none">varchar</text>
+      <text x="303" xml:space="preserve" y="242.788" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">quantity</text>
+      <text x="404" xml:space="preserve" y="242.788" clip-path="url(#clipPath2)" stroke="none">numeric</text>
+      <text x="303" xml:space="preserve" y="262.1005" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">unitPrice</text>
+      <text x="404" xml:space="preserve" y="262.1005" clip-path="url(#clipPath2)" stroke="none">numeric</text>
+      <text x="303" xml:space="preserve" y="281.413" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">totalPrice</text>
+      <text x="404" xml:space="preserve" y="281.413" clip-path="url(#clipPath2)" stroke="none">numeric</text>
+      <text x="303" xml:space="preserve" y="300.7255" clip-path="url(#clipPath2)" stroke="none">categoryId</text>
+      <text x="404" xml:space="preserve" y="300.7255" clip-path="url(#clipPath2)" stroke="none">uuid</text>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,193.224,123.7755)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 7 L17 7 L17 17" clip-path="url(#clipPath8)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,193.224,123.7755)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 17 L17 7" clip-path="url(#clipPath8)"/>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-weight="bold" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="303" xml:space="preserve" y="320.038" clip-path="url(#clipPath2)" stroke="none">needsReview</text>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="404" xml:space="preserve" y="320.038" clip-path="url(#clipPath2)" stroke="none">bool</text>
+      <text x="303" xml:space="preserve" y="339.3505" clip-path="url(#clipPath2)" stroke="none">sharedQuantity</text>
+      <text x="404" xml:space="preserve" y="339.3505" clip-path="url(#clipPath2)" stroke="none">numeric</text>
+      <text x="303" xml:space="preserve" y="358.663" clip-path="url(#clipPath2)" stroke="none">sharedPercentage</text>
+      <text x="404" xml:space="preserve" y="358.663" clip-path="url(#clipPath2)" stroke="none">numeric</text>
+      <text x="303" xml:space="preserve" y="377.9755" clip-path="url(#clipPath2)" stroke="none">assignedToUserId</text>
+      <text x="404" xml:space="preserve" y="377.9755" clip-path="url(#clipPath2)" stroke="none">uuid</text>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,193.224,156.0521)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 7 L17 7 L17 17" clip-path="url(#clipPath8)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,193.224,156.0521)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 17 L17 7" clip-path="url(#clipPath8)"/>
+    </g>
+    <g fill="rgb(255,255,204)" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke="rgb(255,255,204)">
+      <rect x="535" width="201" height="298.8974" y="0" clip-path="url(#clipPath2)" stroke="none"/>
+    </g>
+    <g fill="gray" stroke-miterlimit="1.45" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt" stroke="gray">
+      <rect fill="none" x="535" width="201" height="298.8974" y="0" clip-path="url(#clipPath2)"/>
+      <text x="613" y="17.6247" clip-path="url(#clipPath2)" fill="black" font-family="'Inter'" stroke="none" xml:space="preserve">receipts</text>
+      <line stroke-linecap="square" clip-path="url(#clipPath2)" fill="none" x1="536" x2="735" y1="24" y2="24" stroke-miterlimit="10"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,229.1565,15.3315)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M12.4 2.7 C13.3 1.8 14.9 1.8 15.8 2.7 L21.3 8.2 C22.2 9.1 22.2 10.7 21.3 11.6 L17.6 15.3 C16.7 16.2 15.1 16.2 14.2 15.3 L8.7 9.8 C7.8 8.9 7.8 7.3 8.7 6.4 Z" clip-path="url(#clipPath8)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,229.1565,15.3315)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M14 7 L17 10" clip-path="url(#clipPath8)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,229.1565,15.3315)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M9.4 10.6 L2 18 L2 21 C2 21.6 2.4 22 3 22 L7 22 L7 19 L10 19 L10 16 L12 16 L13.4 14.6" clip-path="url(#clipPath8)"/>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-weight="bold" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="561" xml:space="preserve" y="41.1786" clip-path="url(#clipPath2)" stroke="none">id</text>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="650" xml:space="preserve" y="41.1786" clip-path="url(#clipPath2)" stroke="none">uuid</text>
+      <text x="561" xml:space="preserve" y="60.4911" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">userId</text>
+      <text x="650" xml:space="preserve" y="60.4911" clip-path="url(#clipPath2)" stroke="none">uuid</text>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,302.2751,23.4006)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 7 L17 7 L17 17" clip-path="url(#clipPath8)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,302.2751,23.4006)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 17 L17 7" clip-path="url(#clipPath8)"/>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-weight="bold" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="561" xml:space="preserve" y="79.8036" clip-path="url(#clipPath2)" stroke="none">date</text>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="650" xml:space="preserve" y="79.8036" clip-path="url(#clipPath2)" stroke="none">date</text>
+      <text x="561" xml:space="preserve" y="99.1161" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">merchant</text>
+      <text x="650" xml:space="preserve" y="99.1161" clip-path="url(#clipPath2)" stroke="none">varchar</text>
+      <text x="561" xml:space="preserve" y="118.4286" clip-path="url(#clipPath2)" stroke="none">categoryId</text>
+      <text x="650" xml:space="preserve" y="118.4286" clip-path="url(#clipPath2)" stroke="none">uuid</text>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,302.2751,47.6081)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 7 L17 7 L17 17" clip-path="url(#clipPath4)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,302.2751,47.6081)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 17 L17 7" clip-path="url(#clipPath4)"/>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-weight="bold" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="561" xml:space="preserve" y="137.7411" clip-path="url(#clipPath2)" stroke="none">totalAmount</text>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="650" xml:space="preserve" y="137.7411" clip-path="url(#clipPath2)" stroke="none">numeric</text>
+      <text x="561" xml:space="preserve" y="157.0536" clip-path="url(#clipPath2)" stroke="none">taxAmount</text>
+      <text x="650" xml:space="preserve" y="157.0536" clip-path="url(#clipPath2)" stroke="none">numeric</text>
+      <text x="561" xml:space="preserve" y="176.3661" clip-path="url(#clipPath2)" stroke="none">imageUrl</text>
+      <text x="650" xml:space="preserve" y="176.3661" clip-path="url(#clipPath2)" stroke="none">varchar</text>
+      <text x="561" xml:space="preserve" y="195.6786" clip-path="url(#clipPath2)" stroke="none">rawXml</text>
+      <text x="650" xml:space="preserve" y="195.6786" clip-path="url(#clipPath2)" stroke="none">text</text>
+      <text x="561" xml:space="preserve" y="214.9911" clip-path="url(#clipPath2)" stroke="none">validationErrors</text>
+      <text x="650" xml:space="preserve" y="214.9911" clip-path="url(#clipPath2)" stroke="none">text</text>
+      <text x="561" xml:space="preserve" y="234.3036" clip-path="url(#clipPath2)" stroke="none">sharedWith</text>
+      <text x="650" xml:space="preserve" y="234.3036" clip-path="url(#clipPath2)" stroke="none">text</text>
+      <text x="561" xml:space="preserve" y="253.6161" clip-path="url(#clipPath2)" stroke="none">shareToken</text>
+      <text x="650" xml:space="preserve" y="253.6161" clip-path="url(#clipPath2)" stroke="none">varchar</text>
+      <text x="561" xml:space="preserve" y="272.9286" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">createdAt</text>
+      <text x="650" xml:space="preserve" y="272.9286" clip-path="url(#clipPath2)" stroke="none">timestamp</text>
+      <text x="561" xml:space="preserve" y="292.2411" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">updatedAt</text>
+      <text x="650" xml:space="preserve" y="292.2411" clip-path="url(#clipPath2)" stroke="none">timestamp</text>
+    </g>
+    <g fill="rgb(255,255,204)" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke="rgb(255,255,204)">
+      <rect x="0" width="217" height="202.3349" y="118.7188" clip-path="url(#clipPath2)" stroke="none"/>
+    </g>
+    <g fill="gray" stroke-miterlimit="1.45" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt" stroke="gray">
+      <rect fill="none" x="0" width="217" height="202.3349" y="118.7188" clip-path="url(#clipPath2)"/>
+      <text x="76" y="136.3435" clip-path="url(#clipPath2)" fill="black" font-family="'Inter'" stroke="none" xml:space="preserve">item_claims</text>
+      <line stroke-linecap="square" clip-path="url(#clipPath2)" fill="none" x1="1" x2="216" y1="143" y2="143" stroke-miterlimit="10"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,5.6226,64.9346)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M12.4 2.7 C13.3 1.8 14.9 1.8 15.8 2.7 L21.3 8.2 C22.2 9.1 22.2 10.7 21.3 11.6 L17.6 15.3 C16.7 16.2 15.1 16.2 14.2 15.3 L8.7 9.8 C7.8 8.9 7.8 7.3 8.7 6.4 Z" clip-path="url(#clipPath16)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,5.6226,64.9346)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M14 7 L17 10" clip-path="url(#clipPath16)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,5.6226,64.9346)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M9.4 10.6 L2 18 L2 21 C2 21.6 2.4 22 3 22 L7 22 L7 19 L10 19 L10 16 L12 16 L13.4 14.6" clip-path="url(#clipPath16)"/>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-weight="bold" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="26" xml:space="preserve" y="159.8974" clip-path="url(#clipPath2)" stroke="none">id</text>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="131" xml:space="preserve" y="159.8974" clip-path="url(#clipPath2)" stroke="none">uuid</text>
+      <text x="26" xml:space="preserve" y="179.2099" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">receiptId</text>
+      <text x="131" xml:space="preserve" y="179.2099" clip-path="url(#clipPath2)" stroke="none">uuid</text>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,85.4263,73.0038)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 7 L17 7 L17 17" clip-path="url(#clipPath4)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,85.4263,73.0038)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 17 L17 7" clip-path="url(#clipPath4)"/>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-weight="bold" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="26" xml:space="preserve" y="198.5224" clip-path="url(#clipPath2)" stroke="none">itemId</text>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="131" xml:space="preserve" y="198.5224" clip-path="url(#clipPath2)" stroke="none">uuid</text>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,85.4263,81.0729)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 7 L17 7 L17 17" clip-path="url(#clipPath8)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,85.4263,81.0729)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 17 L17 7" clip-path="url(#clipPath8)"/>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-weight="bold" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="26" xml:space="preserve" y="217.8349" clip-path="url(#clipPath2)" stroke="none">claimerUserId</text>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="131" xml:space="preserve" y="217.8349" clip-path="url(#clipPath2)" stroke="none">uuid</text>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,85.4263,89.1421)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 7 L17 7 L17 17" clip-path="url(#clipPath4)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,85.4263,89.1421)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 17 L17 7" clip-path="url(#clipPath4)"/>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="26" xml:space="preserve" y="237.1474" clip-path="url(#clipPath2)" stroke="none">claimedQuantity</text>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="131" xml:space="preserve" y="237.1474" clip-path="url(#clipPath2)" stroke="none">numeric</text>
+      <text x="26" xml:space="preserve" y="256.4599" clip-path="url(#clipPath2)" stroke="none">claimedPercentage</text>
+      <text x="131" xml:space="preserve" y="256.4599" clip-path="url(#clipPath2)" stroke="none">numeric</text>
+      <text x="26" xml:space="preserve" y="275.7724" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">amount</text>
+      <text x="131" xml:space="preserve" y="275.7724" clip-path="url(#clipPath2)" stroke="none">numeric</text>
+      <text x="26" xml:space="preserve" y="295.0849" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">createdAt</text>
+      <text x="131" xml:space="preserve" y="295.0849" clip-path="url(#clipPath2)" stroke="none">timestamp</text>
+      <text x="26" xml:space="preserve" y="314.3974" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">updatedAt</text>
+      <text x="131" xml:space="preserve" y="314.3974" clip-path="url(#clipPath2)" stroke="none">timestamp</text>
+    </g>
+    <g fill="rgb(255,255,204)" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke="rgb(255,255,204)">
+      <rect x="288.5" width="175" height="144.3974" y="411.1009" clip-path="url(#clipPath2)" stroke="none"/>
+    </g>
+    <g fill="gray" stroke-miterlimit="1.45" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt" stroke="gray">
+      <rect fill="none" x="288.5" width="175" height="144.3974" y="411.1009" clip-path="url(#clipPath2)"/>
+      <text x="321" y="428.7256" clip-path="url(#clipPath2)" fill="black" font-family="'Inter'" stroke="none" xml:space="preserve">receipt_participants</text>
+      <line stroke-linecap="square" clip-path="url(#clipPath2)" fill="none" x1="289" x2="462" y1="435" y2="435" stroke-miterlimit="10"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,126.1638,187.0978)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M12.4 2.7 C13.3 1.8 14.9 1.8 15.8 2.7 L21.3 8.2 C22.2 9.1 22.2 10.7 21.3 11.6 L17.6 15.3 C16.7 16.2 15.1 16.2 14.2 15.3 L8.7 9.8 C7.8 8.9 7.8 7.3 8.7 6.4 Z" clip-path="url(#clipPath6)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,126.1638,187.0978)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M14 7 L17 10" clip-path="url(#clipPath6)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,126.1638,187.0978)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M9.4 10.6 L2 18 L2 21 C2 21.6 2.4 22 3 22 L7 22 L7 19 L10 19 L10 16 L12 16 L13.4 14.6" clip-path="url(#clipPath6)"/>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-weight="bold" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="314.5" xml:space="preserve" y="452.2795" clip-path="url(#clipPath2)" stroke="none">id</text>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="377.5" xml:space="preserve" y="452.2795" clip-path="url(#clipPath2)" stroke="none">uuid</text>
+      <text x="314.5" xml:space="preserve" y="471.592" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">receiptId</text>
+      <text x="377.5" xml:space="preserve" y="471.592" clip-path="url(#clipPath2)" stroke="none">uuid</text>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,188.4191,195.167)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 7 L17 7 L17 17" clip-path="url(#clipPath8)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,188.4191,195.167)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 17 L17 7" clip-path="url(#clipPath8)"/>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-weight="bold" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="314.5" xml:space="preserve" y="490.9045" clip-path="url(#clipPath2)" stroke="none">userId</text>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="377.5" xml:space="preserve" y="490.9045" clip-path="url(#clipPath2)" stroke="none">uuid</text>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,188.4191,203.2361)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 7 L17 7 L17 17" clip-path="url(#clipPath8)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,188.4191,203.2361)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M7 17 L17 7" clip-path="url(#clipPath8)"/>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-weight="bold" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="314.5" xml:space="preserve" y="510.217" clip-path="url(#clipPath2)" stroke="none">role</text>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="377.5" xml:space="preserve" y="510.217" clip-path="url(#clipPath2)" stroke="none">varchar</text>
+      <text x="314.5" xml:space="preserve" y="529.5295" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">createdAt</text>
+      <text x="377.5" xml:space="preserve" y="529.5295" clip-path="url(#clipPath2)" stroke="none">timestamp</text>
+      <text x="314.5" xml:space="preserve" y="548.842" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">updatedAt</text>
+      <text x="377.5" xml:space="preserve" y="548.842" clip-path="url(#clipPath2)" stroke="none">timestamp</text>
+    </g>
+    <g fill="rgb(255,255,204)" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke="rgb(255,255,204)">
+      <rect x="1051" width="189" height="183.0224" y="396.496" clip-path="url(#clipPath2)" stroke="none"/>
+    </g>
+    <g fill="gray" stroke-miterlimit="1.45" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt" stroke="gray">
+      <rect fill="none" x="1051" width="189" height="183.0224" y="396.496" clip-path="url(#clipPath2)"/>
+      <text x="1130.5" y="414.1207" clip-path="url(#clipPath2)" fill="black" font-family="'Inter'" stroke="none" xml:space="preserve">users</text>
+      <line stroke-linecap="square" clip-path="url(#clipPath2)" fill="none" x1="1052" x2="1239" y1="421" y2="421" stroke-miterlimit="10"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,444.7519,180.9956)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M12.4 2.7 C13.3 1.8 14.9 1.8 15.8 2.7 L21.3 8.2 C22.2 9.1 22.2 10.7 21.3 11.6 L17.6 15.3 C16.7 16.2 15.1 16.2 14.2 15.3 L8.7 9.8 C7.8 8.9 7.8 7.3 8.7 6.4 Z" clip-path="url(#clipPath6)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,444.7519,180.9956)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M14 7 L17 10" clip-path="url(#clipPath6)"/>
+    </g>
+    <g stroke-linecap="round" transform="matrix(0.2785,0,0,0.2785,444.7519,180.9956)" fill="silver" image-rendering="optimizeQuality" stroke-linejoin="round" stroke="silver" stroke-width="2" stroke-miterlimit="4">
+      <path fill="none" d="M9.4 10.6 L2 18 L2 21 C2 21.6 2.4 22 3 22 L7 22 L7 19 L10 19 L10 16 L12 16 L13.4 14.6" clip-path="url(#clipPath6)"/>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-weight="bold" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="1077" xml:space="preserve" y="437.6746" clip-path="url(#clipPath2)" stroke="none">id</text>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="11px" font-family="'Inter'" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt">
+      <text x="1140" xml:space="preserve" y="437.6746" clip-path="url(#clipPath2)" stroke="none">uuid</text>
+      <text x="1077" xml:space="preserve" y="456.9871" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">username</text>
+      <text x="1140" xml:space="preserve" y="456.9871" clip-path="url(#clipPath2)" stroke="none">varchar</text>
+      <text x="1077" xml:space="preserve" y="476.2996" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">password</text>
+      <text x="1140" xml:space="preserve" y="476.2996" clip-path="url(#clipPath2)" stroke="none">varchar</text>
+      <text x="1077" xml:space="preserve" y="495.6121" clip-path="url(#clipPath2)" stroke="none">firstName</text>
+      <text x="1140" xml:space="preserve" y="495.6121" clip-path="url(#clipPath2)" stroke="none">varchar</text>
+      <text x="1077" xml:space="preserve" y="514.9246" clip-path="url(#clipPath2)" stroke="none">lastName</text>
+      <text x="1140" xml:space="preserve" y="514.9246" clip-path="url(#clipPath2)" stroke="none">varchar</text>
+      <text x="1077" xml:space="preserve" y="534.2371" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">role</text>
+      <text x="1140" xml:space="preserve" y="534.2371" clip-path="url(#clipPath2)" stroke="none">users_role_enum</text>
+      <text x="1077" xml:space="preserve" y="553.5496" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">createdAt</text>
+      <text x="1140" xml:space="preserve" y="553.5496" clip-path="url(#clipPath2)" stroke="none">timestamp</text>
+      <text x="1077" xml:space="preserve" y="572.8621" clip-path="url(#clipPath2)" font-weight="bold" stroke="none">updatedAt</text>
+      <text x="1140" xml:space="preserve" y="572.8621" clip-path="url(#clipPath2)" stroke="none">timestamp</text>
+    </g>
+    <g fill="gray" stroke-miterlimit="1.45" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt" stroke="gray">
+      <path fill="none" d="M475.0391 295.7255 L515 295.7255 L515 309.3974 L787.9657 309.3974" clip-path="url(#clipPath2)"/>
+    </g>
+    <g fill="gray" stroke-miterlimit="1.45" transform="matrix(0.4178,0,0,0.4178,3.9513,3.8321)" stroke-linecap="butt" stroke="gray">
+      <path d="M795.9657 309.3974 L783.9657 304.3974 L786.9657 309.3974 L783.9657 314.3974 Z" stroke="none" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M736.0293 113.4286 L766 113.4286 L766 309.3974 L787.9707 309.3974" clip-path="url(#clipPath2)"/>
+      <path d="M795.9707 309.3974 L783.9707 304.3974 L786.9707 309.3974 L783.9707 314.3974 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M217.0293 193.5224 L247 193.5224 L247 179.8505 L268.9707 179.8505" clip-path="url(#clipPath2)"/>
+      <path d="M276.9707 179.8505 L264.9707 174.8505 L267.9707 179.8505 L264.9707 184.8505 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M217.0293 174.2099 L247 174.2099 L247 36.1786 L526.9648 36.1786" clip-path="url(#clipPath2)"/>
+      <path d="M534.9648 36.1786 L522.9648 31.1786 L525.9648 36.1786 L522.9648 41.1786 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M475.0391 199.163 L495 199.163 L495 36.1786 L526.9609 36.1786" clip-path="url(#clipPath2)"/>
+      <path d="M534.9609 36.1786 L522.9609 31.1786 L525.9609 36.1786 L522.9609 41.1786 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M463.5405 466.592 L505 466.592 L505 300.7255 Q510 300.7255 510 295.7255 Q510 290.7255 505 290.7255 L505 36.1786 L526.9707 36.1786" clip-path="url(#clipPath2)"/>
+      <path d="M534.9707 36.1786 L522.9707 31.1786 L525.9707 36.1786 L522.9707 41.1786 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M971.0488 328.7099 L1021 328.7099 L1021 432.6746 L1042.9707 432.6746" clip-path="url(#clipPath2)"/>
+      <path d="M1050.9707 432.6746 L1038.9707 427.6746 L1041.9707 432.6746 L1038.9707 437.6746 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M217.0293 212.8349 L247 212.8349 L247 565.9982 L1011 565.9982 L1011 432.6746 L1042.9609 432.6746" clip-path="url(#clipPath2)"/>
+      <path d="M1050.9609 432.6746 L1038.9609 427.6746 L1041.9609 432.6746 L1038.9609 437.6746 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M475.0391 372.9755 L500 372.9755 Q500 367.9755 505 367.9755 Q510 367.9755 510 372.9755 L515 372.9755 L515 470.2679 L991 470.2679 L991 432.6746 L1042.9707 432.6746" clip-path="url(#clipPath2)"/>
+      <path d="M1050.9707 432.6746 L1038.9707 427.6746 L1041.9707 432.6746 L1038.9707 437.6746 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M463.5328 485.9045 L1001 485.9045 L1001 432.6746 L1042.9512 432.6746" clip-path="url(#clipPath2)"/>
+      <path d="M1050.9512 432.6746 L1038.9512 427.6746 L1041.9512 432.6746 L1038.9512 437.6746 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M736.036 55.4911 L1031 55.4911 L1031 432.6746 L1042.9609 432.6746" clip-path="url(#clipPath2)"/>
+      <path d="M1050.9609 432.6746 L1038.9609 427.6746 L1041.9609 432.6746 L1038.9609 437.6746 Z" clip-path="url(#clipPath2)" stroke="none"/>
+    </g>
+  </g>
+</svg>

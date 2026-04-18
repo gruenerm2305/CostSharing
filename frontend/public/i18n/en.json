@@ -415,6 +415,10 @@
       "distributionTitle": "Distribution of Expenses",
       "historyTitle": "Expense History",
       "expensesLabel": "Expenses"
+    },
+    "empty": {
+      "title": "No Data Available",
+      "description": "There are no expenses recorded for the selected date range. Start by capturing your first receipt."
     }
   },
   "account": {

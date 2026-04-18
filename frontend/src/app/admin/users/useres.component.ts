@@ -2,14 +2,14 @@ import { ChangeDetectorRef, Component, HostListener, OnInit } from "@angular/cor
 import { AuthService, User, UserRole } from "../../core/services/auth.service";
 import { UserAdminService, UserPermissions } from "../../core/services/user-admin.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { CommonModule } from "@angular/common";
+
 import { TranslatePipe } from "../../core/i18n/translate.pipe";
 import { TranslationService } from "../../core/i18n/translation.service";
 import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-user-management',
-  imports: [CommonModule, TranslatePipe],
+  imports: [TranslatePipe],
   templateUrl: './users.html',
   styleUrl: './users.scss'
 })

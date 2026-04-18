@@ -339,7 +339,7 @@
     }
   },
   "admin": {
-    "label": "Admin Panel",
+    "label": "Admin-Bereich",
     "roles": {
       "owner": "OWNER",
       "admin": "ADMIN",
@@ -415,6 +415,10 @@
       "distributionTitle": "Verteilung der Ausgaben",
       "historyTitle": "Ausgabenverlauf",
       "expensesLabel": "Ausgaben"
+    },
+    "empty": {
+      "title": "Keine Daten verfügbar",
+      "description": "Für den ausgewählten Zeitraum wurden keine Ausgaben erfasst. Beginnen Sie mit der Erfassung Ihres ersten Belegs."
     }
   },
   "account": {

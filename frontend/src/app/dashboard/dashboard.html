@@ -20,18 +20,33 @@
   </div>
 
   <div class="charts-grid">
-    <article class="card chart-card">
-      <h3>{{ 'dashboard.charts.distributionTitle' | t }}</h3>
-      <div class="chart-wrapper">
-        <canvas baseChart [data]="pieChartData" [type]="pieChartType" [options]="pieChartOptions"> </canvas>
-      </div>
-    </article>
+    @if (hasData) {
+      <article class="card chart-card">
+        <h3>{{ 'dashboard.charts.distributionTitle' | t }}</h3>
+        <div class="chart-wrapper">
+          <canvas baseChart [data]="pieChartData" [type]="pieChartType" [options]="pieChartOptions"> </canvas>
+        </div>
+      </article>
+    }
 
-    <article class="card chart-card">
-      <h3>{{ 'dashboard.charts.historyTitle' | t }}</h3>
-      <div class="chart-wrapper">
-        <canvas baseChart [data]="barChartData" [type]="barChartType" [options]="barChartOptions"> </canvas>
+    @if (hasData) {
+      <article class="card chart-card">
+        <h3>{{ 'dashboard.charts.historyTitle' | t }}</h3>
+        <div class="chart-wrapper">
+          <canvas baseChart [data]="barChartData" [type]="barChartType" [options]="barChartOptions"> </canvas>
+        </div>
+      </article>
+    }
+
+    @if (!hasData) {
+      <div class="empty-state">
+        <article class="card empty-state-card">
+          <div class="empty-state-content">
+            <h3>{{ 'dashboard.empty.title' | t }}</h3>
+            <p>{{ 'dashboard.empty.description' | t }}</p>
+          </div>
+        </article>
       </div>
-    </article>
+    }
   </div>
 </section>

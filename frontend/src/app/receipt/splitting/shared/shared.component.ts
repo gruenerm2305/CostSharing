@@ -172,23 +172,63 @@ export class SharedReceiptComponent implements OnInit, OnDestroy {
   }
 
   getClaimedPercentage(item: any): number {
-    if (!item || !item.id) return 0;
+    if (!item?.id) return 0;
     const itemClaims = this.claims.get(item.id) || [];
-    
-    // Sum amounts
-    const totalClaimedAmount = itemClaims.reduce((sum: number, c: any) => sum + Number(c.amount), 0);
-    const pct = (totalClaimedAmount / Number(item.totalPrice)) * 100;
-    return Math.min(pct, 100);
+
+    // Prefer explicit claim ratio fields to avoid cent-rounding drift (e.g. 50% of 0.99 => 0.50 => 51%).
+    const totalPct = itemClaims.reduce((sum: number, c: any) => {
+      const claimedPct = c.claimedPercentage !== null && c.claimedPercentage !== undefined
+        ? Number(c.claimedPercentage) * 100
+        : null;
+
+      if (claimedPct !== null && !Number.isNaN(claimedPct)) {
+        return sum + claimedPct;
+      }
+
+      if (c.claimedQuantity !== null && c.claimedQuantity !== undefined && Number(item.quantity) > 0) {
+        const qtyPct = (Number(c.claimedQuantity) / Number(item.quantity)) * 100;
+        if (!Number.isNaN(qtyPct)) {
+          return sum + qtyPct;
+        }
+      }
+
+      const amountPct = Number(item.totalPrice) > 0
+        ? (Number(c.amount) / Number(item.totalPrice)) * 100
+        : 0;
+      return sum + (Number.isNaN(amountPct) ? 0 : amountPct);
+    }, 0);
+
+    return Math.min(Number(totalPct.toFixed(2)), 100);
   }
 
   getOthersClaimedPercentage(item: any): number {
-    if (!item || !item.id) return 0;
+    if (!item?.id) return 0;
     const itemClaims = this.claims.get(item.id) || [];
-    
+
     const othersClaims = itemClaims.filter((c: any) => c.claimerUserId !== this.currentUserId);
-    const othersTotalAmount = othersClaims.reduce((sum: number, c: any) => sum + Number(c.amount), 0);
-    const pct = (othersTotalAmount / Number(item.totalPrice)) * 100;
-    return Math.min(pct, 100);
+    const othersPct = othersClaims.reduce((sum: number, c: any) => {
+      const claimedPct = c.claimedPercentage !== null && c.claimedPercentage !== undefined
+        ? Number(c.claimedPercentage) * 100
+        : null;
+
+      if (claimedPct !== null && !Number.isNaN(claimedPct)) {
+        return sum + claimedPct;
+      }
+
+      if (c.claimedQuantity !== null && c.claimedQuantity !== undefined && Number(item.quantity) > 0) {
+        const qtyPct = (Number(c.claimedQuantity) / Number(item.quantity)) * 100;
+        if (!Number.isNaN(qtyPct)) {
+          return sum + qtyPct;
+        }
+      }
+
+      const amountPct = Number(item.totalPrice) > 0
+        ? (Number(c.amount) / Number(item.totalPrice)) * 100
+        : 0;
+      return sum + (Number.isNaN(amountPct) ? 0 : amountPct);
+    }, 0);
+
+    return Math.min(Number(othersPct.toFixed(2)), 100);
   }
 
   isItemFullyClaimedByOthers(item: any): boolean {
@@ -306,7 +346,7 @@ export class SharedReceiptComponent implements OnInit, OnDestroy {
       return;
     }
     
-    this.splittingService.claimItem(this.receipt!.id, item.id, quantity, undefined).subscribe({
+    this.splittingService.claimItem(this.receipt!.id, item.id, quantity).subscribe({
       next: () => {
         this.loadClaims(this.receipt!.id);
         alert(`${quantity}/${item.quantity} ${this.translationService.translate('shared.receipt.messages.itemClaimedSuffix')}`);

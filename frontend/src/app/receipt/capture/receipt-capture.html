@@ -1,58 +1,58 @@
 <section class="app-page capture-page">
-      <header>
-        <h1>{{ 'receipts.capture.title' | t }}</h1>
-        <p>{{ 'receipts.capture.subtitle' | t }}</p>
-      </header>
+  <header>
+    <h1>{{ 'receipts.capture.title' | t }}</h1>
+    <p>{{ 'receipts.capture.subtitle' | t }}</p>
+  </header>
 
-      <input
-        #fileInput
-        type="file"
-        accept="image/jpeg,image/png,application/pdf"
-        (change)="onFileSelected($event)"
-        style="display: none"
-      />
+  <input
+    #fileInput
+    type="file"
+    accept="image/jpeg,image/png,application/pdf"
+    (change)="onFileSelected($event)"
+    style="display: none"
+    />
 
-      <div class="capture-modes">
-        <button class="capture-card panel" (click)="fileInput.click()" type="button">
-          <div class="icon-box upload">
-            <span class="material-symbols-outlined">upload</span>
-          </div>
-          <h3>{{ 'receipts.capture.uploadCard.title' | t }}</h3>
-          <p>{{ 'receipts.capture.uploadCard.description' | t }}</p>
-        </button>
+    <div class="capture-modes">
+      <button class="capture-card panel" (click)="fileInput.click()" type="button">
+        <div class="icon-box upload">
+          <span class="material-symbols-outlined">upload</span>
+        </div>
+        <h3>{{ 'receipts.capture.uploadCard.title' | t }}</h3>
+        <p>{{ 'receipts.capture.uploadCard.description' | t }}</p>
+      </button>
 
-        <button class="capture-card panel" routerLink="/receipts/editor" type="button">
-          <div class="icon-box manual">
-            <span class="material-symbols-outlined">edit_square</span>
-          </div>
-          <h3>{{ 'receipts.capture.manualCard.title' | t }}</h3>
-          <p>{{ 'receipts.capture.manualCard.description' | t }}</p>
-        </button>
-      </div>
+      <button class="capture-card panel" routerLink="/receipts/editor" type="button">
+        <div class="icon-box manual">
+          <span class="material-symbols-outlined">edit_square</span>
+        </div>
+        <h3>{{ 'receipts.capture.manualCard.title' | t }}</h3>
+        <p>{{ 'receipts.capture.manualCard.description' | t }}</p>
+      </button>
+    </div>
 
-      <div
-        class="drop-zone panel"
-        [class.drag-over]="isDragging"
-        (dragover)="onDragOver($event)"
-        (dragleave)="onDragLeave($event)"
-        (drop)="onDrop($event)"
+    <div
+      class="drop-zone panel"
+      [class.drag-over]="isDragging"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onDrop($event)"
       >
-        <p>{{ 'receipts.capture.dropZone.text' | t }}</p>
-        <small>{{ 'receipts.capture.dropZone.fileTypes' | t }}</small>
-      </div>
+      <p>{{ 'receipts.capture.dropZone.text' | t }}</p>
+      <small>{{ 'receipts.capture.dropZone.fileTypes' | t }}</small>
+    </div>
 
-      <div *ngIf="selectedFile as selected" class="preview-section panel">
+    @if (selectedFile; as selected) {
+      <div class="preview-section panel">
         <h3>{{ 'receipts.capture.preview.title' | t }}</h3>
-
         <div class="file-info">
           <strong>{{ selected.name }}</strong>
           <span>{{ (selected.size / 1024).toFixed(2) }} KB</span>
         </div>
-
-        <div *ngIf="previewUrl && selected.type.startsWith('image/')" class="image-preview">
-          <img [src]="previewUrl" [alt]="'receipts.capture.preview.alt' | t" />
-        </div>
-
+        @if (previewUrl && selected.type.startsWith('image/')) {
+          <div class="image-preview">
+            <img [src]="previewUrl" [alt]="'receipts.capture.preview.alt' | t" />
+          </div>
+        }
         <div class="actions">
           <button class="btn btn-primary" (click)="uploadReceipt()" [disabled]="uploading">
             {{ uploading ? ('receipts.capture.buttons.uploading' | t) : ('receipts.capture.buttons.upload' | t) }}
@@ -61,9 +61,13 @@
             {{ 'common.buttons.cancel' | t }}
           </button>
         </div>
-
-        <div *ngIf="uploading" class="spinner"></div>
+        @if (uploading) {
+          <div class="spinner"></div>
+        }
       </div>
+    }
 
-      <div *ngIf="error" class="alert alert-error">{{ error | t}}</div>
-    </section>
+    @if (error) {
+      <div class="alert alert-error">{{ error | t}}</div>
+    }
+  </section>

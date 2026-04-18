@@ -1,49 +1,60 @@
 <section class="auth-wrap">
-      <div class="auth-card panel">
-        
+  <div class="auth-card panel">
 
-        <div class="brand">
-          <h1>{{ 'auth.registerTitle' | t }}</h1>
-          <p>{{ 'auth.registerSubtitle' | t }}</p>
-        </div>
 
-        <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
-        <div *ngIf="error" class="alert alert-error">{{ error | t }}</div>
+    <div class="brand">
+      <h1>{{ 'auth.registerTitle' | t }}</h1>
+      <p>{{ 'auth.registerSubtitle' | t }}</p>
+    </div>
 
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" *ngIf="!successMessage">
-          <div class="split">
-            <div class="form-group">
-              <label class="form-label" for="firstName">{{ 'auth.firstName' | t }}</label>
-              <input type="text" class="form-control" id="firstName" formControlName="firstName" />
-              <small class="field-error" *ngIf="isFieldInvalid('firstName')">
+    @if (successMessage) {
+      <div class="alert alert-success">{{ successMessage }}</div>
+    }
+    @if (error) {
+      <div class="alert alert-error">{{ error | t }}</div>
+    }
+
+    @if (!successMessage) {
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="split">
+          <div class="form-group">
+            <label class="form-label" for="firstName">{{ 'auth.firstName' | t }}</label>
+            <input type="text" class="form-control" id="firstName" formControlName="firstName" />
+            @if (isFieldInvalid('firstName')) {
+              <small class="field-error">
                 {{ 'auth.errors.firstNameInvalid' | t }}
               </small>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="lastName">{{ 'auth.lastName' | t }}</label>
-              <input type="text" class="form-control" id="lastName" formControlName="lastName" />
-              <small class="field-error" *ngIf="isFieldInvalid('lastName')">
+            }
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="lastName">{{ 'auth.lastName' | t }}</label>
+            <input type="text" class="form-control" id="lastName" formControlName="lastName" />
+            @if (isFieldInvalid('lastName')) {
+              <small class="field-error">
                 {{ 'auth.errors.lastNameInvalid' | t }}
               </small>
-            </div>
+            }
           </div>
-
-          <div class="form-group">
-            <label class="form-label" for="username">{{ 'auth.username' | t }}</label>
-            <input type="text" class="form-control" id="username" formControlName="username" />
-            <small class="field-error" *ngIf="isFieldInvalid('username')">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="username">{{ 'auth.username' | t }}</label>
+          <input type="text" class="form-control" id="username" formControlName="username" />
+          @if (isFieldInvalid('username')) {
+            <small class="field-error">
               {{ 'auth.errors.usernameInvalid' | t }}
             </small>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="password">{{ 'auth.password' | t }}</label>
-            <input type="password" class="form-control" id="password" formControlName="password" />
-            <small class="field-error" *ngIf="isFieldInvalid('password')">
+          }
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="password">{{ 'auth.password' | t }}</label>
+          <input type="password" class="form-control" id="password" formControlName="password" />
+          @if (isFieldInvalid('password')) {
+            <small class="field-error">
               {{ 'auth.errors.passwordInvalid' | t }}
             </small>
-          </div>
-          <div class="auth-language">
+          }
+        </div>
+        <div class="auth-language">
           <label>{{ 'common.language' | t }}</label>
           <div class="language-dropdown" [class.open]="isLanguageMenuOpen">
             <button
@@ -52,41 +63,42 @@
               (click)="toggleLanguageMenu($event)"
               [attr.aria-expanded]="isLanguageMenuOpen"
               aria-haspopup="listbox"
-            >
+              >
               <span class="material-symbols-outlined language-icon">language</span>
               <span class="language-current">{{ selectedLanguageLabelKey() | t }}</span>
               <span class="material-symbols-outlined language-chevron">expand_more</span>
             </button>
-
-            <div class="language-menu" *ngIf="isLanguageMenuOpen" role="listbox" aria-label="Language selection">
-              <button
-                type="button"
-                class="language-option"
-                [class.active]="languagePreference() === 'en'"
-                (click)="onLanguagePreferenceChange('en')"
-              >
-                {{ 'common.languageEnglish' | t }}
-              </button>
-              <button
-                type="button"
-                class="language-option"
-                [class.active]="languagePreference() === 'de'"
-                (click)="onLanguagePreferenceChange('de')"
-              >
-                {{ 'common.languageGerman' | t }}
-              </button>
-            </div>
+            @if (isLanguageMenuOpen) {
+              <div class="language-menu" role="listbox" aria-label="Language selection">
+                <button
+                  type="button"
+                  class="language-option"
+                  [class.active]="languagePreference() === 'en'"
+                  (click)="onLanguagePreferenceChange('en')"
+                  >
+                  {{ 'common.languageEnglish' | t }}
+                </button>
+                <button
+                  type="button"
+                  class="language-option"
+                  [class.active]="languagePreference() === 'de'"
+                  (click)="onLanguagePreferenceChange('de')"
+                  >
+                  {{ 'common.languageGerman' | t }}
+                </button>
+              </div>
+            }
           </div>
         </div>
+        <button type="submit" class="btn btn-primary submit" [disabled]="!registerForm.valid || loading">
+          {{ loading ? ('auth.registering' | t) : ('auth.registerButton' | t) }}
+        </button>
+      </form>
+    }
 
-          <button type="submit" class="btn btn-primary submit" [disabled]="!registerForm.valid || loading">
-            {{ loading ? ('auth.registering' | t) : ('auth.registerButton' | t) }}
-          </button>
-        </form>
-
-        <p class="login-link">
-          {{ 'auth.alreadyRegistered' | t }}
-          <a routerLink="/login">{{ 'auth.signIn' | t }}</a>
-        </p>
-      </div>
-    </section>
+    <p class="login-link">
+      {{ 'auth.alreadyRegistered' | t }}
+      <a routerLink="/login">{{ 'auth.signIn' | t }}</a>
+    </p>
+  </div>
+</section>
