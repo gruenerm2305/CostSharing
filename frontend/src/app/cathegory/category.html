@@ -48,10 +48,10 @@
             {{ 'categories.emptyState' | t }}
           </div>
 
-          <div class="category-row panel" *ngFor="let category of categories">
+          <div class="category-row panel" *ngFor="let category of categories" data-testid="category-row">
             <div class="item-left">
               <span class="dot" [style.background-color]="category.color || '#6d5dfc'"></span>
-              <strong>{{ category.name }}</strong>
+              <strong data-testid="category-name">{{ category.name }}</strong>
             </div>
             <div class="item-actions">
               <button class="icon-btn" (click)="editCategory(category)" [title]="'categories.buttons.edit' | t">
@@ -91,4 +91,4 @@
           </div>
         </div>
       </div>
-    </section>
+    </section>>
