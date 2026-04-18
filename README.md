@@ -1,41 +1,62 @@
 # CostSharing
 
-## Docker Compose (Development)
+## Docker Compose
 
-Für die lokale Entwicklung gibt es eine zentrale Compose-Datei: `docker-compose.dev.yml`.
+Es gibt zwei Varianten:
 
-Sie startet in dieser Reihenfolge:
+- `docker-compose.dev.yml` für lokale Entwicklung (`frontend` auf `http://localhost:4200`, `backend` mit `start:dev`)
+- `docker-compose.yml` für referenznahe, produktionsnahe Ausführung (`frontend` auf `http://localhost`)
 
-- `db` (PostgreSQL, inkl. Healthcheck)
-- `backend` (`npm run start:dev`, abhängig von gesunder DB)
-- `frontend` (`npm run start -- --host 0.0.0.0 --port 4200`)
+### Wichtige Architekturpunkte
 
-### Start
+- `postgres` ist **nur intern** im Docker-Netzwerk erreichbar (kein Host-Port).
+- In der produktionsnahen Variante läuft auch das `backend` nur intern; Zugriff erfolgt über das `frontend` via `/api`.
+- Swagger ist über `http://localhost/api/docs` erreichbar.
+- Persistente Volumes sind getrennt: Development nutzt `pg_data_dev` und `backend_uploads_dev`, die produktionsnahe Variante nutzt `pg_data` und `backend_uploads`.
+
+### Vorbereitung
+
+Kopiere die Vorlage und passe Werte an:
+
+```bash
+cp backend/.env.example backend/.env
+```
+
+Unter Windows PowerShell:
+
+```powershell
+Copy-Item backend/.env.example backend/.env
+```
+
+Danach Werte in `backend/.env` anpassen (insbesondere `JWT_SECRET`).
+
+### Development starten
 
 ```bash
 docker compose -f docker-compose.dev.yml up --build
 ```
 
-### Stop
+Stoppen:
 
 ```bash
 docker compose -f docker-compose.dev.yml down
 ```
 
-### Reset (inkl. Volumes)
+### (produktive) Variante starten
 
 ```bash
-docker compose -f docker-compose.dev.yml down -v
+docker compose up --build
 ```
 
-## Warum diese Variante (robust & reproduzierbar)
+Stoppen:
 
-- `backend` und `frontend` nutzen je ein `Dockerfile.dev` mit `npm ci`.
-- Abhängigkeiten werden deterministisch aus `package-lock.json` installiert.
-- Bei unveränderten Lockfiles nutzt Docker den Build-Cache, dadurch sind weitere Starts schneller.
-- Quellcode bleibt per Bind-Mount live editierbar für den Dev-Workflow.
+```bash
+docker compose down
+```
 
-## Hinweis zu File-Watching
+### Volumes zurücksetzen (beide Varianten)
 
-- Polling-Variablen (`CHOKIDAR_USEPOLLING`, `WATCHPACK_POLLING`) sind im Compose bewusst nur beim `frontend` gesetzt.
-- Im `backend` können diese Variablen mit `nest start --watch` zu Watcher-Fehlern führen (z. B. `ERR_INVALID_ARG_TYPE` für `interval`).
+```bash
+docker compose down -v
+docker compose -f docker-compose.dev.yml down -v
+```
