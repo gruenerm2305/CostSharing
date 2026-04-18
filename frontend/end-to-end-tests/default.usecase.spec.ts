@@ -36,7 +36,10 @@ test('can create category create receipt and delete user account', async ({ page
   await page.locator('#category-name').fill(categoryName);
   await page.locator('button.btn.btn-primary.create').click();
 
-  await expect(page.locator('.category-row .item-left strong', { hasText: categoryName })).toBeVisible();
+  const createdCategoryEntry = page.locator('[data-testid="category-row"]', {
+    has: page.locator('[data-testid="category-name"]', { hasText: categoryName }),
+  });
+  await expect(createdCategoryEntry).toBeVisible();
 
   await page.goto('/receipts/editor');
   await expect(page).toHaveURL(/\/receipts\/editor$/);

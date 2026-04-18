@@ -166,7 +166,7 @@ describe('account.component', () => {
         it('should delete own account and redirect to login', () => {
             createComponentWithUser();
             mockUserAdminService.deleteUser.and.returnValue(of(void 0));
-            spyOn(window, 'confirm').and.returnValue(true);
+            spyOn(globalThis, 'confirm').and.returnValue(true);
 
             component.deleteOwnAccount();
 
@@ -177,7 +177,7 @@ describe('account.component', () => {
 
         it('should not delete when user cancels confirmation', () => {
             createComponentWithUser();
-            spyOn(window, 'confirm').and.returnValue(false);
+            spyOn(globalThis, 'confirm').and.returnValue(false);
 
             component.deleteOwnAccount();
 

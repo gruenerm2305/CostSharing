@@ -1,55 +1,65 @@
 <section class="app-page home">
-      <h1>{{ 'home.title' | t }}</h1>
+  <h1>{{ 'home.title' | t }}</h1>
 
-      <div class="hero panel">
-        <div>
-          <p class="eyebrow">{{ 'home.labels.totalExpenses' | t }}</p>
-          <p class="hero-value">{{ totalAmount | currency:'EUR' }}</p>
-        </div>
-        <span class="material-symbols-outlined wallet">account_balance_wallet</span>
+  <div class="hero panel">
+    <div>
+      <p class="eyebrow">{{ 'home.labels.totalExpenses' | t }}</p>
+      <p class="hero-value">{{ totalAmount | currency:'EUR' }}</p>
+    </div>
+    <span class="material-symbols-outlined wallet">account_balance_wallet</span>
+  </div>
+
+  <div class="stats-grid">
+    <article class="card">
+      <p class="label">{{ 'home.labels.trackedReceipts' | t }}</p>
+      <p class="stat">{{ receipts.length }}</p>
+    </article>
+    <article class="card">
+      <p class="label">{{ 'home.labels.categories' | t }}</p>
+      <p class="stat">{{ categories.length }}</p>
+    </article>
+  </div>
+
+  <div class="actions panel">
+    <div>
+      <h2>{{ 'home.actionsCard.title' | t }}</h2>
+      <p>{{ 'home.actionsCard.subtitle' | t }}</p>
+    </div>
+    <div class="action-buttons">
+      <button class="btn btn-primary" routerLink="/receipts/capture">{{ 'home.buttons.trackNewReceipt' | t }}</button>
+    </div>
+  </div>
+
+  @if (recentReceipts.length > 0) {
+    <section class="recent panel">
+      <div class="recent-head">
+        <h3>{{ 'home.labels.recentExpenses' | t }}</h3>
+        <button class="btn btn-secondary btn-sm" routerLink="/receipts/list">{{ 'home.buttons.viewAll' | t }}</button>
       </div>
-
-      <div class="stats-grid">
-        <article class="card">
-          <p class="label">{{ 'home.labels.trackedReceipts' | t }}</p>
-          <p class="stat">{{ receipts.length }}</p>
-        </article>
-        <article class="card">
-          <p class="label">{{ 'home.labels.categories' | t }}</p>
-          <p class="stat">{{ categories.length }}</p>
-        </article>
-      </div>
-
-      <div class="actions panel">
-        <div>
-          <h2>{{ 'home.actionsCard.title' | t }}</h2>
-          <p>{{ 'home.actionsCard.subtitle' | t }}</p>
-        </div>
-        <div class="action-buttons">
-          <button class="btn btn-primary" routerLink="/receipts/capture">{{ 'home.buttons.trackNewReceipt' | t }}</button>
-        </div>
-      </div>
-
-      <section *ngIf="recentReceipts.length > 0" class="recent panel">
-        <div class="recent-head">
-          <h3>{{ 'home.labels.recentExpenses' | t }}</h3>
-          <button class="btn btn-secondary btn-sm" routerLink="/receipts/list">{{ 'home.buttons.viewAll' | t }}</button>
-        </div>
-
-        <div class="receipt-row" *ngFor="let receipt of recentReceipts" (click)="viewReceipt(receipt)">
+      @for (receipt of recentReceipts; track receipt) {
+        <div class="receipt-row" (click)="viewReceipt(receipt)">
           <div>
             <strong>{{ receipt.merchant }}</strong>
             <p>{{ receipt.date | date:'dd.MM.yyyy' }}</p>
           </div>
           <div class="amount-wrap">
-            <span *ngIf="receipt.myTotal !== undefined && (receipt.isParticipant || receipt.showMyTotal); else totalAmount">
-              {{ receipt.myTotal | currency:'EUR' }}
-            </span>
-            <ng-template #totalAmount>{{ receipt.totalAmount | currency:'EUR' }}</ng-template>
-            <small *ngIf="receipt.isParticipant">{{ 'home.badges.sharedReceipt' | t }}</small>
-            <small *ngIf="!receipt.isParticipant && receipt.isShared">{{ 'home.badges.sharedReceipt' | t }}</small>
+            @if (receipt.myTotal !== undefined && (receipt.isParticipant || receipt.showMyTotal)) {
+              <span>
+                {{ receipt.myTotal | currency:'EUR' }}
+              </span>
+            } @else {
+              {{ receipt.totalAmount | currency:'EUR' }}
+            }
+            @if (receipt.isParticipant) {
+              <small>{{ 'home.badges.sharedReceipt' | t }}</small>
+            }
+            @if (!receipt.isParticipant && receipt.isShared) {
+              <small>{{ 'home.badges.sharedReceipt' | t }}</small>
+            }
           </div>
         </div>
-      </section>
-
+      }
     </section>
+  }
+
+</section>

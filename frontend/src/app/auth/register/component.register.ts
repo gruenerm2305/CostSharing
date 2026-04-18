@@ -2,12 +2,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angula
 import { AuthService } from "../../core/services/auth.service";
 import { Router, RouterLink } from "@angular/router";
 import { Component, HostListener } from "@angular/core";
-import { CommonModule } from "@angular/common";
+
 import { LanguagePreference, TranslationService } from '../../core/i18n/translation.service';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, CommonModule, RouterLink, TranslatePipe],
+  imports: [ReactiveFormsModule, RouterLink, TranslatePipe],
   templateUrl: 'register.html',
   styleUrl: 'register.scss'
 })

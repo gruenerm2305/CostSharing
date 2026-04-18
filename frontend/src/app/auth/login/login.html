@@ -1,54 +1,57 @@
 <section class="auth-wrap">
-      <div class="atmo one"></div>
-      <div class="atmo two"></div>
+  <div class="atmo one"></div>
+  <div class="atmo two"></div>
 
-      <div class="auth-card panel">
-        
+  <div class="auth-card panel">
 
-        <div class="brand">
-          <div class="logo">
-            <span class="material-symbols-outlined">account_balance_wallet</span>
-          </div>
-          <h1>{{ 'auth.loginTitle' | t }}</h1>
-          <p>{{ 'auth.loginSubtitle' | t }}</p>
+
+    <div class="brand">
+      <div class="logo">
+        <span class="material-symbols-outlined">account_balance_wallet</span>
+      </div>
+      <h1>{{ 'auth.loginTitle' | t }}</h1>
+      <p>{{ 'auth.loginSubtitle' | t }}</p>
+    </div>
+
+    @if (error()) {
+      <div class="alert alert-error">{{ error()}}</div>
+    }
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <div class="form-group">
+        <label class="form-label" for="username">{{ 'auth.username' | t }}</label>
+        <input type="text" class="form-control" id="username" formControlName="username" [placeholder]="'auth.usernamePlaceholder' | t" />
+      </div>
+
+      <div class="form-group">
+        <div class="label-row">
+          <label class="form-label" for="password">{{ 'auth.password' | t }}</label>
         </div>
-
-        <div *ngIf="error()" class="alert alert-error">{{ error()}}</div>
-
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
-          <div class="form-group">
-            <label class="form-label" for="username">{{ 'auth.username' | t }}</label>
-            <input type="text" class="form-control" id="username" formControlName="username" [placeholder]="'auth.usernamePlaceholder' | t" />
-          </div>
-
-          <div class="form-group">
-            <div class="label-row">
-              <label class="form-label" for="password">{{ 'auth.password' | t }}</label>
-            </div>
-            <input type="password" class="form-control" id="password" formControlName="password" placeholder="••••••••" />
-          </div>
-          <div class="auth-language">
-          <label>{{ 'common.language' | t }}</label>
-          <div class="language-dropdown" [class.open]="isLanguageMenuOpen">
-            <button
-              type="button"
-              class="language-trigger"
-              (click)="toggleLanguageMenu($event)"
-              [attr.aria-expanded]="isLanguageMenuOpen"
-              aria-haspopup="listbox"
+        <input type="password" class="form-control" id="password" formControlName="password" placeholder="••••••••" />
+      </div>
+      <div class="auth-language">
+        <label>{{ 'common.language' | t }}</label>
+        <div class="language-dropdown" [class.open]="isLanguageMenuOpen">
+          <button
+            type="button"
+            class="language-trigger"
+            (click)="toggleLanguageMenu($event)"
+            [attr.aria-expanded]="isLanguageMenuOpen"
+            aria-haspopup="listbox"
             >
-              <span class="material-symbols-outlined language-icon">language</span>
-              <span class="language-current">{{ selectedLanguageLabelKey() | t }}</span>
-              <span class="material-symbols-outlined language-chevron">expand_more</span>
-            </button>
+            <span class="material-symbols-outlined language-icon">language</span>
+            <span class="language-current">{{ selectedLanguageLabelKey() | t }}</span>
+            <span class="material-symbols-outlined language-chevron">expand_more</span>
+          </button>
 
-            <div class="language-menu" *ngIf="isLanguageMenuOpen" role="listbox" aria-label="Language selection">
+          @if (isLanguageMenuOpen) {
+            <div class="language-menu" role="listbox" aria-label="Language selection">
               <button
                 type="button"
                 class="language-option"
                 [class.active]="languagePreference() === 'en'"
                 (click)="onLanguagePreferenceChange('en')"
-              >
+                >
                 {{ 'common.languageEnglish' | t }}
               </button>
               <button
@@ -56,22 +59,23 @@
                 class="language-option"
                 [class.active]="languagePreference() === 'de'"
                 (click)="onLanguagePreferenceChange('de')"
-              >
+                >
                 {{ 'common.languageGerman' | t }}
               </button>
             </div>
-          </div>
+          }
         </div>
-          <button type="submit" class="btn btn-primary submit" [disabled]="loading()">
-            {{ loading() ? ('auth.loggingIn' | t) : ('auth.loginButton' | t) }}
-          </button>
-        </form>
-
-        <p class="register-link">
-          {{ 'auth.newToPlatform' | t }}
-          <a routerLink="/register">{{ 'auth.createAccount' | t }}</a>
-        </p>
-
-        <div class="security-note">{{ 'auth.securityNote' | t }}</div>
       </div>
-    </section>
+      <button type="submit" class="btn btn-primary submit" [disabled]="loading()">
+        {{ loading() ? ('auth.loggingIn' | t) : ('auth.loginButton' | t) }}
+      </button>
+    </form>
+
+    <p class="register-link">
+      {{ 'auth.newToPlatform' | t }}
+      <a routerLink="/register">{{ 'auth.createAccount' | t }}</a>
+    </p>
+
+    <div class="security-note">{{ 'auth.securityNote' | t }}</div>
+  </div>
+</section>

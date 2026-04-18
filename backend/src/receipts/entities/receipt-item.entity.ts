@@ -6,7 +6,6 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Receipt } from './receipt.entity';
-import { Category } from '../../categories/entities/category.entity';
 import { User } from '../../users/entities/user.entity';
 
 @Entity('receipt_items')
@@ -32,13 +31,6 @@ export class ReceiptItem {
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   totalPrice: number;
-
-  @Column({ nullable: true })
-  categoryId: string;
-
-  @ManyToOne(() => Category, { nullable: true, onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'categoryId' })
-  category: Category;
 
   @Column({ default: false })
   needsReview: boolean;

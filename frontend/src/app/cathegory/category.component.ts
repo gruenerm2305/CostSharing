@@ -2,13 +2,11 @@ import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { Category, CategoryService } from "../core/services/category.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
-import { CommonModule } from "@angular/common";
 import { TranslatePipe } from "../core/i18n/translate.pipe";
-import { TranslationService } from "../core/i18n/translation.service";
 
 @Component({
     selector: 'app-category',
-  imports: [CommonModule, FormsModule, TranslatePipe], 
+  imports: [FormsModule, TranslatePipe], 
     templateUrl: './category.html',
     styleUrl: './category.scss'
 })

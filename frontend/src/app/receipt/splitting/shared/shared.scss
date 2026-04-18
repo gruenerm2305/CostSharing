@@ -114,7 +114,7 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  border: 2px solid #10131b;
+  border: none;
   margin-left: -7px;
   color: white;
   font-size: 10px;
@@ -184,10 +184,13 @@
 }
 
 .claimed-other-badge {
+  display: inline-flex;
+  align-items: center;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.16);
   color: #bcc2d8;
   padding: 5px 10px;
+  line-height: 1;
   font-size: 11px;
   text-transform: uppercase;
 }
@@ -210,14 +213,14 @@
 
 .sticky-footer {
   position: fixed;
-  left: 0;
+  left: 240px;
   right: 0;
   bottom: 0;
   background: rgba(12, 14, 22, 0.92);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
   padding: 14px 22px;
-  z-index: 80;
+  z-index: 15;
 }
 
 .footer-content {
@@ -306,6 +309,10 @@
 }
 
 @media (max-width: 900px) {
+  .sticky-footer {
+    left: 0;
+  }
+
   .container {
     padding: 16px;
     padding-bottom: 170px;

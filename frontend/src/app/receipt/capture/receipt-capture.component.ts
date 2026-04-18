@@ -1,12 +1,12 @@
 import { ChangeDetectorRef, Component, ElementRef, ViewChild } from "@angular/core";
 import { ReceiptService } from "../../core/services/receipt.service";
 import { Router, RouterLink } from "@angular/router";
-import { CommonModule } from "@angular/common";
+
 import { TranslatePipe } from "../../core/i18n/translate.pipe";
 
 @Component({
     selector: 'app-receipt-capture',
-  imports: [CommonModule, RouterLink, TranslatePipe],
+  imports: [RouterLink, TranslatePipe],
     templateUrl: './receipt-capture.html',
     styleUrl: './receipt-capture.scss',
 })

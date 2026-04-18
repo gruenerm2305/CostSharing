@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, Logger, BadRequestException } from '@nes
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Category } from './entities/category.entity';
-import { ReceiptItem } from '../receipts/entities/receipt-item.entity';
+import { Receipt } from '../receipts/entities/receipt.entity';
 
 @Injectable()
 export class CategoriesService {
@@ -11,8 +11,8 @@ export class CategoriesService {
   constructor(
     @InjectRepository(Category)
     private readonly categoriesRepository: Repository<Category>,
-    @InjectRepository(ReceiptItem)
-    private readonly receiptItemsRepository: Repository<ReceiptItem>,
+    @InjectRepository(Receipt)
+    private readonly receiptsRepository: Repository<Receipt>,
   ) {
   }
 
@@ -58,9 +58,9 @@ export class CategoriesService {
     try {
       const category = await this.findOne(id, userId);
 
-      await this.receiptItemsRepository
+      await this.receiptsRepository
         .createQueryBuilder()
-        .update(ReceiptItem)
+        .update(Receipt)
         .set({ categoryId: null })
         .where('categoryId = :categoryId', { categoryId: id })
         .execute();
