@@ -75,8 +75,8 @@ export default defineConfig({
     ? undefined
     : [
         {
-          command: 'docker compose -f ../backend/DatabaseDocker/docker-compose.yml up -d && npm --prefix ../backend run start',
-          url: 'http://localhost:3000/api/docs',
+          command: 'docker compose -f ../backend/DatabaseDocker/docker-compose.yml up -d db && npm --prefix ../backend run start',
+          url: 'http://localhost:3000/api/health',
           reuseExistingServer: !process.env.CI,
           timeout: 240000,
           env: {
