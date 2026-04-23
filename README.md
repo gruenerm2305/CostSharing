@@ -95,7 +95,7 @@ Wichtige Werte in `backend/.env`:
 Für OCR-Funktionen erwartet das Backend zusätzlich diese Umgebungsvariablen:
 
 - `GEMINI_API_KEY`
-- optional `GEMINI_MODEL`
+- `GEMINI_MODEL`= gemma-4-31b-it
 - optional `GEMINI_BASE_URL`
 
 ## Installation und Start
@@ -272,6 +272,8 @@ Der lokale Startnutzer ist:
 
 - Benutzername: `Owner`
 - Passwort: `startowner`
+
+Wichtig: Nach Initialisierung das Owner-Passwort sofort ändern.
 
 ### Docker-Datenbank
 
