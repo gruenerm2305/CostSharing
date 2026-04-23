@@ -7,6 +7,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { ReceiptsModule } from './receipts/receipts.module';
 import { OcrModule } from './ocr/ocr.module';
 import { SplittingModule } from './splitting/splitting.module';
+import { HealthController } from './health/health.controller';
 
 const parseBoolean = (value?: string): boolean => value?.toLowerCase() === 'true';
 
@@ -34,7 +35,8 @@ const parseBoolean = (value?: string): boolean => value?.toLowerCase() === 'true
     CategoriesModule,
     ReceiptsModule,
     OcrModule,
-    SplittingModule
+    SplittingModule,
   ],
+  controllers: [HealthController],
 })
 export class AppModule {}

@@ -79,6 +79,9 @@ export default defineConfig({
           url: 'http://localhost:3000/api/docs',
           reuseExistingServer: !process.env.CI,
           timeout: 240000,
+          env: {
+            DATABASE_URL: 'postgresql://costtracking_user:hello@localhost:5432/costtracking',
+          },
         },
         {
           command: 'npm run start',
