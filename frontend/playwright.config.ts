@@ -81,6 +81,8 @@ export default defineConfig({
           timeout: 240000,
           env: {
             DATABASE_URL: 'postgresql://costtracking_user:hello@localhost:5432/costtracking',
+            FRONTEND_URL: 'http://localhost:4200',
+            NODE_ENV: 'development',
           },
         },
         {
